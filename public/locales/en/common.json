@@ -1,0 +1,27 @@
+{
+  "type": "type",
+  "status": "status",
+  "price": "price",
+  "auth": {
+    "email": {
+      "required": "Email is required",
+      "invalid": "Email must be valid"
+    },
+    "firstName": {
+      "required": "Full Name is required",
+      "invalid": "Full name must be at least 3 characters"
+    },
+    "lastName": {
+      "required": "Last Name is required",
+      "invalid": "Last name must be at least 3 characters"
+    },
+    "phone": {
+      "required": "Phone is required",
+      "invalid": "Phone Number must be valid"
+    },
+    "password": {
+      "required": "Password is required",
+      "invalid": "Password must be at least 8 characters"
+    }
+  }
+}
