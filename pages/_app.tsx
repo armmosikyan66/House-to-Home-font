@@ -1,3 +1,4 @@
+import '../styles/fontawesome/css/all.css';
 import '../styles/dropzone.css';
 import '../styles/select.css';
 import "../styles/theme.css";
@@ -11,7 +12,7 @@ import {useTypedDispatch} from "../redux/types/IRedux";
 import {checkAuth} from "../services/auth";
 import {setUser} from "../redux/actions/user";
 import {IUser} from "../utils/types/IUser";
-import AppLayout from "../components/layouts/AppLayout";
+import App from "../component/layouts/App";
 
 function MyApp({Component, pageProps}: AppProps) {
     const dispatch = useTypedDispatch();
@@ -30,16 +31,14 @@ function MyApp({Component, pageProps}: AppProps) {
     useEffect(() => {
         (async () => {
             if (localStorage.getItem('token'))
-                checkIsAuth();
+                await checkIsAuth();
         })()
     }, []);
 
     return (
-        <>
-            <AppLayout>
-                <Component {...pageProps} />
-            </AppLayout>
-        </>
+        <App>
+            <Component {...pageProps} />
+        </App>
     )
 }
 

@@ -1,35 +1,35 @@
 export const types = {
-    apartment: {
-        am: "բնակարան",
-        ru: "квартира",
-        en: "apartment"
+    en: {
+        apartment: "apartment",
+        house: "house",
+        office: "office",
+        land: "land",
     },
-    house: {
-        am: "տուն",
-        ru: "дом",
-        en: "house"
+    ru: {
+        apartment: "квартира",
+        house: "дом",
+        office: "оффис",
+        land: "земля",
     },
-    office: {
-        am: "գրասենյակ",
-        ru: "оффис",
-        en: "office"
-    },
-    land: {
-        am: "հողատարածք",
-        ru: "земля",
-        en: "land"
+    am: {
+        apartment: "բնակարան",
+        house: "տուն",
+        office: "գրասենյակ",
+        land: "հողատարածք",
     }
 }
 
 export const status = {
-    sale: {
-        am: "վաճառք",
-        ru: "продажа",
-        en: "sale"
+    en: {
+        sale: "sale",
+        rent: "rent",
     },
-    rent: {
-        am: "վարձակալություն",
-        ru: "аренда",
-        en: "rent"
-    }
+    ru: {
+        sale: "продажа",
+        rent: "аренда",
+    },
+    am: {
+        sale: "վաճառք",
+        rent: "վարձակալություն",
+    },
 }

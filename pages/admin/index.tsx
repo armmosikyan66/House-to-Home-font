@@ -1,296 +1,174 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {GetStaticProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config";
-import {useTypedSelector} from "../../redux/types/IRedux";
-import {useRouter} from "next/router";
-import {AiOutlineEye} from "react-icons/ai";
-import {BsHouse} from "react-icons/bs";
-import {TbMessageCircle} from "react-icons/tb";
-import {FaRegHeart} from "react-icons/fa";
+import {IProduct} from "../../utils/types/IProduct";
+import {getAdminPrd} from "../../services/product";
+import {useTranslation} from "next-i18next";
+import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
+import dateFormatter from "../../utils/helpers/dateFormatter";
+import capitalize from "../../utils/helpers/capitalize";
+import {API_URL} from "../../utils/constants/api";
 
-const Admin: NextPage<{}> = () => {
-    const router = useRouter();
-    const user = useTypedSelector(state => state.auth.user);
+type AdminProduct = {
+    products: IProduct[];
+    founded: number;
+}
+
+const Dashboard: NextPage<{}> = () => {
+    const {i18n} = useTranslation();
+    const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const [items, setItems] = useState<AdminProduct>({
+        products: [],
+        founded: 0,
+    });
+
+    const getData = async (): Promise<void> => {
+        const {products, founded} = await getAdminPrd(1);
+
+        setItems({
+            products,
+            founded
+        })
+    }
 
     useEffect(() => {
-        (async () => {
-            if (!user || user.role === "user") {
-                router.push("/")
-                return;
-            }
+        (async () =>{
+            await getData();
         })();
-    }, [user]);
+    }, [])
 
     return (
         <main id="content" className="bg-gray-01">
             <div className="px-3 px-lg-6 px-xxl-13 py-5 py-lg-10" data-animated-id="1">
                 <div className="d-flex flex-wrap flex-md-nowrap mb-6">
                     <div className="mr-0 mr-md-auto">
-                        <h2 className="mb-0 text-heading fs-22 lh-15">Welcome back, Ronald Hunter!</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At iusto, laboriosam.
-                            Atque</p>
+                        <h2 className="mb-0 text-heading fs-22 lh-15">My Properties<span
+                            className="badge badge-white badge-pill text-primary fs-18 font-weight-bold ml-2">{items.founded}</span>
+                        </h2>
+                        <p>Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe ndisse suscipit</p>
                     </div>
-                    <div>
-                        <a href="dashboard-add-new-property.html" className="btn btn-primary btn-lg">
-                            <span>Add New Property</span>
-                            <span className="d-inline-block ml-1 fs-20 lh-1">
-                                            <BsHouse className="icon icon-add-new"/>
-                                        </span>
-                        </a>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-sm-6 col-xxl-3 mb-6">
-                        <div className="card">
-                            <div className="card-body row align-items-center px-6 py-7">
-                                <div className="col-5">
-                                                <span className="w-83px h-83 d-flex align-items-center justify-content-center fs-36 badge badge-blue badge-circle">
-                                                    <BsHouse className="icon icon-1"/>
-                                                </span>
+                    <div className="form-inline justify-content-md-end mx-n2">
+                        <div className="p-2">
+                            <div className="input-group input-group-lg bg-white border">
+                                <div className="input-group-prepend">
+                                    <button className="btn pr-0 shadow-none" type="button"><i
+                                        className="far fa-search"></i></button>
                                 </div>
-                                <div className="col-7 text-center">
-                                    <p className="fs-42 lh-12 mb-0 counterup" data-start="0" data-end="29"
-                                       data-decimals="0" data-duration="0" data-separator="">29</p>
-                                    <p>Properties</p>
-                                </div>
+                                <input type="text"
+                                       className="form-control bg-transparent border-0 shadow-none text-body"
+                                       placeholder="Search listing" name="search"/>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-sm-6 col-xxl-3 mb-6">
-                        <div className="card">
-                            <div className="card-body row align-items-center px-6 py-7">
-                                <div className="col-5">
-                                                <span className="w-83px h-83 d-flex align-items-center justify-content-center fs-36 badge badge-green badge-circle">
-                                                    <AiOutlineEye className="icon icon-2"/>
-                                                </span>
+                        <div className="p-2">
+                            <div className="input-group input-group-lg bg-white border">
+                                <div className="input-group-prepend">
+                                    <span
+                                        className="input-group-text bg-transparent letter-spacing-093 border-0 pr-0"><i
+                                        className="far fa-align-left mr-2"></i>Sort by:</span>
                                 </div>
-                                <div className="col-7 text-center">
-                                    <p className="fs-42 lh-12 mb-0 counterup" data-start="0" data-end="1730"
-                                       data-decimals="0" data-duration="0" data-separator="">1730</p>
-                                    <p>Total views</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-6 col-xxl-3 mb-6">
-                        <div className="card">
-                            <div className="card-body row align-items-center px-6 py-7">
-                                <div className="col-4">
-                                                <span className="w-83px h-83 d-flex align-items-center justify-content-center fs-36 badge badge-yellow badge-circle">
-                                                    <TbMessageCircle className="icon icon-review"/>
-                                                </span>
-                                </div>
-                                <div className="col-8 text-center">
-                                    <p className="fs-42 lh-12 mb-0 counterup" data-start="0" data-end="329"
-                                       data-decimals="0" data-duration="0" data-separator="">329</p>
-                                    <p>Total Visitor Reviews</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-6 col-xxl-3 mb-6">
-                        <div className="card">
-                            <div className="card-body row align-items-center px-6 py-7">
-                                <div className="col-5">
-                                                <span className="w-83px h-83 d-flex align-items-center justify-content-center fs-36 badge badge-pink badge-circle">
-                                                    <FaRegHeart className="icon icon-heart"/>
-                                                </span>
-                                </div>
-                                <div className="col-7 text-center">
-                                    <p className="fs-42 lh-12 mb-0 counterup" data-start="0" data-end="914"
-                                       data-decimals="0" data-duration="0" data-separator="">914</p>
-                                    <p>Total Favorites</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-xxl-8 mb-6">
-                        <div className="card px-7 py-6 h-100 chart">
-                            <div className="card-body p-0 collapse-tabs">
-                                <div className="d-flex align-items-center mb-5">
-                                    <h2 className="mb-0 text-heading fs-22 lh-15 mr-auto">View
-                                        statistics</h2>
-                                    <ul className="nav nav-pills justify-content-end d-none d-sm-flex nav-pills-01"
-                                        role="tablist">
-                                        <li className="nav-item px-5 py-1">
-                                            <a className="nav-link active bg-transparent shadow-none p-0 letter-spacing-1"
-                                               id="hours-tab" data-toggle="tab" href="#hours" role="tab"
-                                               aria-controls="hours" aria-selected="true">Hours</a>
-                                        </li>
-                                        <li className="nav-item px-5 py-1">
-                                            <a className="nav-link bg-transparent shadow-none p-0 letter-spacing-1"
-                                               id="weekly-tab" data-toggle="tab" href="#weekly" role="tab"
-                                               aria-controls="weekly" aria-selected="false">Weekly</a>
-                                        </li>
-                                        <li className="nav-item px-5 py-1">
-                                            <a className="nav-link bg-transparent shadow-none p-0 letter-spacing-1"
-                                               id="monthly-tab" data-toggle="tab" href="#monthly" role="tab"
-                                               aria-controls="monthly" aria-selected="false">Monthly</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="tab-content shadow-none p-0">
-                                    <div id="collapse-tabs-accordion">
-                                        <div className="tab-pane tab-pane-parent fade show active px-0"
-                                             id="hours" role="tabpanel" aria-labelledby="hours-tab">
-                                            <div className="card bg-transparent mb-sm-0 border-0">
-                                                <div
-                                                    className="card-header d-block d-sm-none bg-transparent px-0 py-1 border-bottom-0"
-                                                    id="headingHours">
-                                                    <h5 className="mb-0">
-                                                        <button
-                                                            className="btn collapse-parent font-size-h5 btn-block border shadow-none"
-                                                            data-toggle="false"
-                                                            data-target="#hours-collapse"
-                                                            aria-expanded="true"
-                                                            aria-controls="hours-collapse">
-                                                            Hours
-                                                        </button>
-                                                    </h5>
-                                                </div>
-                                                <div id="hours-collapse"
-                                                     className="collapse show collapsible"
-                                                     aria-labelledby="headingHours"
-                                                     data-parent="#collapse-tabs-accordion">
-                                                    <div className="card-body p-0 py-4">
-                                                        <canvas className="chartjs" data-chart-options="[]"
-                                                                data-chart-labels="[&quot;05h&quot;,&quot;08h&quot;,&quot;11h&quot;,&quot;14h&quot;,&quot;17h&quot;,&quot;20h&quot;,&quot;23h&quot;]"
-                                                                data-chart-datasets="[{&quot;label&quot;:&quot;Clicked&quot;,&quot;data&quot;:[0,7,10,3,15,30,10],&quot;backgroundColor&quot;:&quot;rgba(105, 105, 235, 0.1)&quot;,&quot;borderColor&quot;:&quot;#6969eb&quot;,&quot;borderWidth&quot;:3,&quot;fill&quot;:true},{&quot;label&quot;:&quot;View&quot;,&quot;data&quot;:[10,9,18,20,28,40,27],&quot;backgroundColor&quot;:&quot;rgba(254, 91, 52, 0.1)&quot;,&quot;borderColor&quot;:&quot;#ff6935&quot;,&quot;borderWidth&quot;:3,&quot;fill&quot;:true}]">
-                                                        </canvas>
-                                                    </div>
-                                                </div>
+                                <div
+                                    className="dropdown bootstrap-select form-control bg-transparent pl-0 d-flex align-items-center sortby">
+                                    <select
+                                        className="form-control bg-transparent pl-0 selectpicker d-flex align-items-center sortby"
+                                        name="sort-by"
+                                        data-style="bg-transparent px-1 py-0 lh-1 font-weight-600 text-body"
+                                        id="status">
+                                        <option>Alphabet</option>
+                                        <option>Price - Low to High</option>
+                                        <option>Price - High to Low</option>
+                                        <option>Date - Old to New</option>
+                                        <option>Date - New to Old</option>
+                                    </select>
+                                    <button type="button"
+                                            className="btn dropdown-toggle bg-transparent px-1 py-0 lh-1 font-weight-600 text-body"
+                                            data-toggle="dropdown" role="combobox" aria-owns="bs-select-1"
+                                            aria-haspopup="listbox" aria-expanded="false" data-id="status"
+                                            title="Alphabet">
+                                        <div className="filter-option">
+                                            <div className="filter-option-inner">
+                                                <div className="filter-option-inner-inner">Alphabet</div>
                                             </div>
                                         </div>
-                                        <div className="tab-pane tab-pane-parent fade px-0" id="weekly"
-                                             role="tabpanel" aria-labelledby="weekly-tab">
-                                            <div className="card bg-transparent mb-sm-0 border-0">
-                                                <div
-                                                    className="card-header d-block d-sm-none bg-transparent px-0 py-1 border-bottom-0"
-                                                    id="headingWeekly">
-                                                    <h5 className="mb-0">
-                                                        <button
-                                                            className="btn collapse-parent font-size-h5 btn-block collapsed border shadow-none"
-                                                            data-toggle="collapse"
-                                                            data-target="#weekly-collapse"
-                                                            aria-expanded="true"
-                                                            aria-controls="weekly-collapse">
-                                                            Weekly
-                                                        </button>
-                                                    </h5>
-                                                </div>
-                                                <div id="weekly-collapse" className="collapse collapsible"
-                                                     aria-labelledby="headingWeekly"
-                                                     data-parent="#collapse-tabs-accordion">
-                                                    <div className="card-body p-0 py-4">
-                                                        <canvas className="chartjs" data-chart-options="[]"
-                                                                data-chart-labels="[&quot;Mar 12&quot;,&quot;Mar 13&quot;,&quot;Mar 14&quot;,&quot;Mar 15&quot;,&quot;Mar 16&quot;,&quot;Mar 17&quot;,&quot;Mar 18&quot;,&quot;Mar 19&quot;]"
-                                                                data-chart-datasets="[{&quot;label&quot;:&quot;Clicked&quot;,&quot;data&quot;:[0,13,9,3,15,15,10,0],&quot;backgroundColor&quot;:&quot;rgba(105, 105, 235, 0.1)&quot;,&quot;borderColor&quot;:&quot;#6969eb&quot;,&quot;borderWidth&quot;:3,&quot;fill&quot;:true},{&quot;label&quot;:&quot;View&quot;,&quot;data&quot;:[10,20,18,15,28,33,27,10],&quot;backgroundColor&quot;:&quot;rgba(254, 91, 52, 0.1)&quot;,&quot;borderColor&quot;:&quot;#ff6935&quot;,&quot;borderWidth&quot;:3,&quot;fill&quot;:true}]">
-                                                        </canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="tab-pane tab-pane-parent fade px-0" id="monthly"
-                                             role="tabpanel" aria-labelledby="monthly-tab">
-                                            <div className="card bg-transparent mb-sm-0 border-0">
-                                                <div
-                                                    className="card-header d-block d-sm-none bg-transparent px-0 py-1 border-bottom-0"
-                                                    id="headingMonthly">
-                                                    <h5 className="mb-0">
-                                                        <button
-                                                            className="btn btn-block collapse-parent collapsed border shadow-none"
-                                                            data-toggle="collapse"
-                                                            data-target="#monthly-collapse"
-                                                            aria-expanded="true"
-                                                            aria-controls="monthly-collapse">
-                                                            Monthly
-                                                        </button>
-                                                    </h5>
-                                                </div>
-                                                <div id="monthly-collapse" className="collapse collapsible"
-                                                     aria-labelledby="headingMonthly"
-                                                     data-parent="#collapse-tabs-accordion">
-                                                    <div className="card-body p-0 py-4">
-                                                        <canvas className="chartjs" data-chart-options="[]"
-                                                                data-chart-labels="[&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Aug&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dec&quot;]"
-                                                                data-chart-datasets="[{&quot;label&quot;:&quot;Clicked&quot;,&quot;data&quot;:[2,15,20,10,15,20,10,0,20,30,10,0],&quot;backgroundColor&quot;:&quot;rgba(105, 105, 235, 0.1)&quot;,&quot;borderColor&quot;:&quot;#6969eb&quot;,&quot;borderWidth&quot;:3,&quot;fill&quot;:true},{&quot;label&quot;:&quot;View&quot;,&quot;data&quot;:[10,20,18,15,28,33,27,10,20,30,10,0],&quot;backgroundColor&quot;:&quot;rgba(254, 91, 52, 0.1)&quot;,&quot;borderColor&quot;:&quot;#ff6935&quot;,&quot;borderWidth&quot;:3,&quot;fill&quot;:true}]">
-                                                        </canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    </button>
+                                    <div className="dropdown-menu ">
+                                        <div className="inner show" role="listbox" id="bs-select-1">
+                                            <ul className="dropdown-menu inner show" role="presentation"></ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="col-xxl-4 mb-6">
-                        <div className="card px-7 py-6 h-100">
-                            <div className="card-body p-0">
-                                <h2 className="mb-2 text-heading fs-22 lh-15">Recent Activities</h2>
-                                <ul className="list-group list-group-no-border">
-                                    <li className="list-group-item px-0 py-2">
-                                        <div className="media align-items-center">
-                                            <div
-                                                className="badge badge-blue w-40px h-40 d-flex align-items-center justify-content-center property fs-18 mr-3">
-                                                <BsHouse className="icon icon-1" />
-                                            </div>
-                                            <div className="media-body">
-                                                Your listing <a href="#" className="text-heading"> Villa
-                                                Called Archangel</a> has been
-                                                approved
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li className="list-group-item px-0 py-2">
-                                        <div className="media align-items-center">
-                                            <div
-                                                className="badge badge-green w-40px h-40 d-flex align-items-center justify-content-center property fs-18 mr-3">
-                                                <AiOutlineEye className="icon icon-2" />
-                                            </div>
-                                            <div className="media-body">
-                                                Your listing <a href="#" className="text-heading"> Villa
-                                                Called Archangel</a> has been
-                                                approved
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li className="list-group-item px-0 py-2">
-                                        <div className="media align-items-center">
-                                            <div
-                                                className="badge badge-yellow w-40px h-40 d-flex align-items-center justify-content-center fs-18 mr-3">
-                                                <TbMessageCircle className="icon icon-review"/>
-                                            </div>
-                                            <div className="media-body">
-                                                Dollie Horton left a review on
-                                                <a href="#" className="text-heading"> Villa
-                                                    Called Archangel</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li className="list-group-item px-0 py-2">
-                                        <div className="media align-items-center">
-                                            <div
-                                                className="badge badge-pink w-40px h-40 d-flex align-items-center justify-content-center fs-18 mr-3">
-                                                <FaRegHeart className="icon icon-heart"/>
-                                            </div>
-                                            <div className="media-body">
-                                                Someone favorites your <a href="#"
-                                                                          className="text-heading"> Adorable
-                                                Garden Gingerbread
-                                                House</a>
-                                                listing
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+                <div className="table-responsive">
+                    <table className="table table-hover bg-white border rounded-lg">
+                        <thead className="thead-sm thead-black">
+                        <tr>
+                            <th scope="col" className="border-top-0 px-6 pt-5 pb-4">Listing title</th>
+                            <th scope="col" className="border-top-0 pt-5 pb-4">Date Published</th>
+                            <th scope="col" className="border-top-0 pt-5 pb-4">Author</th>
+                            <th scope="col" className="border-top-0 pt-5 pb-4">Status</th>
+                            <th scope="col" className="border-top-0 pt-5 pb-4">View</th>
+                            <th scope="col" className="border-top-0 pt-5 pb-4">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {items.products.length ? items.products.map(prd => (
+                            <tr className="shadow-hover-xs-2 bg-hover-white">
+                                <td className="align-middle pt-6 pb-4 px-6">
+                                    <div className="media">
+                                        <div className="w-120px mr-4 position-relative">
+                                            <a href="single-property-1.html">
+                                                <img width={120} src={`${API_URL}${prd.imageUrl[0]}`} alt="Home in Metric Way"/>
+                                            </a>
+                                            <span
+                                                className={`badge badge-${prd.status.en === "rent" ? 'primary': 'indigo'} position-absolute pos-fixed-top`}>{capitalize(`${prd.status[lang]}`)}</span>
+                                        </div>
+                                        <div className="media-body">
+                                            <a href="single-property-1.html" className="text-dark hover-primary">
+                                                <h5 className="fs-16 mb-0 lh-18">Home in Metric Way</h5>
+                                            </a>
+                                            <p className="mb-1 font-weight-500">{capitalize(prd.city[lang])}, {capitalize(prd.region[lang])}</p>
+                                            <span className="text-heading lh-15 font-weight-bold fs-17">${prd.price}</span>
+                                            {prd.status.en === "rent" ? <span className="text-gray-light">/month</span> : null}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td className="align-middle">{dateFormatter(prd.createdAt, lang)}</td>
+                                <td className="align-middle">{prd.author ? capitalize(prd.author) : null}</td>
+                                <td className="align-middle">
+                                <span
+                                    className={`badge text-capitalize font-weight-normal fs-12 badge-${!prd.public ? "pink" : "yellow"}`}>{JSON.stringify(prd.public)}</span>
+                                </td>
+                                <td className="align-middle">#{prd.prdId}</td>
+                                <td className="align-middle">
+                                    <a href="#" data-toggle="tooltip" title=""
+                                       className="d-inline-block fs-18 text-muted hover-primary mr-5"
+                                       data-original-title="Edit"><i className="fal fa-pencil-alt"></i></a>
+                                    <a href="#" data-toggle="tooltip" title=""
+                                       className="d-inline-block fs-18 text-muted hover-primary"
+                                       data-original-title="Delete"><i className="fal fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        )): null}
+                        </tbody>
+                    </table>
+                </div>
+                <nav className="mt-6">
+                    <ul className="pagination rounded-active justify-content-center">
+                        <li className="page-item"><a className="page-link" href="#"><i
+                            className="far fa-angle-double-left"></i></a></li>
+                        <li className="page-item"><a className="page-link" href="#">1</a></li>
+                        <li className="page-item active"><a className="page-link" href="#">2</a></li>
+                        <li className="page-item d-none d-sm-block"><a className="page-link" href="#">3</a></li>
+                        <li className="page-item">...</li>
+                        <li className="page-item"><a className="page-link" href="#">6</a></li>
+                        <li className="page-item"><a className="page-link" href="#"><i
+                            className="far fa-angle-double-right"></i></a></li>
+                    </ul>
+                </nav>
+                <div className="text-center mt-2">6-10 of 29 Results</div>
             </div>
         </main>
     );
@@ -306,4 +184,4 @@ export const getStaticProps: GetStaticProps<{}> = async ({locale}) => ({
     },
 })
 
-export default Admin;
+export default Dashboard;

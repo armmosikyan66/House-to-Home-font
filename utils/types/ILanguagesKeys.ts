@@ -4,10 +4,16 @@ export enum LanguagesKeys {
     en = "en",
 }
 
-export interface ICities {
-    ru: string[]
-    am: string[]
-    en:  string[]
+export interface ITrans {
+    ru: {
+        [k: string]: string
+    }
+    am: {
+        [k: string]: string
+    }
+    en: {
+        [k: string]: string
+    }
 }
 
 export interface IRegions {

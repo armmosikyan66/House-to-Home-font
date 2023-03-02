@@ -2,7 +2,7 @@ import {IRegions} from "../types/ILanguagesKeys";
 
 export const regions: IRegions = {
     ru: {
-        "ереван": [
+        yerevan: [
             "Ачапняк",
             "Арабкир",
             "Аван",
@@ -16,7 +16,7 @@ export const regions: IRegions = {
             "Норк Мараш",
             "Нубарашен",
         ],
-        "армавир": [
+        armavir: [
             "Эчмиадзин",
             "Аргаванд",
             "Баграмян",
@@ -104,7 +104,7 @@ export const regions: IRegions = {
             "Ервандашат",
             "Зартонк",
         ],
-        "арарат": [
+        ararat: [
             "Арташат",
             "Арарат",
             "Арбат",
@@ -197,7 +197,7 @@ export const regions: IRegions = {
             "Зангакатун",
             "Зорак",
         ],
-        "котайк": [
+        kotayk: [
             "Абовян",
             "Агверан",
             "Арагюх",
@@ -268,7 +268,7 @@ export const regions: IRegions = {
             "Зовашен",
             "Зовк",
         ],
-        "ширак": [
+        shirak: [
             "Гюмри",
             "Ахурян",
             "Артик",
@@ -363,7 +363,7 @@ export const regions: IRegions = {
             "Еразгаворс",
             "Зуйгахпюр",
         ],
-        "лори": [
+        lori: [
             "Ванадзор",
             "Алаверди",
             "Дсех",
@@ -456,7 +456,7 @@ export const regions: IRegions = {
             "Вардаблур",
             "Ехегнут",
         ],
-        "гегаркуник": [
+        gegharkunik: [
             "Чамбарак",
             "Гавар",
             "Мартуни",
@@ -520,7 +520,7 @@ export const regions: IRegions = {
             "Золакар",
             "Зовабер",
         ],
-        "сюник": [
+        syunik: [
             "Горис",
             "Капан",
             "Мегри",
@@ -560,7 +560,7 @@ export const regions: IRegions = {
             "Веришен",
             "Егвард",
         ],
-        "арагацотн": [
+        aragatsotn: [
             "Ахцк",
             "Апаран",
             "Арагац",
@@ -620,7 +620,7 @@ export const regions: IRegions = {
             "Заринджа",
             "Зовасар",
         ],
-        "тавуш": [
+        tavush: [
             "Берд",
             "Дилижан",
             "Иджеван",
@@ -678,7 +678,7 @@ export const regions: IRegions = {
             "Енокаван",
             "Зоракан",
         ],
-        "вайоцдзор": [
+        'vayoc dzor': [
             "Джермук",
             "Вайк",
             "Егегнадзор",
@@ -719,7 +719,7 @@ export const regions: IRegions = {
         ],
     },
     am: {
-        "երեվան": [
+        yerevan: [
             "Աջափնյակ",
             "Արաբկիր",
             "Ավան",
@@ -733,7 +733,7 @@ export const regions: IRegions = {
             "Նորք Մարաշ",
             "Նուբարաշեն",
         ],
-        "արմավիր": [
+        armavir: [
             "Էջմիածին",
             "Արգավանդ",
             "Բաղրամյան",
@@ -821,7 +821,7 @@ export const regions: IRegions = {
             "Երվանդաշատ",
             "Զարթոնք",
         ],
-        "արարատ": [
+        ararat: [
             "Արտաշատ",
             "Արարատ",
             "Արբաթ",
@@ -914,7 +914,7 @@ export const regions: IRegions = {
             "Երասխ",
             "Զանգակատուն",
         ],
-        "կոտայք": [
+        kotayk: [
             "Աբովյան",
             "Արաքսավան",
             "Արալեզ",
@@ -1060,7 +1060,7 @@ export const regions: IRegions = {
             "Զորավան",
             "Զովաշեն",
         ],
-        "շիրակ": [
+        shirak: [
             "Գյումրի",
             "Ախուրյան",
             "Արթիկ",
@@ -1155,7 +1155,7 @@ export const regions: IRegions = {
             "Երազգավորս",
             "Զույգաղբյուր",
         ],
-        "լոռի": [
+        lori: [
             "Վանաձոր",
             "Ալավերդի",
             "Դսեղ",
@@ -1248,7 +1248,7 @@ export const regions: IRegions = {
             "Վարդաբլուր",
             "Եղեգնուտ",
         ],
-        "գեղարքունիք": [
+        gegharkunik: [
             "Ճամբարակ",
             "Գավառ",
             "Մարտունի",
@@ -1312,7 +1312,7 @@ export const regions: IRegions = {
             "Զոլաքար",
 
         ],
-        "սյունիք": [
+        syunik: [
             "Գորիս",
             "Կապան",
             "Մեղրի",
@@ -1352,7 +1352,7 @@ export const regions: IRegions = {
             "Վերիշեն",
             "Եղվարդ",
         ],
-        "արագածոտն": [
+        aragatsotn: [
             "Աղձք",
             "Ապարան",
             "Արագած",
@@ -1412,7 +1412,7 @@ export const regions: IRegions = {
             "Զարինջա",
             "Զովասար",
         ],
-        "տավուշ": [
+        tavush: [
             "Բերդ",
             "Դիլիջան",
             "Իջևան",
@@ -1470,7 +1470,7 @@ export const regions: IRegions = {
             "Ենոքավան",
             "Զորական",
         ],
-        "վայոց ձոր": [
+        'vayoc dzor': [
             "Ջերմուկ",
             "Վայք",
             "Եղեգնաձոր",
@@ -2188,7 +2188,7 @@ export const regions: IRegions = {
             "Yenokavan",
             "Zorakan",
         ],
-        vayosDzor: [
+        'vayoc dzor': [
             "Jermuk",
             "Vayk",
             "Yeghegnadzor",

@@ -16,6 +16,5 @@ a {
 *:focus,
 *:hover{
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
   outline: none !important;
 }
