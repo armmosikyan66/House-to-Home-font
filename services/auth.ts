@@ -1,6 +1,5 @@
 import $api from "../utils/http";
 import {ILogin, ILoginResponse, IRegister} from "../utils/types/IAuth";
-import {IUser} from "../utils/types/IUser";
 
 export const register = async (user: IRegister): Promise<true | null> => {
     try {

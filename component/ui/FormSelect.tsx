@@ -56,7 +56,7 @@ const FormSelect: FC<FormSelectProps> = ({selected, onChange, keyWord, options, 
                         aria-expanded="false" data-id="type" title="All Types">
                     <div className="filter-option">
                         <div className="filter-option-inner">
-                            <div className="filter-option-inner-inner">{capitalize(String(selectedOption || label))}</div>
+                            <div className="filter-option-inner-inner">{capitalize(String(typeof selectedOption === "boolean" ? JSON.stringify(selectedOption) : selectedOption) || label)}</div>
                         </div>
                     </div>
                 </button>

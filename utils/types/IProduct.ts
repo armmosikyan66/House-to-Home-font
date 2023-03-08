@@ -1,6 +1,8 @@
 export interface IProduct {
+    address?: string;
     author?: string;
     id: string;
+    _id?: string;
     type: {
         am: string;
         en: string;

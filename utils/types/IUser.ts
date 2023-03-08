@@ -6,4 +6,5 @@ export interface IUser {
     phoneNumber: string;
     favorites: string[];
     role: "user" | "locale" | "admin";
+    createdAt: Date;
 }

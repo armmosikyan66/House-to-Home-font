@@ -4,7 +4,7 @@ import Second from "./Second";
 import Third from "./Third";
 import Last from "./Last";
 import {IProduct} from "../../../../utils/types/IProduct";
-import {createPrd} from "../../../../services/product";
+import {createPrd} from "../../../../services/admin";
 
 export type StepsProps = {
     setProductFields: Dispatch<SetStateAction<IProduct>>;

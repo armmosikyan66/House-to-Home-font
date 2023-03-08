@@ -4,7 +4,7 @@ import { Admin } from '../templates/admin';
 
 const App: FC<{ children: ReactNode }> = ({children}) => {
     const {asPath} = useRouter();
-    if (asPath.indexOf("admin") !== -1) {
+    if (asPath.indexOf("admin") !== -1 && asPath.indexOf("login") == -1) {
         return (
             <div className="wrapper dashboard-wrapper">
                 <div className="d-flex flex-wrap flex-xl-nowrap">
@@ -18,11 +18,16 @@ const App: FC<{ children: ReactNode }> = ({children}) => {
         )
     }
 
+    if (asPath.indexOf("login") == -1) {
+        return <>{children}</>;
+    }
+
     return (
         <div>
-
+            {children}
         </div>
-    );
+    )
+
 };
 
 export default App;

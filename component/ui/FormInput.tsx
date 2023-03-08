@@ -7,16 +7,18 @@ interface FormInputProps {
     type: "text" | "number" | "email" | "password";
     defaultValue?: string | number;
     keyWord: string;
+    error?: string;
+    disabled?: boolean;
 }
 
-const FormInput: FC<FormInputProps> = ({keyWord, type, label, onChange, defaultValue}) => {
+const FormInput: FC<FormInputProps> = ({keyWord, type, label, onChange, defaultValue, error, disabled}) => {
     const [value, setValue] = useState<string | number>("");
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
         setValue(event.currentTarget.value);
 
         if (onChange) {
-            onChange(keyWord, event.target.value);
+            onChange(keyWord, type === "number" ? Number(event.target.value) : event.target.value);
         }
     }
 
@@ -30,6 +32,7 @@ const FormInput: FC<FormInputProps> = ({keyWord, type, label, onChange, defaultV
         <div className="form-group mb-0">
             <label htmlFor="address" className="text-heading">{capitalize(label)}</label>
             <input
+                disabled={disabled}
                 value={value}
                 type={type}
                 className="form-control form-control-lg border-0"
@@ -38,6 +41,7 @@ const FormInput: FC<FormInputProps> = ({keyWord, type, label, onChange, defaultV
                 onChange={handleChange}
                 min={type === "number" ? 0 : undefined}
             />
+            {error ? <p className="form-text">{error}</p> : null}
         </div>
     );
 };

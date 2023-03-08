@@ -1,14 +1,15 @@
 import {IUser} from "./IUser";
 
-export interface IRegister {
+export type IRegister = {
     email: string;
     firstName: string;
     lastName: string;
     phoneNumber: string;
     password: string;
+    role?: "user" | "locale" | "admin"
 }
 
-export interface ILogin {
+export type ILogin = {
     password: string;
     email: string;
 }

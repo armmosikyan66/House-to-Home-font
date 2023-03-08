@@ -158,16 +158,6 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
                                             <FormSelect
                                                 onChange={handleChange}
                                                 options={[true, false]}
-                                                label={"Elevator"}
-                                                keyWord={"elevator"}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-4">
-                                        <div className="mb-2">
-                                            <FormSelect
-                                                onChange={handleChange}
-                                                options={[true, false]}
                                                 label={"Furniture"}
                                                 keyWord={"furniture"}
                                             />
