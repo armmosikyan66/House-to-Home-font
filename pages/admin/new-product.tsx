@@ -6,9 +6,9 @@ import {Admin} from "../../component/templates/admin";
 
 const NewProduct = () => {
     return (
-        <div>
+        <main id="content" className="bg-gray-01 pt-xl-0 pt-12">
             <Admin.NewProductSteps/>
-        </div>
+        </main>
     );
 };
 

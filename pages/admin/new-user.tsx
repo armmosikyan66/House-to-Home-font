@@ -62,7 +62,7 @@ const NewUser: NextPage<{}> = () => {
     }
 
     return (
-        <main id="content" className="bg-gray-01">
+        <main id="content" className="bg-gray-01 pt-xl-0 pt-12">
             <div className="px-3 px-lg-6 px-xxl-13 py-5 py-lg-10" data-animated-id="1">
                 <div className="mb-6 row justify-content-center">
                     <h2 className="mb-0 text-heading fs-22 lh-15 col-lg-8">New User

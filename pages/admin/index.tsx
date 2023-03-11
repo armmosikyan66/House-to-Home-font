@@ -37,9 +37,12 @@ const Dashboard: NextPage<{}> = () => {
 
     const handleSelectPrd = (event: MouseEvent<HTMLAnchorElement>, item: IProduct): void => {
         event.preventDefault();
-        document.body.style.overflow = "hidden";
-        setSelected(item)
+        setSelected(item);
     };
+
+    const handleClose = (): void => {
+        setSelected(null);
+    }
 
     const handleDelete = async (event: MouseEvent<HTMLAnchorElement>, prdId: number, imageUrl: string): Promise<void> => {
         event.preventDefault();
@@ -50,24 +53,23 @@ const Dashboard: NextPage<{}> = () => {
     };
 
     useEffect(() => {
-        (async () =>{
+        (async () => {
             await getData();
         })();
     }, [selected]);
 
     return (
         <>
-            <main id="content" className="bg-gray-01">
+            <main id="content" className="bg-gray-01 pt-xl-0 pt-12">
                 <div className="px-3 px-lg-6 px-xxl-13 py-5 py-lg-10" data-animated-id="1">
-                    <div className="d-flex flex-wrap flex-md-nowrap mb-6">
-                        <div className="mr-0 mr-md-auto">
+                    <div className="d-flex flex-wrap flex-column flex-md-row flex-md-nowrap mb-6 align-items-center">
+                        <div className="mr-0 mr-md-auto d-flex align-items-center justify-content-center">
                             <h2 className="mb-0 text-heading fs-22 lh-15">My Properties<span
                                 className="badge badge-white badge-pill text-primary fs-18 font-weight-bold ml-2">{items.founded}</span>
                             </h2>
-                            <p>Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe ndisse suscipit</p>
                         </div>
-                        <div className="form-inline justify-content-md-end mx-n2">
-                            <div className="p-2">
+                        <div className="col-12 col-sm-6 form-inline justify-content-md-end mx-n2">
+                            <div className="p-2 w-100">
                                 <div className="input-group input-group-lg bg-white border">
                                     <div className="input-group-prepend">
                                         <button className="btn pr-0 shadow-none" type="button"><i
@@ -76,45 +78,6 @@ const Dashboard: NextPage<{}> = () => {
                                     <input type="text"
                                            className="form-control bg-transparent border-0 shadow-none text-body"
                                            placeholder="Search listing" name="search"/>
-                                </div>
-                            </div>
-                            <div className="p-2">
-                                <div className="input-group input-group-lg bg-white border">
-                                    <div className="input-group-prepend">
-                                    <span
-                                        className="input-group-text bg-transparent letter-spacing-093 border-0 pr-0"><i
-                                        className="far fa-align-left mr-2"></i>Sort by:</span>
-                                    </div>
-                                    <div
-                                        className="dropdown bootstrap-select form-control bg-transparent pl-0 d-flex align-items-center sortby">
-                                        <select
-                                            className="form-control bg-transparent pl-0 selectpicker d-flex align-items-center sortby"
-                                            name="sort-by"
-                                            data-style="bg-transparent px-1 py-0 lh-1 font-weight-600 text-body"
-                                            id="status">
-                                            <option>Alphabet</option>
-                                            <option>Price - Low to High</option>
-                                            <option>Price - High to Low</option>
-                                            <option>Date - Old to New</option>
-                                            <option>Date - New to Old</option>
-                                        </select>
-                                        <button type="button"
-                                                className="btn dropdown-toggle bg-transparent px-1 py-0 lh-1 font-weight-600 text-body"
-                                                data-toggle="dropdown" role="combobox" aria-owns="bs-select-1"
-                                                aria-haspopup="listbox" aria-expanded="false" data-id="status"
-                                                title="Alphabet">
-                                            <div className="filter-option">
-                                                <div className="filter-option-inner">
-                                                    <div className="filter-option-inner-inner">Alphabet</div>
-                                                </div>
-                                            </div>
-                                        </button>
-                                        <div className="dropdown-menu ">
-                                            <div className="inner show" role="listbox" id="bs-select-1">
-                                                <ul className="dropdown-menu inner show" role="presentation"></ul>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -138,18 +101,21 @@ const Dashboard: NextPage<{}> = () => {
                                         <div className="media">
                                             <div className="w-120px mr-4 position-relative">
                                                 <a href="single-property-1.html">
-                                                    <img width={120} src={`${API_URL}${prd.imageUrl[0]}`} alt="Home in Metric Way"/>
+                                                    <img width={120} src={`${API_URL}${prd.imageUrl[0]}`}
+                                                         alt="Home in Metric Way"/>
                                                 </a>
                                                 <span
-                                                    className={`badge badge-${prd.status.en === "rent" ? 'primary': 'indigo'} position-absolute pos-fixed-top`}>{capitalize(`${prd.status[lang]}`)}</span>
+                                                    className={`badge badge-${prd.status.en === "rent" ? 'primary' : 'indigo'} position-absolute pos-fixed-top`}>{capitalize(`${prd.status[lang]}`)}</span>
                                             </div>
                                             <div className="media-body">
                                                 <Link href="single-property-1.html" className="text-dark hover-primary">
                                                     <h5 className="fs-16 mb-0 lh-18">Home in Metric Way</h5>
                                                 </Link>
                                                 <p className="mb-1 font-weight-500">{capitalize(prd.city[lang])}, {capitalize(prd.region[lang])}</p>
-                                                <span className="text-heading lh-15 font-weight-bold fs-17">${prd.price}</span>
-                                                {prd.status.en === "rent" ? <span className="text-gray-light">/month</span> : null}
+                                                <span
+                                                    className="text-heading lh-15 font-weight-bold fs-17">${prd.price}</span>
+                                                {prd.status.en === "rent" ?
+                                                    <span className="text-gray-light">/month</span> : null}
                                             </div>
                                         </div>
                                     </td>
@@ -161,15 +127,17 @@ const Dashboard: NextPage<{}> = () => {
                                     </td>
                                     <td className="align-middle">#{prd.prdId}</td>
                                     <td className="align-middle">
-                                        <Link href={"#"} onClick={event => handleSelectPrd(event, prd)} locale={lang} data-toggle="tooltip" title=""
+                                        <Link href={"#"} onClick={event => handleSelectPrd(event, prd)} locale={lang}
+                                              data-toggle="tooltip" title=""
                                               className="d-inline-block fs-18 text-muted hover-primary mr-5"
                                               data-original-title="Edit"><i className="fal fa-pencil-alt"></i></Link>
-                                        <Link onClick={event => handleDelete(event, prd.prdId, prd.imageUrl[0])} href="#" data-toggle="tooltip" title=""
+                                        <Link onClick={event => handleDelete(event, prd.prdId, prd.imageUrl[0])}
+                                              href="#" data-toggle="tooltip" title=""
                                               className="d-inline-block fs-18 text-muted hover-primary"
                                               data-original-title="Delete"><i className="fal fa-trash-alt"></i></Link>
                                     </td>
                                 </tr>
-                            )): null}
+                            )) : null}
                             </tbody>
                         </table>
                     </div>
@@ -189,9 +157,8 @@ const Dashboard: NextPage<{}> = () => {
                     <div className="text-center mt-2">6-10 of 29 Results</div>
                 </div>
             </main>
-            {selected && Object.keys(selected).length ? (
-                <ProductModal setSelected={setSelected} {...selected} />
-            ): null}
+            <ProductModal selected={selected} open={Boolean(selected && Object.keys(selected).length)}
+                           handleClose={handleClose}/>
         </>
     );
 };

@@ -11,16 +11,21 @@ import {regions} from "../../../../utils/constants/regions";
 import FormInput from "../../../ui/FormInput";
 import {buildingTypes} from "../../../../utils/constants/buildingTypes";
 import {updatePrd} from "../../../../services/admin";
+import Toastify from "../../../ui/Toastify";
 
 interface InfoModalProps extends IProduct {
-    setSelected: Dispatch<SetStateAction<IProduct | null>>
+    handleClose: () => void;
 }
 
-const Info: FC<InfoModalProps> = ({setSelected, ...props}) => {
+const Info: FC<InfoModalProps> = ({handleClose, ...props}) => {
     const {i18n} = useTranslation();
-    const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const lang: LanguagesKeys = i18n.language as LanguagesKeys || "am";
     const [updatesPrd, setUpdatedPrd] = useState<IProduct>({} as IProduct);
     const [selectedCity, setSelectedCity] = useState<string>("");
+    const [toastify, setToastify] = useState<{status: "danger" | "info" | "success"; message: string;}>({
+        status: "info",
+        message: ""
+    })
 
     useEffect(() => {
         setSelectedCity(props.city.en);
@@ -62,13 +67,17 @@ const Info: FC<InfoModalProps> = ({setSelected, ...props}) => {
     const handleSubmit = async () => {
         const newPrd = await updatePrd(updatesPrd, props.prdId);
 
-        if (newPrd?.status === "error") return;
+        if (newPrd?.status === "error") {
+            return setToastify({status: "success", message: newPrd.message});;
+        }
 
-        setSelected(newPrd)
+        setToastify({status: "success", message: "Success"});
+        setTimeout(() => handleClose(), 1500);
     }
 
     return (
         <>
+            {toastify.message.length ? <Toastify setToastify={setToastify} status={toastify.status} message={toastify.message}/> : null}
             <div className="tab-pane fade show active" id="home" role="tabpanel"
                  aria-labelledby="home-tab">
                 <p>Info tab content</p>
@@ -287,10 +296,7 @@ const Info: FC<InfoModalProps> = ({setSelected, ...props}) => {
                 </div>
             </div>
             <div className="modal-footer pb-0">
-                <button onClick={() => {
-                    setSelected(null);
-                    document.body.style.overflow = "auto";
-                }} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button onClick={handleClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" className="btn btn-primary" onClick={handleSubmit}>Save changes</button>
             </div>
         </>

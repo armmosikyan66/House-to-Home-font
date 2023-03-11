@@ -7,32 +7,34 @@ import type {AppProps} from 'next/app'
 import {appWithTranslation} from "next-i18next";
 import nextI18NextConfig from '../next-i18next.config.js'
 import {wrapper} from "../redux/store";
-import {useEffect} from "react";
+import {useLayoutEffect, useRef} from "react";
 import {useTypedDispatch} from "../redux/types/IRedux";
 import {checkAuth} from "../services/auth";
 import {setUser} from "../redux/actions/user";
 import {IUser} from "../utils/types/IUser";
 import App from "../component/layouts/App";
+import {useRouter} from "next/router";
 
 function MyApp({Component, pageProps}: AppProps) {
     const dispatch = useTypedDispatch();
+    const router = useRouter();
+    const mounted = useRef(false)
 
     const checkIsAuth = async () => {
-        const {user, status, message} = await checkAuth();
+        const {user, status} = await checkAuth();
 
-        if (!user && status === "error") {
-            alert(message)
-            return;
-        }
+        if (!user && status === "error" && router.asPath.includes("admin") && !router.asPath.includes("/admin/login")) router.push("/");
+
         dispatch(setUser(user as IUser));
     }
 
-
-    useEffect(() => {
+    useLayoutEffect(() => {
         (async () => {
-            if (localStorage.getItem('token'))
-                await checkIsAuth();
-        })()
+            if (!mounted.current) {
+                mounted.current = true;
+                if (localStorage.getItem("token")) await checkIsAuth();
+            }
+        })();
     }, []);
 
     return (

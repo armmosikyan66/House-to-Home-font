@@ -1,5 +1,6 @@
 import $api from "../utils/http";
 import {IProduct, IProductResponse} from "../utils/types/IProduct";
+import {IUser} from "../utils/types/IUser";
 
 export const createPrd = async (product: FormData): Promise<IProduct | {status: "error" , message: string}> => {
     try {
@@ -49,9 +50,29 @@ export const updatePrd = async (updateData: IProduct, prdId: number): Promise<IP
     }
 }
 
+export const updateUser = async (updateData: "user" | "admin" | "locale", userId: string): Promise<IUser | {status: "error" , message: string}> => {
+    try {
+        const {data} = await $api.put<IUser>(`/admin/update-user/${userId}`, {role: updateData});
+
+        return data;
+    } catch (e: any) {
+        return {status: "error", message: e.response.data.message};
+    }
+}
+
 export const deletePrd = async (dirId: string, prdId: number): Promise<true | {status: "error" , message: string}> => {
     try {
         const {data} = await $api.delete(`/admin/delete-prd/${dirId}/${prdId}`);
+
+        return true;
+    } catch (e: any) {
+        return {status: "error", message: e.response.data.message};
+    }
+}
+
+export const deleteUser = async (id: string): Promise<true | {status: "error" , message: string}> => {
+    try {
+        const {data} = await $api.delete(`/admin/delete-user/${id}`);
 
         return true;
     } catch (e: any) {

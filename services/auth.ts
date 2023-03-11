@@ -31,3 +31,11 @@ export const checkAuth = async (): Promise<ILoginResponse> => {
         return {status: "error", message: e.response.data.message};
     }
 }
+
+export const logout = async (): Promise<void | { status: "error", message: string }> => {
+    try {
+        await $api.post('/logout')
+    } catch (e: any) {
+        return {status: "error", message: e.response.data.message};
+    }
+}

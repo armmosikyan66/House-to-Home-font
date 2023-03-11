@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, MouseEvent} from 'react';
 import {GetStaticProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config";
 import {IUser} from "../../utils/types/IUser";
-import {getUsers} from "../../services/admin";
+import {deleteUser, getUsers} from "../../services/admin";
 import capitalize from "../../utils/helpers/capitalize";
 import dateFormatter from "../../utils/helpers/dateFormatter";
 import {useTranslation} from "next-i18next";
@@ -25,7 +25,16 @@ const Users: NextPage<{}> = () => {
         users: [],
         founded: 0,
     });
-    const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
+    const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
+
+    const handleClose = (): void => {
+        setSelectedUser(null);
+    }
+
+    const handleDelete = async (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+        event.preventDefault();
+        await deleteUser(id);
+    }
 
     useEffect(() => {
         (async () => {
@@ -37,7 +46,7 @@ const Users: NextPage<{}> = () => {
 
     return (
         <>
-            <main id="content" className="bg-gray-01">
+            <main id="content" className="bg-gray-01 pt-xl-0 pt-12">
                 <div className="px-3 px-lg-6 px-xxl-13 py-5 py-lg-10 invoice-listing" data-animated-id={1}>
                     <div className="mb-6">
                         <div className="row">
@@ -112,7 +121,7 @@ const Users: NextPage<{}> = () => {
                                             <Link onClick={() => setSelectedUser(user)} href="#" data-toggle="tooltip" title=""
                                                   className="d-inline-block fs-18 text-muted hover-primary mr-5"
                                                   data-original-title="Edit"><i className="fal fa-pencil-alt"></i></Link>
-                                            <a href="#" data-toggle="tooltip" title=""
+                                            <a onClick={(event) => handleDelete(event, user.id)} href="#" data-toggle="tooltip" title=""
                                                className="d-inline-block fs-18 text-muted hover-primary"
                                                data-original-title="Delete"><i className="fal fa-trash-alt"></i></a>
                                         </td>
@@ -141,7 +150,7 @@ const Users: NextPage<{}> = () => {
                     </div>
                 </div>
             </main>
-            {selectedUser ? <UserModal {...selectedUser}/> : null}
+            <UserModal handleClose={handleClose} open={Boolean(selectedUser && Object.keys(selectedUser).length)} selected={selectedUser}/>
         </>
     );
 };
