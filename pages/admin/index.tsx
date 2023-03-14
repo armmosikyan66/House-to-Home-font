@@ -2,7 +2,7 @@ import React, {useEffect, useState, MouseEvent} from 'react';
 import {GetStaticProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config";
-import {IProduct} from "../../utils/types/IProduct";
+import {IProduct, IProductResponse} from "../../utils/types/IProduct";
 import {deletePrd, getAdminPrd} from "../../services/admin";
 import {useTranslation} from "next-i18next";
 import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
@@ -12,15 +12,10 @@ import {API_URL} from "../../utils/constants/api";
 import Link from "next/link";
 import ProductModal from "../../component/templates/admin/ProductModal";
 
-type AdminProduct = {
-    products: IProduct[];
-    founded: number;
-}
-
 const Dashboard: NextPage<{}> = () => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
-    const [items, setItems] = useState<AdminProduct>({
+    const [items, setItems] = useState<IProductResponse>({
         products: [],
         founded: 0,
     });

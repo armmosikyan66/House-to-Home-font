@@ -63,6 +63,13 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
                                     </div>
                                     <div className="col-lg-4">
                                         <div className="mb-2">
+                                            <FormInput label={"Price (only numbers)"} type={"number"}
+                                                       keyWord={"price"}
+                                                       onChange={handleChange}/>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-4">
+                                        <div className="mb-2">
                                             <FormInput label={"Rooms"} type={"number"} keyWord={"rooms"}
                                                        onChange={handleChange}/>
                                         </div>

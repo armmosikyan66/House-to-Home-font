@@ -3,6 +3,7 @@ import '../styles/dropzone.css';
 import '../styles/select.css';
 import "../styles/theme.css";
 import '../styles/globals.css';
+import '../styles/slick.css';
 import type {AppProps} from 'next/app'
 import {appWithTranslation} from "next-i18next";
 import nextI18NextConfig from '../next-i18next.config.js'

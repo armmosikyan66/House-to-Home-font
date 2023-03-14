@@ -1,13 +1,17 @@
 import type {GetStaticProps, NextPage} from 'next';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import nextI18NextConfig from '../next-i18next.config.js'
-//<link href="/app.css" rel="stylesheet" /> todo this in admin
+import {Home} from '../component/templates/app/home';
+import nextI18NextConfig from '../next-i18next.config.js';
 
-const Home: NextPage<{}> = () => {
+const HomePage: NextPage<{}> = () => {
     return (
-        <div>
-            qweqwe
-        </div>
+        <>
+            <Home.Intro />
+            <Home.ForRent />
+            <Home.PropTypes />
+            <Home.ForSale />
+            <Home.About />
+        </>
     )
 }
 
@@ -21,4 +25,4 @@ export const getStaticProps: GetStaticProps<{}> = async ({locale}) => ({
     },
 })
 
-export default Home;
+export default HomePage;

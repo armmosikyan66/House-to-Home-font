@@ -1,6 +1,8 @@
 import React, {FC, ReactNode} from 'react';
 import {useRouter} from "next/router";
 import { Admin } from '../templates/admin';
+import Header from "../templates/app/Header";
+import Footer from "../templates/app/Footer";
 
 const App: FC<{ children: ReactNode }> = ({children}) => {
     const {asPath} = useRouter();
@@ -18,14 +20,18 @@ const App: FC<{ children: ReactNode }> = ({children}) => {
         )
     }
 
-    if (asPath.indexOf("login") == -1) {
+    if (asPath.indexOf("login") !== -1) {
         return <>{children}</>;
     }
 
     return (
-        <div>
-            {children}
-        </div>
+        <>
+            <Header/>
+            <main id="content">
+                {children}
+            </main>
+            <Footer/>
+        </>
     )
 
 };
