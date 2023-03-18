@@ -2,7 +2,7 @@ export type QueryParams = { [key: string]: string | number };
 
 export function encodeQueryString<T extends QueryParams>(params: T): string {
     const encodedParams = Object.entries(params)
-        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
+        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(JSON.stringify(value))}`)
         .join('&');
     return `?${encodedParams}`;
 }

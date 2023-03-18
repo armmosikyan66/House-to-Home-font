@@ -3,8 +3,14 @@ export interface IFilter {
     region: string;
     type: string;
     status: string;
-    price: string;
-    areaSize: string;
+    price: {
+        from: number;
+        to: number;
+    };
+    areaSize: {
+        from: number,
+        to: number;
+    };
     rooms: string;
     baths: string;
 }

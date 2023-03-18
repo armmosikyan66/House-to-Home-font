@@ -14,7 +14,7 @@ export type ILogin = {
     email: string;
 }
 
-export interface ILoginResponse {
+export interface IAuthResponse {
     user?: IUser;
     message?: string;
     status: "success" | "error";

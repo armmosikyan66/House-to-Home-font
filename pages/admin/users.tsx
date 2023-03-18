@@ -11,6 +11,7 @@ import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
 import {useRouter} from "next/router";
 import Link from "next/link";
 import UserModal from "../../component/templates/admin/UserModal";
+import ReactPaginate from "react-paginate";
 
 type UsersTypes = {
     users: IUser[] | [],
@@ -25,6 +26,22 @@ const Users: NextPage<{}> = () => {
         users: [],
         founded: 0,
     });
+    const [page, setPage] = useState<number>(0);
+
+    useEffect(() => {
+        if (!router.isReady) return;
+
+        if ("page" in router.query) {
+            setPage(Number(router.query.page) - 1)
+        }
+    }, [router.isReady])
+
+    const handlePageClick = (event: { selected: number }) => {
+        setPage(event.selected);
+
+        router.query.page = String(event.selected + 1);
+        router.push(router);
+    };
     const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
 
     const handleClose = (): void => {
@@ -38,11 +55,11 @@ const Users: NextPage<{}> = () => {
 
     useEffect(() => {
         (async () => {
-            const {users, founded} = await getUsers(1);
+            const {users, founded} = await getUsers(Number(page + 1));
 
             setItems({users, founded});
         })()
-    }, [])
+    }, [page, selectedUser])
 
     return (
         <>
@@ -132,21 +149,24 @@ const Users: NextPage<{}> = () => {
                         </div>
                     </div>
                     <div className="mt-6">
-                        <nav>
-                            <ul className="pagination rounded-active justify-content-center">
-                                <li className="page-item"><a className="page-link" href="#"><i
-                                    className="far fa-angle-double-left"></i></a>
-                                </li>
-                                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                <li className="page-item active"><a className="page-link" href="#">2</a></li>
-                                <li className="page-item d-none d-sm-block"><a className="page-link" href="#">3</a></li>
-                                <li className="page-item">...</li>
-                                <li className="page-item"><a className="page-link" href="#">6</a></li>
-                                <li className="page-item"><a className="page-link" href="#"><i
-                                    className="far fa-angle-double-right"></i></a></li>
-                            </ul>
-                        </nav>
-                        <div className="text-center mt-2">6-10 of 29 Results</div>
+                        <ReactPaginate
+                            pageClassName={"page-item"}
+                            nextClassName={"page-item"}
+                            previousLinkClassName={"page-link"}
+                            nextLinkClassName={"page-link"}
+                            previousClassName={"page-item"}
+                            pageLinkClassName={"page-link"}
+                            activeClassName={"active"}
+                            breakLabel="..."
+                            nextLabel={<i className="far fa-angle-double-right"></i>}
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={5}
+                            pageCount={Math.ceil(items.founded / 10)}
+                            previousLabel={<i className="far fa-angle-double-left"></i>}
+                            containerClassName="pagination rounded-active justify-content-center mb-0 pt-6"
+                            hrefBuilder={() => "#"}
+                            forcePage={page}
+                        />
                     </div>
                 </div>
             </main>

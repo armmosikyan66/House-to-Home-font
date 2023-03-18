@@ -9,14 +9,24 @@ import {IFilter} from "../../../../utils/types/IFilter";
 import {regions} from "../../../../utils/constants/regions";
 import {useRouter} from "next/router";
 import {encodeQueryString} from "../../../../utils/helpers/queryString";
+import capitalize from "../../../../utils/helpers/capitalize";
 
 const Filter: FC<{}> = () => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     const [filter, setFilter] = useState<IFilter>({} as IFilter);
+    const [selectedCity, setSelectedCity] = useState<string>("")
     const router = useRouter();
 
     const handleChange = (key: string, val: number | string | boolean): void => {
+        if (key === "city") {
+            const keyword = Object.keys(cities[lang]).find(key => cities[lang][key] === val.toString());
+
+            if (!keyword) return;
+
+            setSelectedCity(cities["en"][keyword])
+        }
+
         setFilter(prev => ({
             ...prev,
             [key]: val,
@@ -53,7 +63,7 @@ const Filter: FC<{}> = () => {
                             {"city" in filter ? (
                                 <div className="mb-2">
                                     <FormSelect
-                                        options={Object.values(regions[lang][filter.city.toLowerCase()])}
+                                        options={Object.values(regions[lang][selectedCity.toLowerCase()])}
                                         label={"Regions"}
                                         keyWord={"region"}
                                         onChange={handleChange}
@@ -95,22 +105,68 @@ const Filter: FC<{}> = () => {
                                     />
                                 </div>
                             </div>
+                            <label htmlFor="address" className="text-heading">{capitalize("Area Size")}</label>
                             <div className="form-row mb-4">
                                 <div className="col">
                                     <FormInput
-                                        //onChange={handleChange}
-                                        label={"Area Size"}
+                                        placeholder={"from"}
+                                        onChange={(key, value) => setFilter(prev => ({
+                                            ...prev,
+                                            areaSize: {
+                                                ...prev.areaSize,
+                                                [key]: value
+                                            },
+                                        }))}
                                         type={"number"}
-                                        keyWord={"areaSize"}
+                                        keyWord={"from"}
                                         defaultValue={0}
                                     />
                                 </div>
                                 <div className="col">
                                     <FormInput
-                                        //onChange={handleChange}
-                                        label={"Price"}
+                                        onChange={(key, value) => setFilter(prev => ({
+                                            ...prev,
+                                            areaSize: {
+                                                ...prev.areaSize,
+                                                [key]: value
+                                            },
+                                        }))}
+                                        placeholder={"To"}
                                         type={"number"}
-                                        keyWord={"price"}
+                                        keyWord={"to"}
+                                        defaultValue={Infinity}
+                                    />
+                                </div>
+                            </div>
+                            <label htmlFor="address" className="text-heading">{capitalize("Price")}</label>
+                            <div className="form-row mb-4">
+                                <div className="col">
+                                    <FormInput
+                                        placeholder={"from"}
+                                        onChange={(key, value) => setFilter(prev => ({
+                                            ...prev,
+                                            price: {
+                                                ...prev.price,
+                                                [key]: value
+                                            },
+                                        }))}
+                                        type={"number"}
+                                        keyWord={"from"}
+                                        defaultValue={0}
+                                    />
+                                </div>
+                                <div className="col">
+                                    <FormInput
+                                        onChange={(key, value) => setFilter(prev => ({
+                                            ...prev,
+                                            price: {
+                                                ...prev.price,
+                                                [key]: value
+                                            },
+                                        }))}
+                                        placeholder={"To"}
+                                        type={"number"}
+                                        keyWord={"to"}
                                         defaultValue={Infinity}
                                     />
                                 </div>

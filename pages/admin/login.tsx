@@ -3,33 +3,17 @@ import {GetStaticProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config";
 import FormInput from "../../component/ui/FormInput";
-import useForm, {FormErrors} from "../../utils/hooks/useForm";
+import useForm from "../../utils/hooks/useForm";
 import {ILogin} from "../../utils/types/IAuth";
 import {login} from "../../services/auth";
 import Toastify from "../../component/ui/Toastify";
 import {useRouter} from "next/router";
-
-const validate = (values: ILogin) => {
-    let errors: FormErrors<ILogin> = {};
-
-    if (!values.email) errors.email = 'Email is required';
-    if (!values.password) errors.password = 'Password is required';
-
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (values.email && !emailRegex.test(values.email)) {
-        errors.email = 'Email is invalid';
-    }
-
-    // Validate password minimum length
-    if (values.password && values.password.length < 8) {
-        errors.password = 'Password must be at least 8 characters long';
-    }
-
-    return errors;
-};
+import {validateLogin} from "../../utils/helpers/validations";
+import {setUser} from "../../redux/actions/user";
+import {useTypedDispatch} from "../../redux/types/IRedux";
 
 const Login: NextPage<{}> = () => {
+    const dispatch = useTypedDispatch();
     const router = useRouter();
     const [toastify, setToastify] = useState<{status: "danger" | "info" | "success"; message: string;}>({
         status: "info",
@@ -40,18 +24,19 @@ const Login: NextPage<{}> = () => {
             email: "",
             password: "",
         },
-        validate,
+        validate: validateLogin,
         onSubmit,
     });
 
     async function onSubmit() {
-        const user = await login(values);
+        const {status, message, user} = await login(values);
 
-        if (user?.status && user?.status === "error" && user.message) {
-            return setToastify({status: "danger", message: user.message})
+        if (status === "error" && message) {
+            return setToastify({status: "danger", message: message})
         }
 
         setToastify({status: "success", message: "You successfully logged in"});
+        if (user) dispatch(setUser(user));
         setTimeout(() => {
             router.push("/admin")
         },  1500);

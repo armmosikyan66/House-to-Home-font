@@ -3,15 +3,16 @@ import capitalize from "../../utils/helpers/capitalize";
 
 interface FormInputProps {
     onChange?: (key: string, value: string | number) => void;
-    label: string;
+    label?: string;
     type: "text" | "number" | "email" | "password";
     defaultValue?: string | number;
     keyWord: string;
     error?: string;
     disabled?: boolean;
+    placeholder?: string;
 }
 
-const FormInput: FC<FormInputProps> = ({keyWord, type, label, onChange, defaultValue, error, disabled}) => {
+const FormInput: FC<FormInputProps> = ({placeholder, keyWord, type, label, onChange, defaultValue, error, disabled}) => {
     const [value, setValue] = useState<string | number>("");
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -30,7 +31,7 @@ const FormInput: FC<FormInputProps> = ({keyWord, type, label, onChange, defaultV
 
     return (
         <div className="form-group mb-0">
-            <label htmlFor="address" className="text-heading">{capitalize(label)}</label>
+            {label ? <label htmlFor="address" className="text-heading">{capitalize(label)}</label>: null}
             <input
                 disabled={disabled}
                 value={value}
@@ -40,6 +41,7 @@ const FormInput: FC<FormInputProps> = ({keyWord, type, label, onChange, defaultV
                 name={keyWord}
                 onChange={handleChange}
                 min={type === "number" ? 0 : undefined}
+                placeholder={placeholder}
             />
             {error ? <p className="form-text">{error}</p> : null}
         </div>

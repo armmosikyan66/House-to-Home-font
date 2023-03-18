@@ -1,14 +1,40 @@
-import React, {FC} from 'react';
+import React, {FC, MouseEvent, useEffect, useState} from 'react';
 import {IProduct} from "../../utils/types/IProduct";
 import {API_URL} from "../../utils/constants/api";
 import {useTranslation} from "next-i18next";
 import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
 import capitalize from "../../utils/helpers/capitalize";
 import Link from 'next/link';
+import {addFavorite, removeFavorite} from "../../services/user";
+import {useTypedDispatch, useTypedSelector} from "../../redux/types/IRedux";
+import {setUser} from "../../redux/actions/user";
 
-const ProductCard: FC<IProduct> = ({prdId, rooms, floorArea, baths, imageUrl, status, price, city, region}) => {
+const ProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, imageUrl, status, price, city, region}) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const user = useTypedSelector(state => state.auth.user);
+    const dispatch = useTypedDispatch();
+    const [liked, setLiked] = useState<boolean>(false);
+
+    useEffect(() => {
+        setLiked(user?.favorites?.some(fav => fav === id));
+    }, [user])
+
+    const handleSetFavorite = async (event: MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault();
+        if (!user || !user?.id) {
+            return;
+        }
+
+        if (!liked) {
+            const favorite = await addFavorite(user.id, id);
+            dispatch(setUser(favorite));
+        } else {
+            const favorite = await removeFavorite(user.id, id);
+            dispatch(setUser(favorite));
+        }
+    }
+
     return (
         <div className="card border-0 fadeInUp animated" data-animate="fadeInUp">
             <div
@@ -21,7 +47,9 @@ const ProductCard: FC<IProduct> = ({prdId, rooms, floorArea, baths, imageUrl, st
                     content: ""
                 }}></div>
                 <div className="card-img-overlay d-flex flex-column">
-                    <div><span className={`badge badge-${status.en === "sale" ? "indigo" : "primary"}`}>{status[lang]}</span></div>
+                    <div><span
+                        className={`badge badge-${status.en === "sale" ? "indigo" : "primary"}`}>{status[lang]}</span>
+                    </div>
                     <div className="mt-auto d-flex hover-image">
                         <ul className="list-inline mb-0 d-flex align-items-end mr-auto">
 
@@ -30,7 +58,8 @@ const ProductCard: FC<IProduct> = ({prdId, rooms, floorArea, baths, imageUrl, st
                             <li className="list-inline-item mr-3 h-32"
                                 data-toggle="tooltip" title=""
                                 data-original-title="Wishlist">
-                                <a href="pages/properties/properties#" className="text-white fs-20 hover-primary">
+                                <a onClick={handleSetFavorite} href="#"
+                                   className={`text-${liked ? "primary" : "white"} fs-20 hover-primary`}>
                                     <i className="far fa-heart"></i>
                                 </a>
                             </li>
@@ -48,7 +77,7 @@ const ProductCard: FC<IProduct> = ({prdId, rooms, floorArea, baths, imageUrl, st
             <div className="card-body pt-3 px-0 pb-1">
                 <h2 className="fs-16 mb-1">
                     <Link href={`/properties/${prdId}`} className="text-dark hover-primary">Home in
-                    Metric Way</Link>
+                        Metric Way</Link>
                 </h2>
                 <p className="font-weight-500 text-gray-light mb-0">{capitalize(`${city[lang]}, ${region[lang]}`)}</p>
                 <p className="fs-17 font-weight-bold text-heading mb-0 lh-16">

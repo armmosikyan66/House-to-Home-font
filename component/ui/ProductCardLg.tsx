@@ -4,8 +4,9 @@ import {API_URL} from "../../utils/constants/api";
 import capitalize from "../../utils/helpers/capitalize";
 import {useTranslation} from "next-i18next";
 import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
+import Link from "next/link";
 
-const ProductCardLg: FC<IProduct> = ({desc, region, city, imageUrl, rooms, baths, floorArea}) => {
+const ProductCardLg: FC<IProduct> = ({prdId, desc, region, city, imageUrl, rooms, baths, floorArea, price, status}) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     return (
@@ -20,33 +21,36 @@ const ProductCardLg: FC<IProduct> = ({desc, region, city, imageUrl, rooms, baths
                         height: 180,
                         content: ""
                     }}></div>
-                        <div className="card-img-overlay p-2">
-                            <ul className="list-inline mb-0 d-flex justify-content-center align-items-center h-100 hover-image">
-                                <li className="list-inline-item">
-                                    <a href="#"
-                                       className="w-40px h-40 border rounded-circle d-inline-flex align-items-center justify-content-center text-heading bg-white border-white bg-hover-primary border-hover-primary hover-white">
-                                        <i className="far fa-heart"></i>
-                                    </a>
-                                </li>
-                                <li className="list-inline-item">
-                                    <a href="#"
-                                       className="w-40px h-40 border rounded-circle d-inline-flex align-items-center justify-content-center text-heading bg-white border-white bg-hover-primary border-hover-primary hover-white">
-                                        <i className="fas fa-exchange-alt"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div className="card-img-overlay p-2">
+                        <ul className="list-inline mb-0 d-flex justify-content-center align-items-center h-100 hover-image">
+                            <li className="list-inline-item">
+                                <a href="#"
+                                   className="w-40px h-40 border rounded-circle d-inline-flex align-items-center justify-content-center text-heading bg-white border-white bg-hover-primary border-hover-primary hover-white">
+                                    <i className="far fa-heart"></i>
+                                </a>
+                            </li>
+                            <li className="list-inline-item">
+                                <a href="#"
+                                   className="w-40px h-40 border rounded-circle d-inline-flex align-items-center justify-content-center text-heading bg-white border-white bg-hover-primary border-hover-primary hover-white">
+                                    <i className="fas fa-exchange-alt"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div className="media-body mt-3 mt-sm-0">
-                    <h2 className="my-0"><a href="single-property-1.html"
-                                            className="fs-16 lh-2 text-dark hover-primary d-block">Home in Metric
-                        Way</a>
+                    <h2 className="my-0">
+                        <Link href={`/properties/${prdId}`} className="fs-16 lh-2 text-dark hover-primary d-block">Home
+                            in Metric
+                            Way</Link>
                     </h2>
                     <p className="mb-1 font-weight-500 text-gray-light">{capitalize(`${city[lang]}, ${region[lang]}`)}</p>
                     <p className="fs-17 font-weight-bold text-heading mb-1">
-                        $1.250.000
+                        ${price}
                     </p>
-                    <p className="mb-2 ml-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam aliquid assumenda consequatur consequuntur, cupiditate deserunt ea eligendi eos illo impedit necessitatibus nobis perferendis porro quae repellat sapiente vitae, voluptas! Praesentium.</p>
+                    <p className="mb-2 ml-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam aliquid
+                        assumenda consequatur consequuntur, cupiditate deserunt ea eligendi eos illo impedit
+                        necessitatibus nobis perferendis porro quae repellat sapiente vitae, voluptas! Praesentium.</p>
                 </div>
             </div>
             <div className="d-sm-flex justify-content-sm-between">
@@ -67,7 +71,8 @@ const ProductCardLg: FC<IProduct> = ({desc, region, city, imageUrl, rooms, baths
                         {floorArea} Sq.Ft
                     </li>
                 </ul>
-                <span className="badge badge-primary mr-xl-2 mt-3 mt-sm-0">For Sale</span>
+                <span
+                    className={`badge badge-${status.en === "rent" ? "primary" : "indigo"} mr-xl-2 mt-3 mt-sm-0`}>{capitalize(status[lang])}</span>
             </div>
         </div>
     );

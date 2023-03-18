@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 // @ts-ignore
 import Slider from 'react-slick';
-import {withTranslation} from "next-i18next";
+import {useTranslation, withTranslation} from "next-i18next";
 import prdImg from "../../assets/images/properties-grid-01.jpg"
 import SliderComp from "../../component/ui/Slider";
+import {useRouter} from "next/router";
+import {IProduct} from "../../utils/types/IProduct";
+import {getOne, getRecommended} from "../../services/products";
+import {API_URL} from "../../utils/constants/api";
+import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
+import dateFormatter from "../../utils/helpers/dateFormatter";
+import capitalize from "../../utils/helpers/capitalize";
 
 const PrevArrow = ({onClick}: any) => (
     <div onClick={onClick} className="slick-prev slick-arrow" aria-label="Previous" aria-disabled="false">
@@ -28,6 +35,27 @@ const Id = () => {
         prevArrow: <PrevArrow/>,
         nextArrow: <NextArrow/>,
     };
+    const router = useRouter();
+    const [product, setProduct] = useState<IProduct>({} as IProduct);
+    const {i18n} = useTranslation();
+    const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const [sliderItems, setSliderItems] = useState<IProduct[]>([]);
+
+    useEffect(() => {
+        (async () => {
+            if (!router.isReady && !router.query.id || typeof router.query.id !== "string") return;
+
+            const prd = await getOne(router.query.id);
+
+            if (prd?.status?.en) {
+                const items = await getRecommended(prd.status["en"] as "rent" | "sale", "en");
+                setSliderItems(items);
+            }
+
+            setProduct(prd);
+        })();
+    }, [router.isReady, router.query])
+
     return (
         <>
             <section className="pt-16 bg-white shadow-5 pb-7">
@@ -40,7 +68,7 @@ const Id = () => {
                             <li className="breadcrumb-item fs-12 letter-spacing-087">
                                 <a href="listing-grid-with-left-filter.html">Listing</a>
                             </li>
-                            <li className="breadcrumb-item fs-12 letter-spacing-087 active">Villa on Hollywood Boulevard
+                            <li className="breadcrumb-item fs-12 letter-spacing-087 active">#{router.query.id}
                             </li>
                         </ol>
                     </nav>
@@ -71,18 +99,18 @@ const Id = () => {
                             </ul>
                         </div>
                         <Slider {...settings} className="slick-list draggable">
-                            {[...new Array(5)].map(() => (
-                                <div className="box slick-slide p-0" data-slick-index="0"
+                            {product?.imageUrl?.length ? product.imageUrl.map((img) => (
+                                <div key={img} className="box slick-slide p-0" data-slick-index="0"
                                      aria-hidden="false" style={{maxWidth: "100%"}}>
                                     <div className="item item-size-3-2">
                                         <div className="card p-0 hover-change-image">
                                             <a href="images/single-property-lg-1.jpg" className="card-img"
-                                               style={{backgroundImage: `url('${prdImg.src}')`}}>
+                                               style={{backgroundImage: `url('${API_URL}${img}')`}}>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                            ))}
+                            )) : null}
                         </Slider>
                     </div>
                 </div>
@@ -93,25 +121,18 @@ const Id = () => {
                         <div className="col-12">
                             <section className="pb-8 px-6 pt-6 bg-white rounded-lg">
                                 <ul className="list-inline d-sm-flex align-items-sm-center mb-2">
-                                    <li className="list-inline-item badge badge-orange mr-2">Featured</li>
-                                    <li className="list-inline-item badge badge-primary mr-3">For Sale</li>
-                                    <li className="list-inline-item mr-2 mt-2 mt-sm-0"><i
-                                        className="fal fa-clock mr-1"></i>2 months ago
-                                    </li>
-                                    <li className="list-inline-item mt-2 mt-sm-0"><i className="fal fa-eye mr-1"></i>1039
-                                        views
-                                    </li>
+                                    <li className="list-inline-item badge badge-primary mr-3">{product?.status && product?.status[lang]}</li>
                                 </ul>
                                 <div className="d-sm-flex justify-content-sm-between">
                                     <div>
                                         <h2 className="fs-35 font-weight-600 lh-15 text-heading">Villa on Hollywood
                                             Boulevard</h2>
-                                        <p className="mb-0"><i className="fal fa-map-marker-alt mr-2"></i>398 Pete
-                                            Pascale Pl, New York</p>
+                                        <p className="mb-0"><i
+                                            className="fal fa-map-marker-alt mr-2"></i>{(product?.city && product?.region) && capitalize(`${product?.city[lang]}, ${product?.region[lang]}`)}
+                                        </p>
                                     </div>
                                     <div className="mt-2 text-lg-right">
-                                        <p className="fs-22 text-heading font-weight-bold mb-0">$1.250.000</p>
-                                        <p className="mb-0">$9350/SqFt</p>
+                                        <p className="fs-22 text-heading font-weight-bold mb-0">${product?.price}</p>
                                     </div>
                                 </div>
                                 <h4 className="fs-22 text-heading mt-6 mb-2">Description</h4>
@@ -133,73 +154,35 @@ const Id = () => {
                                     <div className="col-lg-3 col-sm-4 mb-6">
                                         <div className="media">
                                             <div className="p-2 shadow-xxs-1 rounded-lg mr-2">
-                                                <svg className="icon icon-family fs-32 text-primary">
-                                                </svg>
+                                                <i className="fa fa-home icon icon-price fs-32 text-primary">
+                                                </i>
                                             </div>
                                             <div className="media-body">
-                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">Type</h5>
-                                                <p className="mb-0 fs-13 font-weight-bold text-heading">Single
-                                                    Family</p>
+                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">SQMT</h5>
+                                                <p className="mb-0 fs-13 font-weight-bold text-heading">{product?.floorArea}</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-lg-3 col-sm-4 mb-6">
                                         <div className="media">
                                             <div className="p-2 shadow-xxs-1 rounded-lg mr-2">
-                                                <svg className="icon icon-year fs-32 text-primary">
-                                                </svg>
+                                                <i className="fas fa-bed icon icon-bedroom fs-32 text-primary">
+                                                </i>
                                             </div>
                                             <div className="media-body">
-                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">year
-                                                    built</h5>
-                                                <p className="mb-0 fs-13 font-weight-bold text-heading">2020</p>
+                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">ROOMS</h5>
+                                                <p className="mb-0 fs-13 font-weight-bold text-heading">{product?.rooms}</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-lg-3 col-sm-4 mb-6">
                                         <div className="media">
                                             <div className="p-2 shadow-xxs-1 rounded-lg mr-2">
-                                                <svg className="icon icon-heating fs-32 text-primary">
-                                                </svg>
+                                                <i className="fa fa-bath icon icon-sofa fs-32 text-primary">
+                                                </i>
                                             </div>
                                             <div className="media-body">
-                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">heating</h5>
-                                                <p className="mb-0 fs-13 font-weight-bold text-heading">Radiant</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3 col-sm-4 mb-6">
-                                        <div className="media">
-                                            <div className="p-2 shadow-xxs-1 rounded-lg mr-2">
-                                                <svg className="icon icon-price fs-32 text-primary">
-                                                </svg>
-                                            </div>
-                                            <div className="media-body">
-                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">SQFT</h5>
-                                                <p className="mb-0 fs-13 font-weight-bold text-heading">979.0</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3 col-sm-4 mb-6">
-                                        <div className="media">
-                                            <div className="p-2 shadow-xxs-1 rounded-lg mr-2">
-                                                <svg className="icon icon-bedroom fs-32 text-primary">
-                                                </svg>
-                                            </div>
-                                            <div className="media-body">
-                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">Bedrooms</h5>
-                                                <p className="mb-0 fs-13 font-weight-bold text-heading">3</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3 col-sm-4 mb-6">
-                                        <div className="media">
-                                            <div className="p-2 shadow-xxs-1 rounded-lg mr-2">
-                                                <svg className="icon icon-sofa fs-32 text-primary">
-                                                </svg>
-                                            </div>
-                                            <div className="media-body">
-                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">bathrooms</h5>
+                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">BATHROOMS</h5>
                                                 <p className="mb-0 fs-13 font-weight-bold text-heading">2</p>
                                             </div>
                                         </div>
@@ -207,20 +190,8 @@ const Id = () => {
                                     <div className="col-lg-3 col-sm-4 mb-6">
                                         <div className="media">
                                             <div className="p-2 shadow-xxs-1 rounded-lg mr-2">
-                                                <svg className="icon icon-Garage fs-32 text-primary">
-                                                </svg>
-                                            </div>
-                                            <div className="media-body">
-                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">GARAGE</h5>
-                                                <p className="mb-0 fs-13 font-weight-bold text-heading">1</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3 col-sm-4 mb-6">
-                                        <div className="media">
-                                            <div className="p-2 shadow-xxs-1 rounded-lg mr-2">
-                                                <svg className="icon icon-status fs-32 text-primary">
-                                                </svg>
+                                                <i className="fa fa-info-square icon icon-status fs-32 text-primary">
+                                                </i>
                                             </div>
                                             <div className="media-body">
                                                 <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">Status</h5>
@@ -235,105 +206,80 @@ const Id = () => {
                                 <div className="row">
                                     <dl className="col-sm-6 mb-0 d-flex">
                                         <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Property ID</dt>
-                                        <dd>AD-2910</dd>
+                                        <dd>{product?.prdId}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
                                         <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Price</dt>
-                                        <dd>$890.000</dd>
+                                        <dd>${product?.price}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
                                         <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Property type
                                         </dt>
-                                        <dd>Apartment, bar, cafe, villa</dd>
+                                        <dd>{product?.type && product?.type[lang].toUpperCase()}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
                                         <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Property
                                             status
                                         </dt>
-                                        <dd>For Sale</dd>
+                                        <dd>{product?.status && product?.status[lang]}</dd>
                                     </dl>
-                                    <dl className="col-sm-6 mb-0 d-flex">
+                                    {product?.status?.en !== "land" ? <dl className="col-sm-6 mb-0 d-flex">
                                         <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Rooms</dt>
-                                        <dd>4</dd>
-                                    </dl>
-                                    <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Bedrooms</dt>
-                                        <dd>3</dd>
-                                    </dl>
+                                        <dd>{product.rooms}</dd>
+                                    </dl> : null}
+                                    {product?.status?.en !== "land" ? <dl className="col-sm-6 mb-0 d-flex">
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Bathrooms</dt>
+                                        <dd>{product.baths}</dd>
+                                    </dl> : null}
                                     <dl className="col-sm-6 mb-0 d-flex">
                                         <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Size</dt>
-                                        <dd>900SqFt</dd>
+                                        <dd>{product.floorArea}SqMt</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Bathrooms</dt>
-                                        <dd>2</dd>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Floors count</dt>
+                                        <dd>{product.floorsCount}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Garage</dt>
-                                        <dd>1</dd>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Floors count</dt>
+                                        <dd>{product.currentFloor}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Bathrooms</dt>
-                                        <dd>2000 SqFt</dd>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Ceiling Height</dt>
+                                        <dd>{product.ceilingHeight}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Garage size</dt>
-                                        <dd>50 SqFt</dd>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Plot Area</dt>
+                                        <dd>{product.plotArea}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Year build</dt>
-                                        <dd>2020</dd>
-                                    </dl>
-                                    <dl className="offset-sm-6 col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Label</dt>
-                                        <dd>Bestseller</dd>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Building Type</dt>
+                                        <dd>{product?.buildingType && capitalize(product.buildingType[lang])}</dd>
                                     </dl>
                                 </div>
                             </section>
                             <section className="mt-2 pb-7 px-6 pt-5 bg-white rounded-lg">
                                 <h4 className="fs-22 text-heading mb-4">Offices Amenities</h4>
                                 <ul className="list-unstyled mb-0 row no-gutters">
-                                    <li className="col-sm-3 col-6 mb-2"><i
-                                        className="far fa-check mr-2 text-primary"></i>Balcony
+                                    <li className="col-sm-3 col-6 mb-2">
+                                        <i className={`far fa-times mr-2 text-${product?.furniture ? "primary":"reset"}`}></i>Furniture
                                     </li>
-                                    <li className="col-sm-3 col-6 mb-2"><i
-                                        className="far fa-check mr-2 text-primary"></i>Fireplace
+                                    <li className="col-sm-3 col-6 mb-2">
+                                        <i className={`far fa-times mr-2 text-${product?.elevator ? "primary":"reset"}`}></i>Elevator
                                     </li>
-                                    <li className="col-sm-3 col-6 mb-2"><i
-                                        className="far fa-check mr-2 text-primary"></i>Balcony
+                                    <li className="col-sm-3 col-6 mb-2">
+                                        <i className={`far fa-times mr-2 text-${product?.newBuilding ? "primary":"reset"}`}></i>New Building
                                     </li>
-                                    <li className="col-sm-3 col-6 mb-2"><i
-                                        className="far fa-check mr-2 text-primary"></i>Fireplace
+                                    <li className="col-sm-3 col-6 mb-2">
+                                        <i className={`far fa-times mr-2 text-${product?.balcony ? "primary":"reset"}`}></i>Balcony
                                     </li>
-                                    <li className="col-sm-3 col-6 mb-2"><i
-                                        className="far fa-check mr-2 text-primary"></i>Basement
-                                    </li>
-                                    <li className="col-sm-3 col-6 mb-2"><i
-                                        className="far fa-check mr-2 text-primary"></i>Cooling
-                                    </li>
-                                    <li className="col-sm-3 col-6 mb-2"><i
-                                        className="far fa-check mr-2 text-primary"></i>Basement
-                                    </li>
-                                    <li className="col-sm-3 col-6 mb-2"><i
-                                        className="far fa-check mr-2 text-primary"></i>Cooling
-                                    </li>
-                                    <li className="col-sm-3 col-6 mb-2"><i
-                                        className="far fa-check mr-2 text-primary"></i>Dining room
-                                    </li>
-                                    <li className="col-sm-3 col-6 mb-2"><i
-                                        className="far fa-check mr-2 text-primary"></i>Dishwasher
-                                    </li>
-                                    <li className="col-sm-3 col-6 mb-2"><i
-                                        className="far fa-check mr-2 text-primary"></i>Dining room
-                                    </li>
-                                    <li className="col-sm-3 col-6 mb-2"><i
-                                        className="far fa-check mr-2 text-primary"></i>Dishwasher
+                                    <li className="col-sm-3 col-6 mb-2">
+                                        <i className="far fa-times mr-2 text-primary"></i>Active
                                     </li>
                                 </ul>
                             </section>
                             <section className="mt-2 pb-7 px-6 pt-6 bg-white rounded-lg">
                                 <h4 className="fs-22 text-heading mb-6">Similar Homes You May Like</h4>
-                                <SliderComp/>
+                                <SliderComp items={sliderItems}/>
                             </section>
                         </div>
                     </div>

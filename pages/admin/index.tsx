@@ -11,6 +11,8 @@ import capitalize from "../../utils/helpers/capitalize";
 import {API_URL} from "../../utils/constants/api";
 import Link from "next/link";
 import ProductModal from "../../component/templates/admin/ProductModal";
+import ReactPaginate from "react-paginate";
+import {useRouter} from "next/router";
 
 const Dashboard: NextPage<{}> = () => {
     const {i18n} = useTranslation();
@@ -20,9 +22,26 @@ const Dashboard: NextPage<{}> = () => {
         founded: 0,
     });
     const [selected, setSelected] = useState<IProduct | null>(null);
+    const [page, setPage] = useState<number>(0);
+    const router = useRouter();
 
-    const getData = async (): Promise<void> => {
-        const {products, founded} = await getAdminPrd(1);
+    useEffect(() => {
+        if (!router.isReady) return;
+
+        if ("page" in router.query) {
+            setPage(Number(router.query.page) - 1)
+        }
+    }, [router.isReady])
+
+    const handlePageClick = (event: { selected: number }) => {
+        setPage(event.selected);
+
+        router.query.page = String(event.selected + 1);
+        router.push(router);
+    };
+
+    const getData = async (page: number): Promise<void> => {
+        const {products, founded} = await getAdminPrd(Number(page + 1));
 
         setItems({
             products,
@@ -49,9 +68,9 @@ const Dashboard: NextPage<{}> = () => {
 
     useEffect(() => {
         (async () => {
-            await getData();
+            await getData(page);
         })();
-    }, [selected]);
+    }, [selected, page]);
 
     return (
         <>
@@ -136,20 +155,24 @@ const Dashboard: NextPage<{}> = () => {
                             </tbody>
                         </table>
                     </div>
-                    <nav className="mt-6">
-                        <ul className="pagination rounded-active justify-content-center">
-                            <li className="page-item"><a className="page-link" href="#"><i
-                                className="far fa-angle-double-left"></i></a></li>
-                            <li className="page-item"><a className="page-link" href="#">1</a></li>
-                            <li className="page-item active"><a className="page-link" href="#">2</a></li>
-                            <li className="page-item d-none d-sm-block"><a className="page-link" href="#">3</a></li>
-                            <li className="page-item">...</li>
-                            <li className="page-item"><a className="page-link" href="#">6</a></li>
-                            <li className="page-item"><a className="page-link" href="#"><i
-                                className="far fa-angle-double-right"></i></a></li>
-                        </ul>
-                    </nav>
-                    <div className="text-center mt-2">6-10 of 29 Results</div>
+                    <ReactPaginate
+                        pageClassName={"page-item"}
+                        nextClassName={"page-item"}
+                        previousLinkClassName={"page-link"}
+                        nextLinkClassName={"page-link"}
+                        previousClassName={"page-item"}
+                        pageLinkClassName={"page-link"}
+                        activeClassName={"active"}
+                        breakLabel="..."
+                        nextLabel={<i className="far fa-angle-double-right"></i>}
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={5}
+                        pageCount={Math.ceil(items.founded / 10)}
+                        previousLabel={<i className="far fa-angle-double-left"></i>}
+                        containerClassName="pagination rounded-active justify-content-center mb-0 pt-6"
+                        hrefBuilder={() => "#"}
+                        forcePage={page}
+                    />
                 </div>
             </main>
             <ProductModal selected={selected} open={Boolean(selected && Object.keys(selected).length)}

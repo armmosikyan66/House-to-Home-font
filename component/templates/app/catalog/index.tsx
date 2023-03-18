@@ -5,7 +5,7 @@ export namespace Catalog {
     export const FilterBy = () => {
         return <Filter/>
     }
-    export const Content = ({items, count}: ContentProps) => {
-        return <ContentComp count={count} items={items}/>
+    export const Content = (props: ContentProps) => {
+        return <ContentComp {...props}/>
     }
 }
