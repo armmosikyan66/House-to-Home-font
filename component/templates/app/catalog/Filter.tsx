@@ -13,6 +13,7 @@ import capitalize from "../../../../utils/helpers/capitalize";
 
 const Filter: FC<{}> = () => {
     const {i18n} = useTranslation();
+    const {t} = useTranslation("common");
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     const [filter, setFilter] = useState<IFilter>({} as IFilter);
     const [selectedCity, setSelectedCity] = useState<string>("")
@@ -41,21 +42,15 @@ const Filter: FC<{}> = () => {
 
     return (
         <div className="col-lg-4 order-2 order-lg-1 primary-sidebar sidebar-sticky" id="sidebar">
-            <div className="primary-sidebar-inner" style={{position: "sticky", left: "auto", width: 370}}>
+            <div className="primary-sidebar-inner">
                 <div className="card mb-4">
                     <div className="card-body px-6 py-4">
-                        <h4 className="card-title fs-16 lh-2 text-dark mb-3">Find your home</h4>
+                        <h4 className="card-title fs-16 lh-2 text-dark mb-3">{t("catalog.filter.title")}</h4>
                         <form onSubmit={handleSubmit}>
-                            <div className="form-group">
-                                <label htmlFor="key-word" className="sr-only">Key Word</label>
-                                <input type="text"
-                                       className="form-control form-control-lg border-0 shadow-none"
-                                       id="key-word" placeholder="Enter keyword..."/>
-                            </div>
                             <div className="mb-2">
                                 <FormSelect
                                     options={Object.values(cities[lang])}
-                                    label={"Cities"}
+                                    label={t("catalog.filter.city")}
                                     keyWord={"city"}
                                     onChange={handleChange}
                                 />
@@ -64,7 +59,7 @@ const Filter: FC<{}> = () => {
                                 <div className="mb-2">
                                     <FormSelect
                                         options={Object.values(regions[lang][selectedCity.toLowerCase()])}
-                                        label={"Regions"}
+                                        label={t("catalog.filter.city")}
                                         keyWord={"region"}
                                         onChange={handleChange}
                                     />
@@ -73,16 +68,15 @@ const Filter: FC<{}> = () => {
                             <div className="mb-2">
                                 <FormSelect
                                     options={Object.values(types[lang])}
-                                    label={"Category"}
+                                    label={t("catalog.filter.region")}
                                     keyWord={"type"}
                                     onChange={handleChange}
                                 />
                             </div>
                             <div className="mb-2">
                                 <FormSelect
-                                    //onChange={(key, val) => handleChange(key, val, status)}
                                     options={Object.values(status[lang])}
-                                    label={"Status"}
+                                    label={t("catalog.filter.status")}
                                     keyWord={"status"}
                                     onChange={handleChange}
                                 />
@@ -91,7 +85,7 @@ const Filter: FC<{}> = () => {
                                 <div className="col">
                                     <FormSelect
                                         options={Array.from({length: 5}, (_, i) => i + 1)}
-                                        label={"Rooms"}
+                                        label={t("catalog.filter.rooms")}
                                         keyWord={"rooms"}
                                         onChange={handleChange}
                                     />
@@ -99,17 +93,17 @@ const Filter: FC<{}> = () => {
                                 <div className="col">
                                     <FormSelect
                                         options={Array.from({length: 5}, (_, i) => i + 1)}
-                                        label={"Baths"}
+                                        label={t("catalog.filter.baths")}
                                         keyWord={"baths"}
                                         onChange={handleChange}
                                     />
                                 </div>
                             </div>
-                            <label htmlFor="address" className="text-heading">{capitalize("Area Size")}</label>
+                            <label htmlFor="address" className="text-heading">{capitalize(t("catalog.filter.areaSize"))}</label>
                             <div className="form-row mb-4">
                                 <div className="col">
                                     <FormInput
-                                        placeholder={"from"}
+                                        placeholder={t("catalog.filter.from") as string}
                                         onChange={(key, value) => setFilter(prev => ({
                                             ...prev,
                                             areaSize: {
@@ -131,18 +125,18 @@ const Filter: FC<{}> = () => {
                                                 [key]: value
                                             },
                                         }))}
-                                        placeholder={"To"}
+                                        placeholder={t("catalog.filter.to") as string}
                                         type={"number"}
                                         keyWord={"to"}
                                         defaultValue={Infinity}
                                     />
                                 </div>
                             </div>
-                            <label htmlFor="address" className="text-heading">{capitalize("Price")}</label>
+                            <label htmlFor="address" className="text-heading">{capitalize(t("catalog.filter.price"))}</label>
                             <div className="form-row mb-4">
                                 <div className="col">
                                     <FormInput
-                                        placeholder={"from"}
+                                        placeholder={t("catalog.filter.from") as string}
                                         onChange={(key, value) => setFilter(prev => ({
                                             ...prev,
                                             price: {
@@ -164,7 +158,7 @@ const Filter: FC<{}> = () => {
                                                 [key]: value
                                             },
                                         }))}
-                                        placeholder={"To"}
+                                        placeholder={t("catalog.filter.to") as string}
                                         type={"number"}
                                         keyWord={"to"}
                                         defaultValue={Infinity}
@@ -172,7 +166,8 @@ const Filter: FC<{}> = () => {
                                 </div>
                             </div>
                             <button type="submit"
-                                    className="btn btn-primary btn-lg btn-block shadow-none mt-4">Search
+                                    className="btn btn-primary btn-lg btn-block shadow-none mt-4">
+                                {capitalize(t("catalog.filter.search"))}
                             </button>
                         </form>
                     </div>

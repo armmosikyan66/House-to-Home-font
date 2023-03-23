@@ -1,6 +1,8 @@
 import React from 'react';
-import {NextPage} from "next";
+import {GetStaticProps, NextPage} from "next";
 import BgImg from "../assets/images/BG3.jpg"
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../next-i18next.config";
 
 const Services: NextPage<{}> = () => {
     return (
@@ -181,5 +183,15 @@ const Services: NextPage<{}> = () => {
         </>
     );
 };
+
+export const getStaticProps: GetStaticProps<{}> = async ({locale}) => ({
+    props: {
+        ...(await serverSideTranslations(
+            locale ?? "am",
+            ['common'],
+            nextI18NextConfig
+        )),
+    },
+})
 
 export default Services;

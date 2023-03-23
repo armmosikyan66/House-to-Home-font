@@ -99,7 +99,7 @@ const ProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, imageUrl
                     <li className="list-inline-item text-gray font-weight-500 fs-13"
                         data-toggle="tooltip" title="" data-original-title="Size">
                         <i className="icon icon-bedroom fs-18 text-primary mr-1 fas fa-chart-area"></i>
-                        {floorArea} Sq.Ft
+                        {floorArea} Sq.M
                     </li>
                 </ul>
             </div>

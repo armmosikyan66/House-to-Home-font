@@ -1,16 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {MouseEvent, useEffect, useState} from 'react';
 // @ts-ignore
 import Slider from 'react-slick';
 import {useTranslation, withTranslation} from "next-i18next";
-import prdImg from "../../assets/images/properties-grid-01.jpg"
 import SliderComp from "../../component/ui/Slider";
 import {useRouter} from "next/router";
 import {IProduct} from "../../utils/types/IProduct";
 import {getOne, getRecommended} from "../../services/products";
 import {API_URL} from "../../utils/constants/api";
 import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
-import dateFormatter from "../../utils/helpers/dateFormatter";
 import capitalize from "../../utils/helpers/capitalize";
+import {GetStaticPaths, GetStaticProps, NextPage} from "next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../../next-i18next.config";
+import Link from "next/link";
+import {useTypedDispatch, useTypedSelector} from "../../redux/types/IRedux";
+import {addFavorite, removeFavorite} from "../../services/user";
+import {setUser} from "../../redux/actions/user";
 
 const PrevArrow = ({onClick}: any) => (
     <div onClick={onClick} className="slick-prev slick-arrow" aria-label="Previous" aria-disabled="false">
@@ -25,7 +30,7 @@ const NextArrow = ({onClick}: any) => {
     )
 }
 
-const Id = () => {
+const Id: NextPage<{}> = () => {
     const settings = {
         dots: false,
         infinite: true,
@@ -40,6 +45,10 @@ const Id = () => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     const [sliderItems, setSliderItems] = useState<IProduct[]>([]);
+    const user = useTypedSelector(state => state.auth.user);
+    const dispatch = useTypedDispatch();
+    const [liked, setLiked] = useState<boolean>(false);
+    const {t} = useTranslation("common");
 
     useEffect(() => {
         (async () => {
@@ -54,7 +63,26 @@ const Id = () => {
 
             setProduct(prd);
         })();
-    }, [router.isReady, router.query])
+    }, [router.isReady, router.query]);
+
+    useEffect(() => {
+        setLiked(user?.favorites?.some(fav => fav === product.id));
+    }, [user])
+
+    const handleSetFavorite = async (event: MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault();
+        if (!user || !user?.id) {
+            return;
+        }
+
+        if (!liked) {
+            const favorite = await addFavorite(user.id, String(product.id));
+            dispatch(setUser(favorite));
+        } else {
+            const favorite = await removeFavorite(user.id, String(product.id));
+            dispatch(setUser(favorite));
+        }
+    }
 
     return (
         <>
@@ -63,10 +91,10 @@ const Id = () => {
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb py-3">
                             <li className="breadcrumb-item fs-12 letter-spacing-087">
-                                <a href="index.htm">Home</a>
+                                <Link locale={lang} href="/">Home</Link>
                             </li>
                             <li className="breadcrumb-item fs-12 letter-spacing-087">
-                                <a href="listing-grid-with-left-filter.html">Listing</a>
+                                <Link href="/properties" locale={lang}>Listing</Link>
                             </li>
                             <li className="breadcrumb-item fs-12 letter-spacing-087 active">#{router.query.id}
                             </li>
@@ -76,10 +104,8 @@ const Id = () => {
                         <div className="position-absolute pos-fixed-top-right z-index-3">
                             <ul className="list-inline pt-4 pr-5">
                                 <li className="list-inline-item mr-2">
-                                    <a href="#" data-toggle="tooltip" title=""
-                                       className="d-flex align-items-center justify-content-center w-40px h-40 bg-white text-heading bg-hover-primary hover-white rounded-circle"
-                                       data-original-title="Favourite">
-                                        <i className="far fa-heart"></i></a>
+                                    <Link href="#" onClick={handleSetFavorite} className="d-flex align-items-center justify-content-center w-40px h-40 bg-white text-heading bg-hover-primary hover-white rounded-circle">
+                                        <i className="far fa-heart"></i></Link>
                                 </li>
                                 <li className="list-inline-item mr-2">
                                     <button type="button"
@@ -88,13 +114,6 @@ const Id = () => {
                                             data-html="true" data-original-title="" title="">
                                         <i className="far fa-share-alt"></i>
                                     </button>
-                                </li>
-                                <li className="list-inline-item">
-                                    <a href="#" data-toggle="tooltip" title=""
-                                       className="d-flex align-items-center justify-content-center w-40px h-40 bg-white text-heading bg-hover-primary hover-white rounded-circle"
-                                       data-original-title="Print">
-                                        <i className="far fa-print"></i>
-                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -135,7 +154,7 @@ const Id = () => {
                                         <p className="fs-22 text-heading font-weight-bold mb-0">${product?.price}</p>
                                     </div>
                                 </div>
-                                <h4 className="fs-22 text-heading mt-6 mb-2">Description</h4>
+                                <h4 className="fs-22 text-heading mt-6 mb-2">{t("singlePrd.desc")}</h4>
                                 <p className="mb-0 lh-214">Massa tempor nec feugiat nisl pretium. Egestas fringilla
                                     phasellus faucibus
                                     scelerisque eleifend donec.
@@ -149,7 +168,7 @@ const Id = () => {
                                     tincidunt.</p>
                             </section>
                             <section className="mt-2 pb-3 px-6 pt-5 bg-white rounded-lg">
-                                <h4 className="fs-22 text-heading mb-6">Facts and Features</h4>
+                                <h4 className="fs-22 text-heading mb-6">{t("singlePrd.facts").toUpperCase()}</h4>
                                 <div className="row">
                                     <div className="col-lg-3 col-sm-4 mb-6">
                                         <div className="media">
@@ -158,7 +177,7 @@ const Id = () => {
                                                 </i>
                                             </div>
                                             <div className="media-body">
-                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">SQMT</h5>
+                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">SQM</h5>
                                                 <p className="mb-0 fs-13 font-weight-bold text-heading">{product?.floorArea}</p>
                                             </div>
                                         </div>
@@ -170,7 +189,7 @@ const Id = () => {
                                                 </i>
                                             </div>
                                             <div className="media-body">
-                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">ROOMS</h5>
+                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">{t("catalog.filter.rooms").toUpperCase()}</h5>
                                                 <p className="mb-0 fs-13 font-weight-bold text-heading">{product?.rooms}</p>
                                             </div>
                                         </div>
@@ -182,8 +201,8 @@ const Id = () => {
                                                 </i>
                                             </div>
                                             <div className="media-body">
-                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">BATHROOMS</h5>
-                                                <p className="mb-0 fs-13 font-weight-bold text-heading">2</p>
+                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">{t("catalog.filter.baths").toUpperCase()}</h5>
+                                                <p className="mb-0 fs-13 font-weight-bold text-heading">{product.baths}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -194,65 +213,68 @@ const Id = () => {
                                                 </i>
                                             </div>
                                             <div className="media-body">
-                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">Status</h5>
-                                                <p className="mb-0 fs-13 font-weight-bold text-heading">Active</p>
+                                                <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">{t("catalog.filter.status").toUpperCase()}</h5>
+                                                <p className="mb-0 fs-13 font-weight-bold text-heading">{t("singlePrd.details").toUpperCase()}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </section>
                             <section className="mt-2 pb-6 px-6 pt-5 bg-white rounded-lg">
-                                <h4 className="fs-22 text-heading mb-4">Additional Details</h4>
+                                <h4 className="fs-22 text-heading mb-4">{capitalize(t("catalog.filter.active"))}</h4>
                                 <div className="row">
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Property ID</dt>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.property_id")}</dt>
                                         <dd>{product?.prdId}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Price</dt>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{capitalize(t("price"))}</dt>
                                         <dd>${product?.price}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Property type
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{capitalize(t("singlePrd.property_type"))}
                                         </dt>
                                         <dd>{product?.type && product?.type[lang].toUpperCase()}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Property
-                                            status
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{capitalize(t("singlePrd.property_status"))}
                                         </dt>
                                         <dd>{product?.status && product?.status[lang]}</dd>
                                     </dl>
                                     {product?.status?.en !== "land" ? <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Rooms</dt>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.rooms").toUpperCase()}</dt>
                                         <dd>{product.rooms}</dd>
                                     </dl> : null}
                                     {product?.status?.en !== "land" ? <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Bathrooms</dt>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("catalog.baths.rooms").toUpperCase()}</dt>
                                         <dd>{product.baths}</dd>
                                     </dl> : null}
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Size</dt>
-                                        <dd>{product.floorArea}SqMt</dd>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.areaSize").toUpperCase()}</dt>
+                                        <dd>{product.floorArea}SqM</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Floors count</dt>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.floors_count").toUpperCase()}
+                                        </dt>
                                         <dd>{product.floorsCount}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Floors count</dt>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.current_floor").toUpperCase()}
+                                        </dt>
                                         <dd>{product.currentFloor}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Ceiling Height</dt>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.ceiling_height").toUpperCase()}
+                                        </dt>
                                         <dd>{product.ceilingHeight}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Plot Area</dt>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.plot_area").toUpperCase()}</dt>
                                         <dd>{product.plotArea}</dd>
                                     </dl>
                                     <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">Building Type</dt>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.building_type").toUpperCase()}
+                                        </dt>
                                         <dd>{product?.buildingType && capitalize(product.buildingType[lang])}</dd>
                                     </dl>
                                 </div>
@@ -261,19 +283,16 @@ const Id = () => {
                                 <h4 className="fs-22 text-heading mb-4">Offices Amenities</h4>
                                 <ul className="list-unstyled mb-0 row no-gutters">
                                     <li className="col-sm-3 col-6 mb-2">
-                                        <i className={`far fa-times mr-2 text-${product?.furniture ? "primary":"reset"}`}></i>Furniture
+                                        <i className={`far fa-times mr-2 text-${product?.furniture ? "primary" : "reset"}`}></i>{capitalize(t("singlePrd.furniture"))}
                                     </li>
                                     <li className="col-sm-3 col-6 mb-2">
-                                        <i className={`far fa-times mr-2 text-${product?.elevator ? "primary":"reset"}`}></i>Elevator
+                                        <i className={`far fa-times mr-2 text-${product?.elevator ? "primary" : "reset"}`}></i>{capitalize(t("singlePrd.elevator"))}
                                     </li>
                                     <li className="col-sm-3 col-6 mb-2">
-                                        <i className={`far fa-times mr-2 text-${product?.newBuilding ? "primary":"reset"}`}></i>New Building
+                                        <i className={`far fa-times mr-2 text-${product?.newBuilding ? "primary" : "reset"}`}></i>{capitalize(t("singlePrd.newBuilding"))}
                                     </li>
                                     <li className="col-sm-3 col-6 mb-2">
-                                        <i className={`far fa-times mr-2 text-${product?.balcony ? "primary":"reset"}`}></i>Balcony
-                                    </li>
-                                    <li className="col-sm-3 col-6 mb-2">
-                                        <i className="far fa-times mr-2 text-primary"></i>Active
+                                        <i className={`far fa-times mr-2 text-${product?.balcony ? "primary" : "reset"}`}></i>{capitalize(t("singlePrd.balcony"))}
                                     </li>
                                 </ul>
                             </section>
@@ -288,5 +307,22 @@ const Id = () => {
         </>
     );
 };
+
+export const getStaticProps: GetStaticProps<{}> = async ({locale}) => ({
+    props: {
+        ...(await serverSideTranslations(
+            locale ?? "am",
+            ['common'],
+            nextI18NextConfig
+        )),
+    },
+})
+
+export const getStaticPaths: GetStaticPaths<{ id: string }> = async () => {
+    return {
+        paths: [], //indicates that no page needs be created at build time
+        fallback: 'blocking' //indicates the type of fallback
+    }
+}
 
 export default withTranslation("common")(Id);

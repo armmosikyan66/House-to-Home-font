@@ -31,19 +31,42 @@ const SliderComp: FC<SliderProps> = ({items}) => {
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
 
     const settings = {
-        dots: true,
+        dots: false,
         infinite: true,
         speed: 500,
         slidesToShow: 4,
         slidesToScroll: 1,
         prevArrow: <PrevArrow/>,
         nextArrow: <NextArrow/>,
-        appendDots: (dots: any) => (
-            <ul className={"slick-dots"}>{dots}</ul>
-        ),
         customPaging: (i: number) => (
             <span key={i}></span>
-        )
+        ),
+        responsive: [
+            {
+                breakpoint: 1920,
+                settings: {
+                    slidesToShow: 4,
+                },
+            },
+            {
+                breakpoint: 1600,
+                settings: {
+                    slidesToShow: 3,
+                },
+            },
+            {
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 2,
+                },
+            },
+            {
+                breakpoint: 575,
+                settings: {
+                    slidesToShow: 1,
+                },
+            },
+        ]
     };
 
     return (
@@ -89,7 +112,7 @@ const SliderComp: FC<SliderProps> = ({items}) => {
                                     <li className="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-5"
                                         data-toggle="tooltip" title="" data-original-title="Size">
                                         <i className="icon icon-bedroom fs-18 text-primary mr-1 fas fa-chart-area"></i>
-                                        {item.floorArea} Sq.Ft
+                                        {item.floorArea} Sq.M
                                     </li>
                                 </ul>
                             </div>

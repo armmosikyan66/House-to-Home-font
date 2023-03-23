@@ -77,7 +77,7 @@ const Sidebar: FC<{}> = () => {
                                            placeholder="Search for..." name="search"/>
                                 </div>
                             </form>
-                            <ul className="mb-2 list-group list-group-no-border rounded-lg">
+                            <ul className="py-5 px-2 w-100 mb-2 list-group list-group-no-border rounded-lg">
                                 <li className="list-group-item px-3 px-xl-4 py-2 sidebar-item">
                                     <Link href="/admin" locale={lang} className="text-heading lh-1 sidebar-link">
                                         <span className="sidebar-item-text">Products</span>

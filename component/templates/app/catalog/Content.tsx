@@ -4,6 +4,7 @@ import {IProduct} from "../../../../utils/types/IProduct";
 import ProductCardLg from '../../../ui/ProductCardLg';
 import ReactPaginate from 'react-paginate';
 import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
 
 export type ContentProps = {
     items: IProduct[];
@@ -14,6 +15,7 @@ export type ContentProps = {
 const Content: FC<ContentProps> = ({items, count, founded}) => {
     const [page, setPage] = useState<number>(0);
     const router = useRouter();
+    const {t} = useTranslation("common");
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -28,7 +30,6 @@ const Content: FC<ContentProps> = ({items, count, founded}) => {
 
         router.query.page = String(event.selected + 1);
         router.push(router)
-
     };
 
     return (

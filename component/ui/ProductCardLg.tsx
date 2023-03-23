@@ -68,7 +68,7 @@ const ProductCardLg: FC<IProduct> = ({prdId, desc, region, city, imageUrl, rooms
                     <li className="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-5"
                         data-toggle="tooltip" title="" data-original-title="Year">
                         <i className="icon icon-bedroom fs-18 text-primary mr-1 fas fa-chart-area"></i>
-                        {floorArea} Sq.Ft
+                        {floorArea} Sq.M
                     </li>
                 </ul>
                 <span

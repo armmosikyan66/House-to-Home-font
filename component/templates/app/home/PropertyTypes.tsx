@@ -4,30 +4,33 @@ import Apartment from "../../../../assets/images/architecture-and-city.png";
 import Villa from "../../../../assets/images/eco-house.png";
 import Building from "../../../../assets/images/verified.png";
 import Link from "next/link";
-
-const content = [
-    {title: "House", image: House.src},
-    {title: "Apartment", image: Apartment.src},
-    {title: "Office", image: Building.src},
-    {title: "Land", image: Villa.src},
-]
+import {useTranslation} from "next-i18next";
+import {LanguagesKeys} from "../../../../utils/types/ILanguagesKeys";
+import {types} from "../../../../utils/constants/productInfo";
 
 const PropertyTypes = () => {
+    const { t } = useTranslation('common');
+    const {i18n} = useTranslation();
+    const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const content = [
+        {title: types[lang].house, image: House.src},
+        {title: types[lang].apartment, image: Apartment.src},
+        {title: types[lang].office, image: Building.src},
+        {title: types[lang].land, image: Villa.src},
+    ]
+
     return (
         <section data-animated-id="3">
             <div className="bg-gray-02 py-lg-13 pt-11 pb-6">
                 <div className="container container-xxl">
                     <div className="row">
                         <div className="col-lg-4 pr-xl-13 fadeInLeft animated" data-animate="fadeInLeft">
-                            <h2 className="text-heading lh-1625">Explore <br/>
-                                by Property Type</h2>
+                            <h2 className="text-heading lh-1625">{t("home.byTypes.title")}</h2>
                             <span className="heading-divider"></span>
-                            <p className="mb-6">Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe ndisse
-                                suscipit</p>
-                            <a href="listing-grid-with-left-filter.html"
-                               className="btn btn-lg text-secondary btn-accent">+2300 Available Properties
+                            <Link href="/properties" locale={lang}
+                               className="btn btn-lg text-secondary btn-accent">{t("home.byTypes.btnText")}
                                 <i className="far fa-long-arrow-right ml-1"></i>
-                            </a>
+                            </Link>
                         </div>
                         <div className="col-lg-8 fadeInRight animated" data-animate="fadeInRight">
                             <div className="slick-slider arrow-haft-inner custom-arrow-xxl-hide mx-0 slick-initialized">

@@ -12,6 +12,7 @@ import {useRouter} from "next/router";
 import {decodeParams} from "../../utils/helpers/queryString";
 
 const Index: NextPage<{}> = () => {
+    const {t} = useTranslation("common");
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     const router = useRouter();
@@ -53,14 +54,10 @@ const Index: NextPage<{}> = () => {
                     <Catalog.FilterBy/>
                     <div className="col-lg-8 mb-8 mb-lg-0 order-1 order-lg-2">
                         <div className="row align-items-sm-center mb-6">
-                            <div className="col-md-6">
-                                <h2 className="fs-15 text-dark mb-0">We found <span
-                                    className="text-primary">{items.founded}</span> properties
-                                    available for
-                                    you
-                                </h2>
+                            <div className="col-md-10">
+                                <h2 className="fs-15 text-dark mb-0" dangerouslySetInnerHTML={{__html: t("catalog.founded", {count: items.founded})}}/>
                             </div>
-                            <div className="col-md-6 mt-6 mt-md-0">
+                            <div className="col-md-2 mt-6 mt-md-0">
                                 <div className="d-flex justify-content-md-end align-items-center">
                                     <div className="d-none d-md-block">
                                         <Link onClick={handleChangeCount} id={"1"}
@@ -94,6 +91,5 @@ export const getStaticProps: GetStaticProps<{}> = async ({locale}) => ({
         )),
     },
 })
-
 
 export default Index;

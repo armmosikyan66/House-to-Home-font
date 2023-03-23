@@ -12,14 +12,14 @@ export const cities: ITrans = {
         syunik: "Syunik",
         tavush: "Tavush",
         'vayots dzor': "Vayots Dzor",
-        yerevan: "Yerevan"
+        erevan: "Erevan"
     },
     am: {
         aragatsotn: "Արագածոտն",
         ararat: "Արարատ",
         armavir: "Արմավիր",
-        geghar: "Գեղարքունիք",
-        gegharkunik: "Կոտայք",
+        gegharkunik: "Գեղարքունիք",
+        kotayk: "Կոտայք",
         lori: "Լոռի",
         shirak: "Շիրակ",
         syunik: "Սյունիք",
@@ -38,6 +38,6 @@ export const cities: ITrans = {
         syunik: "Сюник",
         tavush: "Тавуш",
         'vayots dzor': "Вайоц Дзор",
-        yerevan: "Ереван"
+        erevan: "Ереван"
     }
 }

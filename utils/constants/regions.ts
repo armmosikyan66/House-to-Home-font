@@ -2,7 +2,7 @@ import {IRegions} from "../types/ILanguagesKeys";
 
 export const regions: IRegions = {
     ru: {
-        yerevan: [
+        erevan: [
             "Ачапняк",
             "Арабкир",
             "Аван",
@@ -678,7 +678,7 @@ export const regions: IRegions = {
             "Енокаван",
             "Зоракан",
         ],
-        'vayoc dzor': [
+        'vayots dzor': [
             "Джермук",
             "Вайк",
             "Егегнадзор",
@@ -719,7 +719,7 @@ export const regions: IRegions = {
         ],
     },
     am: {
-        yerevan: [
+        erevan: [
             "Աջափնյակ",
             "Արաբկիր",
             "Ավան",
@@ -1470,7 +1470,7 @@ export const regions: IRegions = {
             "Ենոքավան",
             "Զորական",
         ],
-        'vayoc dzor': [
+        'vayots dzor': [
             "Ջերմուկ",
             "Վայք",
             "Եղեգնաձոր",
@@ -1511,7 +1511,7 @@ export const regions: IRegions = {
         ],
     },
     en: {
-        yerevan: [
+        erevan: [
             "Ajapnyak",
             "Arabkir",
             "Avan",
@@ -2188,7 +2188,7 @@ export const regions: IRegions = {
             "Yenokavan",
             "Zorakan",
         ],
-        'vayoc dzor': [
+        'vayots dzor': [
             "Jermuk",
             "Vayk",
             "Yeghegnadzor",

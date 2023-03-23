@@ -1622,9 +1622,9 @@ export const strings = {
             "Syunik",
             "Tavush",
             "Vayots Dzor",
-            "Yerevan",
+            "Erevan",
         ],
-        yerevan: [
+        erevan: [
             "Ajapnyak",
             "Arabkir",
             "Avan",

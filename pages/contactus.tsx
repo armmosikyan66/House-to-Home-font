@@ -1,5 +1,7 @@
 import React from 'react';
-import {NextPage} from "next";
+import {GetStaticProps, NextPage} from "next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../next-i18next.config";
 
 const Contactus: NextPage<{}> = () => {
     return (
@@ -137,5 +139,15 @@ const Contactus: NextPage<{}> = () => {
         </section>
     );
 };
+
+export const getStaticProps: GetStaticProps<{}> = async ({locale}) => ({
+    props: {
+        ...(await serverSideTranslations(
+            locale ?? "am",
+            ['common'],
+            nextI18NextConfig
+        )),
+    },
+})
 
 export default Contactus;

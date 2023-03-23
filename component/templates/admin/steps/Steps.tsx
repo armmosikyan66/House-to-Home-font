@@ -41,7 +41,6 @@ const Steps: FC<{}> = () => {
         })
 
         const prd = await createPrd(data);
-        console.log(prd)
     }
 
     return (
