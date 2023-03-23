@@ -90,7 +90,13 @@
     "newBuilding": "New Building",
     "balcony": "balcony",
     "similar": "Similar Homes You May Like",
-    "details": "Additional Details"
+    "details": "Additional Details",
+    "recommended": {
+      "house": "Similar Homes You Might Like",
+      "office": "Such Offices You May Like",
+      "land": "Lands You Might Like",
+      "apartment": "Similar Apartments You'll Like"
+    }
   },
   "contactus": {
     "title": "For more information about our services, get in touch with our expert consultants. We're always eager to hear from you!",
