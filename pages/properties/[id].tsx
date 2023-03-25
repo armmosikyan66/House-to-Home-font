@@ -49,13 +49,16 @@ const Id: NextPage<{}> = () => {
     const dispatch = useTypedDispatch();
     const [liked, setLiked] = useState<boolean>(false);
     const {t} = useTranslation("common");
-
+    const isNewBuilding = product.newBuilding ? " of a newly built" : null;
+    const isHasElevator = product.elevator ? " has a elevator" : null;
+    const isOnFloor = product?.type && product?.type[lang] === "house" || "дом" || "տուն" ? "" : `,on the ${product?.currentFloor}th floor`
+    const isHasFurniture = product.furniture ? " Furniture and equipment completely new. " : null;
     useEffect(() => {
         (async () => {
             if (!router.isReady && !router.query.id || typeof router.query.id !== "string") return;
 
             const prd = await getOne(router.query.id);
-
+            console.log(router.query.id)
             if (prd?.status?.en) {
                 const items = await getRecommended(prd.status["en"] as "rent" | "sale", "en");
                 setSliderItems(items);
@@ -83,7 +86,6 @@ const Id: NextPage<{}> = () => {
             dispatch(setUser(favorite));
         }
     }
-
     return (
         <>
             <section className="pt-16 bg-white shadow-5 pb-7">
@@ -104,7 +106,8 @@ const Id: NextPage<{}> = () => {
                         <div className="position-absolute pos-fixed-top-right z-index-3">
                             <ul className="list-inline pt-4 pr-5">
                                 <li className="list-inline-item mr-2">
-                                    <Link href="#" onClick={handleSetFavorite} className="d-flex align-items-center justify-content-center w-40px h-40 bg-white text-heading bg-hover-primary hover-white rounded-circle">
+                                    <Link href="#" onClick={handleSetFavorite}
+                                          className="d-flex align-items-center justify-content-center w-40px h-40 bg-white text-heading bg-hover-primary hover-white rounded-circle">
                                         <i className="far fa-heart"></i></Link>
                                 </li>
                                 <li className="list-inline-item mr-2">
@@ -155,17 +158,18 @@ const Id: NextPage<{}> = () => {
                                     </div>
                                 </div>
                                 <h4 className="fs-22 text-heading mt-6 mb-2">{t("singlePrd.desc")}</h4>
-                                <p className="mb-0 lh-214">Massa tempor nec feugiat nisl pretium. Egestas fringilla
-                                    phasellus faucibus
-                                    scelerisque eleifend donec.
-                                    Porta nibh venenatis cras sed felis eget velit aliquet. Neque volutpat ac tincidunt
-                                    vitae semper
-                                    quis lectus. Turpis in eu mi bibendum neque
-                                    egestas congue quisque. Sed elementum tempus egestas sed sed risus pretium quam.
-                                    Dignissim sodales
-                                    ut eu sem. Nibh mauris cursus mattis molestie a
-                                    iaculis at erat pellentesque. Id interdum velit laoreet id donec ultrices
-                                    tincidunt.</p>
+                                <p className="mb-0 lh-214" dangerouslySetInnerHTML={{
+                                    __html: t("singlePrd.dynamicDesc", {
+                                        type: product?.type && capitalize(product?.type[lang]),
+                                        address: product?.address,
+                                        buildingType: product?.buildingType && product?.buildingType[lang],
+                                        isOnFloor: isOnFloor,
+                                        floorsCount: product?.floorsCount,
+                                        floorArea: product?.floorArea,
+                                        isHasElevator: isHasElevator,
+                                        rooms: product?.rooms
+                                    })
+                                }}/>
                             </section>
                             <section className="mt-2 pb-3 px-6 pt-5 bg-white rounded-lg">
                                 <h4 className="fs-22 text-heading mb-6">{t("singlePrd.facts").toUpperCase()}</h4>
@@ -246,7 +250,7 @@ const Id: NextPage<{}> = () => {
                                         <dd>{product.rooms}</dd>
                                     </dl> : null}
                                     {product?.status?.en !== "land" ? <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("catalog.baths.rooms").toUpperCase()}</dt>
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.baths").toUpperCase()}</dt>
                                         <dd>{product.baths}</dd>
                                     </dl> : null}
                                     <dl className="col-sm-6 mb-0 d-flex">

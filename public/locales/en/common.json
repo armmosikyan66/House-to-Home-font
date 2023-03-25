@@ -90,7 +90,8 @@
     "newBuilding": "New Building",
     "balcony": "balcony",
     "similar": "Similar Homes You May Like",
-    "details": "Additional Details"
+    "details": "Additional Details",
+    "dynamicDesc": "<span>{{type}}</span> <span>{{address}}</span> <span>{{buildingType}}</span>, <span>{{isOnFloor}}</span> <span>{{floorsCount}}</span> հարկանի քարե շենքի <span>{{floorArea}}</span> քմ ընդհանուր մակերեսով, <span>{{isHasElevator}} '?'</span> <span>{{rooms}}</span> սենյակ, <span>{{baths}}</span> սանհանգույց կոմունալ բոլոր հարմարություններով։ <span>{{isHasFurniture}}</span>։ Լրացուցիչ տեղեկությունների համար զանգահարել՝"
   },
   "contactus": {
     "title": "For more information about our services, get in touch with our expert consultants. We're always eager to hear from you!",
