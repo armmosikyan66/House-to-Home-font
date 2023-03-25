@@ -19,8 +19,8 @@ export const removeFavorite = async (userId: string, propertyId: string) => {
     }
 }
 
-export const getFavorites = async () => {
-    const {data} = await $api.get("/get-saved");
+export const getFavorites = async (favorites: string[]) => {
+    const {data} = await $api.post("/get-saved", {favorites});
 
     return data;
 }

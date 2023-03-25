@@ -66,14 +66,19 @@ const First: FC<StepsProps> = ({setProductFields, productFields}) => {
                                                             options={Object.values(types[lang])}
                                                             label={"Category"}
                                                             keyWord={"type"}
+                                                            selected={productFields?.type ? productFields?.type[lang] : undefined}
                                                         />
                                                     </div>
                                                     <div className="">
                                                         <FormSelect
-                                                            onChange={(key, val) => setProductFields(prev => ({...prev, [key]: val}))}
+                                                            onChange={(key, val) => setProductFields(prev => ({
+                                                                ...prev,
+                                                                [key]: val
+                                                            }))}
                                                             options={[true, false]}
                                                             label={"Public"}
                                                             keyWord={"public"}
+                                                            selected={productFields?.public ? productFields?.public : undefined}
                                                         />
                                                     </div>
                                                 </div>
@@ -94,6 +99,7 @@ const First: FC<StepsProps> = ({setProductFields, productFields}) => {
                                                                 options={Object.values(status[lang])}
                                                                 label={"Category"}
                                                                 keyWord={"status"}
+                                                                selected={productFields?.status ? productFields?.status[lang] : undefined}
                                                             />
                                                         </div>
                                                     </div>

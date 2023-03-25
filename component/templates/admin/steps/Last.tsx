@@ -6,7 +6,7 @@ import {useTranslation} from "next-i18next";
 import {ITrans, LanguagesKeys} from "../../../../utils/types/ILanguagesKeys";
 import FormSelect from "../../../ui/FormSelect";
 
-const Last: FC<StepsProps> = ({setProductFields}) => {
+const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
 
@@ -14,11 +14,11 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
         setProductFields(prev => ({...prev, [key]: value}))
     }
 
-    const handleChangeType = (key: string, value: string | number | boolean, obj: ITrans):  void => {
+    const handleChangeType = (key: string, value: string | number | boolean, obj: ITrans): void => {
         const keyword = Object.keys(obj[lang]).find(key => obj[lang][key] === value.toString());
         if (!keyword) return;
 
-       const options = {
+        const options = {
             am: obj["am"][keyword].toString().toLowerCase(),
             en: obj["en"][keyword].toString().toLowerCase(),
             ru: obj["ru"][keyword].toString().toLowerCase(),
@@ -56,28 +56,46 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
                                 <div className="row align-items-end">
                                     <div className="col-lg-4">
                                         <div className="mb-2">
-                                            <FormInput label={"Size in Mt (only numbers)"} type={"number"}
-                                                       keyWord={"floorArea"}
-                                                       onChange={handleChange}/>
+                                            <FormInput
+                                                label={"Size in Mt (only numbers)"}
+                                                type={"number"}
+                                                keyWord={"floorArea"}
+                                                onChange={handleChange}
+                                                defaultValue={productFields?.floorArea ? productFields?.floorArea : undefined}
+                                            />
                                         </div>
                                     </div>
                                     <div className="col-lg-4">
                                         <div className="mb-2">
-                                            <FormInput label={"Price (only numbers)"} type={"number"}
-                                                       keyWord={"price"}
-                                                       onChange={handleChange}/>
+                                            <FormInput
+                                                label={"Price (only numbers)"}
+                                                type={"number"}
+                                                keyWord={"price"}
+                                                onChange={handleChange}
+                                                defaultValue={productFields?.price ? productFields?.price : undefined}
+                                            />
                                         </div>
                                     </div>
                                     <div className="col-lg-4">
                                         <div className="mb-2">
-                                            <FormInput label={"Rooms"} type={"number"} keyWord={"rooms"}
-                                                       onChange={handleChange}/>
+                                            <FormInput
+                                                label={"Rooms"}
+                                                type={"number"}
+                                                keyWord={"rooms"}
+                                                onChange={handleChange}
+                                                defaultValue={productFields?.rooms ? productFields?.rooms : undefined}
+                                            />
                                         </div>
                                     </div>
                                     <div className="col-lg-4">
                                         <div className="mb-2">
-                                            <FormInput label={"Baths"} type={"number"} keyWord={"baths"}
-                                                       onChange={handleChange}/>
+                                            <FormInput
+                                                label={"Baths"}
+                                                type={"number"}
+                                                keyWord={"baths"}
+                                                onChange={handleChange}
+                                                defaultValue={productFields?.baths ? productFields?.baths : undefined}
+                                            />
                                         </div>
                                     </div>
                                     <div className="col-lg-4">
@@ -87,6 +105,7 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
                                                 label={"Ceiling height (only numbers)"}
                                                 type={"number"}
                                                 onChange={handleChange}
+                                                defaultValue={productFields?.ceilingHeight ? productFields?.ceilingHeight : undefined}
                                             />
                                         </div>
                                     </div>
@@ -97,6 +116,7 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
                                                 label={"Plot Area in MT (only numbers)"}
                                                 type={"number"}
                                                 onChange={handleChange}
+                                                defaultValue={productFields?.plotArea ? productFields?.plotArea : undefined}
                                             />
                                         </div>
                                     </div>
@@ -107,6 +127,7 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
                                                 label={"Current Floor (only numbers)"}
                                                 type={"number"}
                                                 onChange={handleChange}
+                                                defaultValue={productFields?.currentFloor ? productFields?.currentFloor : undefined}
                                             />
                                         </div>
                                     </div>
@@ -117,6 +138,7 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
                                                 label={"Floors Count (only numbers)"}
                                                 type={"number"}
                                                 onChange={handleChange}
+                                                defaultValue={productFields?.floorsCount ? productFields?.floorsCount : undefined}
                                             />
                                         </div>
                                     </div>
@@ -127,6 +149,7 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
                                                 options={Object.values(buildingTypes[lang])}
                                                 label={"buildingType"}
                                                 onChange={(key, val) => handleChangeType(key, val, buildingTypes)}
+                                                selected={productFields?.buildingType ? productFields?.buildingType[lang] : undefined}
                                             />
                                         </div>
                                     </div>
@@ -137,6 +160,7 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
                                                 options={[true, false]}
                                                 label={"New Building"}
                                                 keyWord={"newBuilding"}
+                                                selected={productFields?.newBuilding ? productFields?.newBuilding : undefined}
                                             />
                                         </div>
                                     </div>
@@ -147,6 +171,7 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
                                                 options={[true, false]}
                                                 label={"Balcony"}
                                                 keyWord={"balcony"}
+                                                selected={productFields?.balcony ? productFields?.balcony : undefined}
                                             />
                                         </div>
                                     </div>
@@ -157,6 +182,7 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
                                                 options={[true, false]}
                                                 label={"Elevator"}
                                                 keyWord={"elevator"}
+                                                selected={productFields?.elevator ? productFields?.elevator : undefined}
                                             />
                                         </div>
                                     </div>
@@ -167,6 +193,7 @@ const Last: FC<StepsProps> = ({setProductFields}) => {
                                                 options={[true, false]}
                                                 label={"Furniture"}
                                                 keyWord={"furniture"}
+                                                selected={productFields?.furniture ? productFields?.furniture : undefined}
                                             />
                                         </div>
                                     </div>

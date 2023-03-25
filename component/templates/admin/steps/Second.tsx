@@ -12,7 +12,7 @@ interface ImageUploaderProps extends StepsProps {
     onChange?: (files: ImageFile[]) => void;
 }
 
-const Second: React.FC<ImageUploaderProps> = ({onChange, setProductFields}) => {
+const Second: React.FC<ImageUploaderProps> = ({onChange, setProductFields, productFields}) => {
     const [imageFiles, setImageFiles] = useState<ImageFile[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
