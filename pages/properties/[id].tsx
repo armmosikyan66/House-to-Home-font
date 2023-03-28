@@ -169,7 +169,7 @@ const Id: NextPage<{}> = () => {
                                         floorsCount: product?.floorsCount,
                                         floorArea: product?.floorArea,
                                         isHasElevator: isHasElevator,
-                                        rooms: product?.rooms,
+                                        rooms: product?.rooms
                                         baths: product?.baths,
                                         isHasFurniture: isHasFurniture,
                                         isNewBuilding: isNewBuilding
