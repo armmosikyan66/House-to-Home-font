@@ -17,12 +17,13 @@ import {useTypedDispatch, useTypedSelector} from "../../redux/types/IRedux";
 import {addFavorite, removeFavorite} from "../../services/user";
 import {setUser} from "../../redux/actions/user";
 
-const PrevArrow = ({onClick}: any) => (
+
+const PrevArrow = ({onClick}: { onClick?: () => void }) => (
     <div onClick={onClick} className="slick-prev slick-arrow" aria-label="Previous" aria-disabled="false">
         <i className="far fa-angle-left"></i>
     </div>
 )
-const NextArrow = ({onClick}: any) => {
+const NextArrow = ({onClick}: { onClick?: () => void }) => {
     return (
         <div onClick={onClick} className="slick-next slick-arrow" aria-label="Next" aria-disabled="true">
             <i className="far fa-angle-right"></i>
@@ -49,10 +50,11 @@ const Id: NextPage<{}> = () => {
     const dispatch = useTypedDispatch();
     const [liked, setLiked] = useState<boolean>(false);
     const {t} = useTranslation("common");
-    const isNewBuilding = product.newBuilding ? " of a newly built" : null;
-    const isHasElevator = product.elevator ? " has a elevator" : null;
-    const isOnFloor = product?.type && product?.type[lang] === "house" || "дом" || "տուն" ? "" : `,on the ${product?.currentFloor}th floor`
-    const isHasFurniture = product.furniture ? " Furniture and equipment completely new. " : null;
+    const isNewBuilding = product?.newBuilding ? t("singlePrd.isHas.isNewBuilding") : null;
+    const isHasElevator = product?.elevator ? t("singlePrd.isHas.elevator") : null;
+    const isOnFloor = product?.type && product?.type[lang] === 'house' || 'дом' || 'տուն' ? null : t("singlePrd.isHas.inFloor", {currentFloor: product?.currentFloor});
+    const isHasFurniture = product?.furniture ? t("singlePrd.isHas.isHasFurniture") : null;
+
     useEffect(() => {
         (async () => {
             if (!router.isReady && !router.query.id || typeof router.query.id !== "string") return;
@@ -67,7 +69,7 @@ const Id: NextPage<{}> = () => {
             setProduct(prd);
         })();
     }, [router.isReady, router.query]);
-
+    console.log(isOnFloor)
     useEffect(() => {
         setLiked(user?.favorites?.some(fav => fav === product.id));
     }, [user])
@@ -126,9 +128,9 @@ const Id: NextPage<{}> = () => {
                                      aria-hidden="false" style={{maxWidth: "100%"}}>
                                     <div className="item item-size-3-2">
                                         <div className="card p-0 hover-change-image">
-                                            <a href="images/single-property-lg-1.jpg" className="card-img"
+                                            <div className="card-img"
                                                style={{backgroundImage: `url('${API_URL}${img}')`}}>
-                                            </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -168,6 +170,9 @@ const Id: NextPage<{}> = () => {
                                         floorArea: product?.floorArea,
                                         isHasElevator: isHasElevator,
                                         rooms: product?.rooms
+                                        baths: product?.baths,
+                                        isHasFurniture: isHasFurniture,
+                                        isNewBuilding: isNewBuilding
                                     })
                                 }}/>
                             </section>
@@ -218,73 +223,73 @@ const Id: NextPage<{}> = () => {
                                             </div>
                                             <div className="media-body">
                                                 <h5 className="my-1 fs-14 text-uppercase letter-spacing-093 font-weight-normal">{t("catalog.filter.status").toUpperCase()}</h5>
-                                                <p className="mb-0 fs-13 font-weight-bold text-heading">{t("singlePrd.details").toUpperCase()}</p>
+                                                <p className="mb-0 fs-13 font-weight-bold text-heading">{t("singlePrd.active").toUpperCase()}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </section>
                             <section className="mt-2 pb-6 px-6 pt-5 bg-white rounded-lg">
-                                <h4 className="fs-22 text-heading mb-4">{capitalize(t("catalog.filter.active"))}</h4>
+                                <h4 className="fs-22 text-heading mb-4">{capitalize(t("singlePrd.details"))}</h4>
                                 <div className="row">
-                                    <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.property_id")}</dt>
-                                        <dd>{product?.prdId}</dd>
+                                    <dl className="col-sm-6 mb-0 d-flex justify-content-between ">
+                                        <dt className="fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.property_id")}</dt>
+                                        <dd>#{product?.prdId}</dd>
                                     </dl>
-                                    <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{capitalize(t("price"))}</dt>
+                                    <dl className="col-sm-6 mb-0 d-flex justify-content-between ">
+                                        <dt className="fs-14 font-weight-500 text-heading pr-2">{capitalize(t("price"))}</dt>
                                         <dd>${product?.price}</dd>
                                     </dl>
-                                    <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{capitalize(t("singlePrd.property_type"))}
+                                    <dl className="col-sm-6 mb-0 d-flex justify-content-between">
+                                        <dt className="fs-14 font-weight-500 text-heading pr-2">{capitalize(t("singlePrd.property_type"))}
                                         </dt>
                                         <dd>{product?.type && product?.type[lang].toUpperCase()}</dd>
                                     </dl>
-                                    <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{capitalize(t("singlePrd.property_status"))}
+                                    <dl className="col-sm-6 justify-content-between  mb-0 d-flex">
+                                        <dt className="fs-14 font-weight-500 text-heading pr-2">{capitalize(t("singlePrd.property_status"))}
                                         </dt>
                                         <dd>{product?.status && product?.status[lang]}</dd>
                                     </dl>
-                                    {product?.status?.en !== "land" ? <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.rooms").toUpperCase()}</dt>
+                                    {product?.status?.en !== "land" ? <dl className="col-sm-6 mb-0 d-flex justify-content-between">
+                                        <dt className="fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.rooms").toUpperCase()}</dt>
                                         <dd>{product.rooms}</dd>
                                     </dl> : null}
                                     {product?.status?.en !== "land" ? <dl className="col-sm-6 mb-0 d-flex">
                                         <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.baths").toUpperCase()}</dt>
                                         <dd>{product.baths}</dd>
                                     </dl> : null}
-                                    <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.areaSize").toUpperCase()}</dt>
+                                    <dl className="col-sm-6 mb-0 d-flex justify-content-between">
+                                        <dt className="fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.areaSize").toUpperCase()}</dt>
                                         <dd>{product.floorArea}SqM</dd>
                                     </dl>
-                                    <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.floors_count").toUpperCase()}
+                                    <dl className="col-sm-6 mb-0 d-flex justify-content-between">
+                                        <dt className="fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.floors_count").toUpperCase()}
                                         </dt>
                                         <dd>{product.floorsCount}</dd>
                                     </dl>
-                                    <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.current_floor").toUpperCase()}
+                                    <dl className="col-sm-6 mb-0 d-flex justify-content-between">
+                                        <dt className="fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.current_floor").toUpperCase()}
                                         </dt>
                                         <dd>{product.currentFloor}</dd>
                                     </dl>
-                                    <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.ceiling_height").toUpperCase()}
+                                    <dl className="col-sm-6 mb-0 d-flex justify-content-between">
+                                        <dt className="fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.ceiling_height").toUpperCase()}
                                         </dt>
                                         <dd>{product.ceilingHeight}</dd>
                                     </dl>
-                                    <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.plot_area").toUpperCase()}</dt>
+                                    <dl className="col-sm-6 mb-0 d-flex justify-content-between">
+                                        <dt className="fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.plot_area").toUpperCase()}</dt>
                                         <dd>{product.plotArea}</dd>
                                     </dl>
-                                    <dl className="col-sm-6 mb-0 d-flex">
-                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.building_type").toUpperCase()}
+                                    <dl className="col-sm-6 mb-0 d-flex justify-content-between">
+                                        <dt className="fs-14 font-weight-500 text-heading pr-2">{t("singlePrd.building_type").toUpperCase()}
                                         </dt>
                                         <dd>{product?.buildingType && capitalize(product.buildingType[lang])}</dd>
                                     </dl>
                                 </div>
                             </section>
                             <section className="mt-2 pb-7 px-6 pt-5 bg-white rounded-lg">
-                                <h4 className="fs-22 text-heading mb-4">Offices Amenities</h4>
+                                <h4 className="fs-22 text-heading mb-4">{capitalize(t("singlePrd.amenities"))}</h4>
                                 <ul className="list-unstyled mb-0 row no-gutters">
                                     <li className="col-sm-3 col-6 mb-2">
                                         <i className={`far fa-times mr-2 text-${product?.furniture ? "primary" : "reset"}`}></i>{capitalize(t("singlePrd.furniture"))}
@@ -301,7 +306,7 @@ const Id: NextPage<{}> = () => {
                                 </ul>
                             </section>
                             <section className="mt-2 pb-7 px-6 pt-6 bg-white rounded-lg">
-                                <h4 className="fs-22 text-heading mb-6">Similar Homes You May Like</h4>
+                                <h4 className="fs-22 text-heading mb-6">{t(`singlePrd.recommended.${product.type && product?.type.en}`)}</h4>
                                 <SliderComp items={sliderItems}/>
                             </section>
                         </div>

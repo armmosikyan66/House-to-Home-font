@@ -91,7 +91,19 @@
     "balcony": "balcony",
     "similar": "Similar Homes You May Like",
     "details": "Additional Details",
-    "dynamicDesc": "<span>{{type}}</span> <span>{{address}}</span> <span>{{buildingType}}</span>, <span>{{isOnFloor}}</span> <span>{{floorsCount}}</span> հարկանի քարե շենքի <span>{{floorArea}}</span> քմ ընդհանուր մակերեսով, <span>{{isHasElevator}} '?'</span> <span>{{rooms}}</span> սենյակ, <span>{{baths}}</span> սանհանգույց կոմունալ բոլոր հարմարություններով։ <span>{{isHasFurniture}}</span>։ Լրացուցիչ տեղեկությունների համար զանգահարել՝"
+    "recommended": {
+      "house": "Similar Homes You Might Like",
+      "office": "Such Offices You May Like",
+      "land": "Lands You Might Like",
+      "apartment": "Similar Apartments You'll Like"
+    },
+    "isHas": {
+      "elevator": "has elevator",
+      "inFloor": "on the <span>{{currentFloor}}</span>th floor",
+      "isNewBuilding": "of a newly built",
+      "isHasFurniture": "Furniture and equipment completely new. "
+    },
+    "dynamicDesc": "<span>{{type}}</span> <span>{{address}}</span> <span>{{isOnFloor}}</span>, <span>{{isNewBuilding}}</span> <span>{{floorsCount}}</span>-story building with a total area of <span>{{floorArea}}</span> square meters, <span>{{isHasElevator}}</span> <span>{{rooms}}</span> rooms, <span>{{baths}}</span> baths with all utilities. <span>{{isHasFurniture}}</span> For more information call"
   },
   "contactus": {
     "title": "For more information about our services, get in touch with our expert consultants. We're always eager to hear from you!",
