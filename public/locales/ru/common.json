@@ -95,7 +95,14 @@
       "office": "Похожие офисы, которые могут вам понравиться",
       "land": "Похожие страны, которые могут вам понравиться",
       "apartment": "Похожие квартиры, которые могут вам понравиться"
-    }
+    },
+    "isHas": {
+      "elevator": "есть лифт,",
+      "inFloor": "на <span>{{currentFloor}}</span> этаже",
+      "isNewBuilding": "новостройки",
+      "isHasFurniture": "Мебель и техника совершенно новые."
+    },
+    "dynamicDesc": "<span>{{type}}</span> <span>{{address}}</span> <span>{{isOnFloor}}</span>, <span>{{isNewBuilding}}</span> <span>{{floorsCount}}</span> этажного дома общей площадью <span>{{floorArea}}</span> квадратных метра, <span>{{isHasElevator}}</span> <span>{{rooms}}</span> комнаты, <span>{{baths}}</span> ванны со всеми комунальными услугами. <span>{{isHasFurniture}}</span> Для получения дополнительной информации позвоните"
   },
   "contactus": {
     "title": "Для получения дополнительной информации о наших услугах свяжитесь с нашими опытными консультантами. Мы всегда рады услышать от вас!",

@@ -95,7 +95,14 @@
       "office": "Նման գրասենյակներ, որոնք կարող են ձեզ դուր գալ",
       "land": "Նման երկրներ, որոնք կարող են ձեզ դուր գալ",
       "apartment": "Նմանատիպ բնակարաններ, որոնք ձեզ դուր կգան"
-    }
+    },
+    "isHas": {
+      "elevator": "ունի վերելակ",
+      "inFloor": "<span>{{currentFloor}}</span>-րդ հարկում",
+      "isNewBuilding": "նորակառույց",
+      "isHasFurniture": "Կահույք և տեխնիկա լրիվ նոր։"
+    },
+    "dynamicDesc": "<span>{{type}}</span> <span>{{address}}</span> <span>{{isOnFloor}}</span>, <span>{{isNewBuilding}}</span> <span>{{floorsCount}}</span> հարկանի շենքում <span>{{floorArea}}</span>քմ ընդհանուր մակերեսով, <span>{{isHasElevator}}</span> <span>{{rooms}}</span> սենյակ, <span>{{baths}}</span> սանհանգույց կոմունալ բոլոր հարմարություններով։ <span>{{isHasFurniture}}</span>։ Մանրամասն տեղեկությունների համար զանգահարել՝"
   },
   "contactus": {
     "title": "Մեր ծառայությունների մասին լրացուցիչ տեղեկությունների համար կապ հաստատեք մեր փորձագետ խորհրդատուների հետ: Մենք միշտ ցանկանում ենք լսել ձեզնից!",
