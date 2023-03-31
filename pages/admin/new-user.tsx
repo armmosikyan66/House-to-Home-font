@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {GetStaticProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config";
@@ -7,6 +7,8 @@ import FormSelect from "../../component/ui/FormSelect";
 import {IRegister} from "../../utils/types/IAuth";
 import useForm, {FormErrors} from "../../utils/hooks/useForm";
 import {register} from "../../services/auth";
+import {useTypedSelector} from "../../redux/types/IRedux";
+import {useRouter} from "next/router";
 
 const validate = (values: IRegister) => {
     let errors: FormErrors<IRegister> = {};
@@ -41,6 +43,8 @@ const validate = (values: IRegister) => {
 
 const NewUser: NextPage<{}> = () => {
     const [role, setRole] = useState<"admin" | "locale" | "user" | undefined>(undefined);
+    const user = useTypedSelector(state => state.auth.user);
+    const router = useRouter();
     const {values, errors, handleChange, handleSubmit} = useForm<IRegister>({
         initialValues: {
             email: "",
@@ -52,6 +56,14 @@ const NewUser: NextPage<{}> = () => {
         validate,
         onSubmit,
     });
+
+    useEffect(() => {
+        if(!router.isReady) return;
+
+        if(user.role !== "admin") {
+            router.push('/')
+        }
+    }, [router.isReady])
 
     async function onSubmit() {
         const user = await register({...values, role})

@@ -12,6 +12,7 @@ import {useRouter} from "next/router";
 import Link from "next/link";
 import UserModal from "../../component/templates/admin/UserModal";
 import ReactPaginate from "react-paginate";
+import {useTypedSelector} from "../../redux/types/IRedux";
 
 type UsersTypes = {
     users: IUser[] | [],
@@ -22,6 +23,7 @@ const Users: NextPage<{}> = () => {
     const router = useRouter();
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const user = useTypedSelector(state => state.auth.user);
     const [items, setItems] = useState<UsersTypes>({
         users: [],
         founded: 0,
@@ -31,7 +33,9 @@ const Users: NextPage<{}> = () => {
     useEffect(() => {
         if (!router.isReady) return;
 
-        if ("page" in router.query) {
+        if(user.role !== "admin") {
+            router.push('/')
+        } else if ("page" in router.query) {
             setPage(Number(router.query.page) - 1)
         }
     }, [router.isReady])

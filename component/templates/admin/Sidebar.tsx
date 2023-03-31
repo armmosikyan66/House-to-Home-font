@@ -22,18 +22,6 @@ const Sidebar: FC<{}> = () => {
         message: ""
     })
 
-    const handleClickLogout = async () => {
-        const err = await logout();
-
-        if (err) {
-            return setToastify({
-                status: "danger",
-                message: err.message,
-            })
-        }
-
-        router.push("/")
-    }
 
     return (
         <>
@@ -55,7 +43,7 @@ const Sidebar: FC<{}> = () => {
                                         </span>
                                         </div>
                                         <div className={`dropdown-menu dropdown-menu-right ${dropdownOpened ? "show" : ""}`}>
-                                            <a className="dropdown-item" href="#">Logout</a>
+                                            <Link className="dropdown-item" href="/">Logout</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -83,23 +71,27 @@ const Sidebar: FC<{}> = () => {
                                         <span className="sidebar-item-text">Products</span>
                                     </Link>
                                 </li>
-                                <li className="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                                    <Link href="/admin/users" locale={lang} className="text-heading lh-1 sidebar-link">
-                                        <span className="sidebar-item-text">Users</span>
-                                    </Link>
-                                </li>
                                 <li className="mb-2 list-group-item px-3 px-xl-4 py-2 sidebar-item">
                                     <Link href={"/admin/new-product"} locale={lang}
                                           className="text-heading lh-1 sidebar-link">
                                         <span className="sidebar-item-text">Add new Product</span>
                                     </Link>
                                 </li>
-                                <li className="mb-2 list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                                    <Link href="/admin/new-user" locale={lang}
-                                          className="text-heading lh-1 sidebar-link">
-                                        <span className="sidebar-item-text">Add new User</span>
-                                    </Link>
-                                </li>
+                                {user.role === "admin" ?
+                                    <>
+                                        <li className="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                                            <Link href="/admin/users" locale={lang} className="text-heading lh-1 sidebar-link">
+                                                <span className="sidebar-item-text">Users</span>
+                                            </Link>
+                                        </li>
+                                        <li className="mb-2 list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                                            <Link href="/admin/new-user" locale={lang}
+                                                  className="text-heading lh-1 sidebar-link">
+                                                <span className="sidebar-item-text">Add new User</span>
+                                            </Link>
+                                        </li>
+                                    </>
+                                : null}
                             </ul>
                         </div>
                     </div>

@@ -15,7 +15,7 @@ const Toastify: FC<ToastiyProps> = ({status = "info", message, setToastify}) => 
 
     return (
         <>
-            <div className={`d-flex align-items-center position-fixed pos-fixed-bottom-right mr-5 alert alert-${status} alert-solid`} role="alert">
+            <div className={`z-index-10 d-flex align-items-center position-fixed pos-fixed-bottom-right mr-5 alert alert-${status} alert-solid`} role="alert">
                 <p className="p-0 m-0">{message}!</p>
 
                 <button onClick={() => setToastify({status: "info", message: ""})} className="ml-2 close text-white" type="button" data-dismiss="alert" aria-label="Close"><span
