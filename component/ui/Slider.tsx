@@ -1,10 +1,11 @@
-import React, {FC, Fragment} from 'react';
+import React, {FC, Fragment, useState} from 'react';
 // @ts-ignore
 import Slider from "react-slick";
 
 import {IProduct} from "../../utils/types/IProduct";
 import SliderProductCard from "./SliderProductCard";
-
+import ShareModal from "./ShareModal";
+import Toastify from "./Toastify";
 
 const PrevArrow = ({onClick}: any) => (
     <div onClick={onClick} className="slick-prev slick-arrow" aria-label="Previous" aria-disabled="false">
@@ -24,6 +25,12 @@ export type SliderProps = {
 }
 
 const SliderComp: FC<SliderProps> = ({items}) => {
+    const [modal, setModal] = useState<boolean>(false);
+    const [data, setData] = useState<string | null>(null);
+    const [toastify, setToastify] = useState<{ status: "danger" | "info" | "success"; message: string }>({
+        status: "info",
+        message: ""
+    })
     const settings = {
         dots: false,
         infinite: true,
@@ -62,18 +69,25 @@ const SliderComp: FC<SliderProps> = ({items}) => {
             },
         ]
     };
-
+    function handleData(data: string) {
+        setData(data)
+    }
+    function handleToastifyData(status: "success" | "info" | "danger", message: string) {
+        setToastify({status: status, message: message})
+    }
     return (
         <>
+            {toastify.message.length ? <Toastify setToastify={setToastify} status={toastify.status} message={toastify.message} /> : null}
             <div className="position-relative">
                 <Slider {...settings}>
-                    {items.length ? items.map(item => (
+                    {items.length ? items.map((item) => (
                         <Fragment key={item.id}>
-                            <SliderProductCard {...item} />
+                            <SliderProductCard onToastify={handleToastifyData} onData={handleData} setModal={setModal} {...item} />
                         </Fragment>
                     )) : null}
                 </Slider>
             </div>
+            {modal ? <ShareModal propertyId={data} setModal={setModal} /> : null}
         </>
 
     );

@@ -38,7 +38,7 @@ const PropertyTypes = () => {
                                     {content.map((elem) => (
                                         <div key={elem.title}
                                              className="box px-0 py-6 slick-slide slick-current slick-active">
-                                            <Link href="/"
+                                            <Link href={`/${lang}/properties?type="${elem.title}"`}
                                                   className="card border-0 align-items-center justify-content-center pt-7 pb-5 px-3 shadow-hover-3 bg-transparent bg-hover-white text-decoration-none"
                                             >
                                                 <img style={{width: "auto"}} src={elem.image} className="card-img-top" alt="House"/>

@@ -13,6 +13,7 @@ import Link from "next/link";
 import ProductModal from "../../component/templates/admin/ProductModal";
 import ReactPaginate from "react-paginate";
 import {useRouter} from "next/router";
+import {useTypedSelector} from "../../redux/types/IRedux";
 
 const Dashboard: NextPage<{}> = () => {
     const {i18n} = useTranslation();
@@ -22,13 +23,15 @@ const Dashboard: NextPage<{}> = () => {
         founded: 0,
     });
     const [selected, setSelected] = useState<IProduct | null>(null);
+    const user = useTypedSelector(state => state.auth.user)
     const [page, setPage] = useState<number>(0);
     const router = useRouter();
 
     useEffect(() => {
         if (!router.isReady) return;
-
-        if ("page" in router.query) {
+        if(!user) {
+            router.push('/admin/login')
+        } else if ("page" in router.query) {
             setPage(Number(router.query.page) - 1)
         }
     }, [router.isReady])

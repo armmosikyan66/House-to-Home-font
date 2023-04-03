@@ -1,4 +1,4 @@
-import React, {FC, MouseEvent, useEffect, useState} from 'react';
+import React, {Dispatch, MouseEvent, SetStateAction, useEffect, useState} from 'react';
 // @ts-ignore
 import {IProduct} from "../../utils/types/IProduct";
 import {API_URL} from "../../utils/constants/api";
@@ -10,16 +10,19 @@ import {addFavorite, removeFavorite} from "../../services/user";
 import {setUser} from "../../redux/actions/user";
 import Link from 'next/link'
 
-const SliderProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, imageUrl, status, price, city, region}) => {
+type ModalProps = {
+    setModal: Dispatch<SetStateAction<boolean>>
+    onData: (data: string) => void
+    onToastify: (status: "success" | "info" | "danger", message: string) => void
+}
+type MyProps = IProduct & ModalProps
+
+const SliderProductCard = ({id, prdId, rooms, floorArea, baths, imageUrl, status, price, city, region, setModal, onData, onToastify}: MyProps) => {
     const {i18n} = useTranslation()
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     const user = useTypedSelector(state => state.auth.user);
     const dispatch = useTypedDispatch();
     const [liked, setLiked] = useState<boolean>(false);
-    const [toastify, setToastify] = useState<{ status: "danger" | "info" | "success"; message: string }>({
-        status: "info",
-        message: ""
-    })
 
     useEffect(() => {
         setLiked(user?.favorites?.some(fav => fav === id))
@@ -28,20 +31,27 @@ const SliderProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, im
     const handleSetFavorite = async (event: MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
         if (!user || !user?.id) {
-            setToastify({status: "danger", message: "Please first SignIn or SignUp!"});
+            onToastify("danger", "Please first SignIn or SignUp!");
             return
         } else if (!user?.isActivated) {
-            setToastify({status: "danger", message: "Please activate your account!"});
+            onToastify("danger", "Please activate your account!");
             return
         }
 
         if (!liked) {
+            console.log("qwe")
             const favorite = await addFavorite(user.id, id);
             dispatch(setUser(favorite))
         } else {
+            console.log("ert")
             const favorite = await removeFavorite(user.id, id)
             dispatch(setUser(favorite))
         }
+    }
+
+    const handleClick = () => {
+        setModal(true);
+        onData(id)
     }
 
     return (
@@ -98,10 +108,10 @@ const SliderProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, im
                                     className="far fa-heart"></i></a>
                             </li>
                             <li className="list-inline-item">
-                                <a href="#"
+                                <button onClick={handleClick}
                                    className="w-40px h-40 border rounded-circle d-inline-flex align-items-center justify-content-center text-body hover-secondary bg-hover-accent border-hover-accent"
                                    data-toggle="tooltip" title="" data-original-title="Compare"><i
-                                    className="fas fa-exchange-alt"></i></a>
+                                    className="fas fa-exchange-alt"></i></button>
                             </li>
                         </ul>
                     </div>

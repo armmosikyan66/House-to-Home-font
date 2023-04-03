@@ -3,6 +3,7 @@ import BgImage from "../../../../assets/images/bg-home-01.jpg";
 import Signature from "../../../../assets/images/signature.png"
 import {useTranslation} from "next-i18next";
 import capitalize from "../../../../utils/helpers/capitalize";
+import Link from 'next/link'
 
 const Intro: FC<{}> = () => {
     const { t } = useTranslation('common');
@@ -17,8 +18,8 @@ const Intro: FC<{}> = () => {
                 <img src={Signature.src} className="pl-md-17 ml-md-17 mr-md-n8 zoomIn animated" alt="Dream home"/>
                 <p className="font-weight-500 text-white fs-15 mb-6 mt-3 pb-1 zoomIn animated"
                    data-animate="zoomIn">{t("home.intro.text")}.</p>
-                <a href="#" className="btn btn-lg btn-primary font-weight-600 rounded-lg mb-8 zoomIn animated"
-                   data-animate="zoomIn">{capitalize(t("home.intro.btnText"))}<i className="far fa-long-arrow-right ml-2"></i></a>
+                <Link href="/properties" className="btn btn-lg btn-primary font-weight-600 rounded-lg mb-8 zoomIn animated"
+                   data-animate="zoomIn">{capitalize(t("home.intro.btnText"))}<i className="far fa-long-arrow-right ml-2"></i></Link>
             </div>
         </section>
     );
