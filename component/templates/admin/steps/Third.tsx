@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {StepsProps} from "./Steps";
 import FormSelect from "../../../ui/FormSelect";
 import {cities} from "../../../../utils/constants/cities";
@@ -47,6 +47,12 @@ const Third: FC<StepsProps> = ({setProductFields, productFields}) => {
         }))
     }
 
+    useEffect(() => {
+        if ("city" in productFields) {
+            setSelectedCity(productFields.city.en)
+        }
+    }, [])
+
     return (
         <div className="tab-pane tab-pane-parent fade px-0 active show" id="location" role="tabpanel"
              aria-labelledby="location-tab">
@@ -82,15 +88,17 @@ const Third: FC<StepsProps> = ({setProductFields, productFields}) => {
                                                 label={"Cities"}
                                                 keyWord={"city"}
                                                 onChange={(key, val) => handleChange(key, val, cities)}
+                                                selected={selectedCity}
                                             />
                                         </div>
-                                        {"city" in productFields ? (
+                                        {selectedCity ? (
                                             <div className="mb-2">
                                                 <FormSelect
                                                     options={regions[lang][selectedCity]}
                                                     label={"Region"}
                                                     keyWord={"region"}
                                                     onChange={(key, val) => handleChange(key, val, regions)}
+                                                    selected={productFields.region ? productFields.region[lang] : undefined}
                                                 />
                                             </div>
                                         ) : null}
@@ -100,6 +108,7 @@ const Third: FC<StepsProps> = ({setProductFields, productFields}) => {
                                                 label={"Address"}
                                                 keyWord={"address"}
                                                 rows={5}
+                                                defaultValue={productFields?.address ? productFields?.address : undefined}
                                             />
                                         </div>
                                     </div>

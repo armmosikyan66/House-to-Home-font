@@ -13,7 +13,7 @@ const Favorites: NextPage<{}> = () => {
 
     useEffect(() => {
         (async () => {
-            const data = await getFavorites();
+            const data = await getFavorites(user.favorites);
 
             setFavorites(data);
         })()
