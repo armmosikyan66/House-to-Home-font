@@ -90,7 +90,7 @@
     "similar": "Նման տներ, որոնք կարող եք հավանել",
     "active": "Ակտիվ",
     "details": "Լրացուցիչ մանրամասներ",
-    "dynamicDesc": "<span>{{type}}</span> <span>{{address}}</span> <span>{{buildingType}}</span>, <span>{{isOnFloor}}</span> <span>{{floorsCount}}</span> հարկանի քարե շենքի <span>{{floorArea}}</span> քմ ընդհանուր մակերեսով, <span>{{isHasElevator}} '?'</span> <span>{{rooms}}</span> սենյակ, <span>{{baths}}</span> սանհանգույց կոմունալ բոլոր հարմարություններով։ <span>{{isHasFurniture}}</span>։ Լրացուցիչ տեղեկությունների համար զանգահարել՝"
+    "dynamicDesc": "<span>{{type}}</span> <span>{{address}}</span> <span>{{buildingType}}</span>, <span>{{isOnFloor}}</span> <span>{{floorsCount}}</span> հարկանի քարե շենքի <span>{{floorArea}}</span> քմ ընդհանուր մակերեսով, <span>{{isHasElevator}} '?'</span> <span>{{rooms}}</span> սենյակ, <span>{{baths}}</span> սանհանգույց կոմունալ բոլոր հարմարություններով։ <span>{{isHasFurniture}}</span>։ Լրացուցիչ տեղեկությունների համար զանգահարել՝",
     "recommended": {
       "house": "Նման տներ, որոնք ձեզ կարող են դուր գալ",
       "office": "Նման գրասենյակներ, որոնք կարող են ձեզ դուր գալ",
@@ -102,7 +102,7 @@
       "inFloor": "<span>{{currentFloor}}</span>-րդ հարկում",
       "isNewBuilding": "նորակառույց",
       "isHasFurniture": "Կահույք և տեխնիկա լրիվ նոր։"
-    },
+    }
   },
   "contactus": {
     "title": "Մեր ծառայությունների մասին լրացուցիչ տեղեկությունների համար կապ հաստատեք մեր փորձագետ խորհրդատուների հետ: Մենք միշտ ցանկանում ենք լսել ձեզնից!",
