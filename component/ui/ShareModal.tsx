@@ -9,14 +9,18 @@ import {
 } from "react-share";
 import {FiLink} from 'react-icons/fi';
 import Toastify from './Toastify';
+import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
+import {useTranslation} from "next-i18next";
 
 export type ShareProps = {
     setModal: Dispatch<SetStateAction<boolean>>
-    propertyId: string | null
+    propertyId?: number | null
 }
 
 const ShareModal: FC<ShareProps> = ({setModal, propertyId}) => {
-    const [url, setUrl] = useState(window.location.href);
+    const {i18n} = useTranslation();
+    const lang: LanguagesKeys = i18n.language as LanguagesKeys
+    const [url, setUrl] = useState(`http://localhost:3000`);
     const [toastify, setToastify] = useState<{status: "danger" | "info" | "success", message: string}>({
         status: "info",
         message: ""
@@ -28,7 +32,7 @@ const ShareModal: FC<ShareProps> = ({setModal, propertyId}) => {
     }
 
     useEffect(() => {
-        setUrl(`${url}/properties/${propertyId}`)
+        setUrl(`${url}/${lang}/properties/${propertyId}`)
     }, [])
 
     return (

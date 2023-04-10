@@ -5,6 +5,7 @@ import Third from "./Third";
 import Last from "./Last";
 import {IProduct} from "../../../../utils/types/IProduct";
 import {createPrd} from "../../../../services/admin";
+import {useTranslation} from "next-i18next";
 
 export type StepsProps = {
     setProductFields: Dispatch<SetStateAction<IProduct>>;
@@ -16,6 +17,7 @@ const Steps: FC<{}> = () => {
     const steps = [First, Second, Third, Last];
     const Step = steps[currentStep];
     const [productFields, setProductFields] = useState<IProduct>({} as IProduct);
+    const {t} = useTranslation()
 
     const handleChangeStep = (event: MouseEvent<HTMLAnchorElement | HTMLButtonElement>): void => {
         event.preventDefault();
@@ -46,7 +48,7 @@ const Steps: FC<{}> = () => {
     return (
         <div className="px-3 px-lg-6 px-xxl-13 py-5 py-lg-10 my-profile">
             <div className="mb-6">
-                <h2 className="mb-0 text-heading fs-22 lh-15">Add new property
+                <h2 className="mb-0 text-heading fs-22 lh-15">{t("admin.newPrd.title")}
                 </h2>
                 <p className="mb-1">Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe ndisse suscipit</p>
             </div>
@@ -54,21 +56,21 @@ const Steps: FC<{}> = () => {
                 <ul className="nav nav-pills border py-2 px-3 mb-6 d-none d-md-flex mb-6" role="tablist">
                     <li className={`nav-item col`}>
                         <a className={`nav-link ${currentStep >= 0 ? "active" : ""} bg-transparent shadow-none py-2 font-weight-500 text-center lh-214 d-block`}><span
-                            className="number">1.</span> Description</a>
+                            className="number">1.</span> {t("admin.newPrd.steps.desc")}</a>
                     </li>
                     <li className={`nav-item col`}>
                         <a className={`nav-link bg-transparent ${currentStep >= 1 ? "active" : ""} shadow-none py-2 font-weight-500 text-center lh-214 d-block`}><span
-                            className="number">2.</span> Media</a>
+                            className="number">2.</span> {t("admin.newPrd.steps.media")}</a>
                     </li>
                     <li className={`nav-item col ${currentStep >= 2 ? "active" : ""}`}>
                         <a className={`nav-link bg-transparent shadow-none py-2 font-weight-500 text-center lh-214 d-block ${currentStep >= 2 ? "active" : ""}`}><span
                             className="number">3.</span>
-                            Location</a>
+                            {t("admin.newPrd.steps.location")}</a>
                     </li>
                     <li className={`nav-item col`}>
                         <a className={`nav-link bg-transparent shadow-none py-2 font-weight-500 text-center lh-214 d-block ${currentStep === steps.length - 1 ? "active" : ""}`}><span
                             className="number">4.</span>
-                            Detail</a>
+                            {t("admin.newPrd.steps.detail")}</a>
                     </li>
                 </ul>
                 <Step setProductFields={setProductFields} productFields={productFields}/>

@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Link from "next/link";
 import {StepsProps} from "./Steps";
+import {useTranslation} from "next-i18next";
 
 interface ImageFile {
     id: string;
@@ -15,6 +16,7 @@ interface ImageUploaderProps extends StepsProps {
 const Second: React.FC<ImageUploaderProps> = ({onChange, setProductFields, productFields}) => {
     const [imageFiles, setImageFiles] = useState<ImageFile[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const {t} = useTranslation()
 
     useEffect(() => {
         setProductFields(prev => ({...prev, images: imageFiles.map(img => img.file)}));
@@ -65,7 +67,7 @@ const Second: React.FC<ImageUploaderProps> = ({onChange, setProductFields, produ
                     <h5 className="mb-0">
                         <button
                             className="btn btn-lg collapse-parent btn-block border shadow-none">
-                            <span className="number">2.</span> Media
+                            <span className="number">2.</span> {t("admin.newPrd.steps.media")}
                         </button>
                     </h5>
                 </div>
@@ -76,9 +78,7 @@ const Second: React.FC<ImageUploaderProps> = ({onChange, setProductFields, produ
                             <div className="col-lg-12">
                                 <div className="card mb-6">
                                     <div className="card-body p-6">
-                                        <h3 className="card-title mb-0 text-heading fs-22 lh-15">Upload
-                                            photos
-                                            of your property</h3>
+                                        <h3 className="card-title mb-0 text-heading fs-22 lh-15">{t("admin.newPrd.second_step.title")}</h3>
                                         <p className="card-text mb-5">Lorem ipsum dolor sit
                                             amet, consectetur
                                             adipiscing elit</p>
@@ -109,11 +109,9 @@ const Second: React.FC<ImageUploaderProps> = ({onChange, setProductFields, produ
                                                 <span
                                                     className="upload-icon lh-1 d-inline-block mb-4">
                                                     <i className="fal fa-cloud-upload-alt"></i></span>
-                                                    <p className="text-heading fs-22 lh-15 mb-4">Drag
-                                                        and drop image
-                                                        or</p>
+                                                    <p className="text-heading fs-22 lh-15 mb-4">{t("admin.newPrd.second_step.upload.title")}</p>
                                                     <label htmlFor={"fileInp"} className="btn btn-indigo px-7 mb-2">
-                                                        Browse file
+                                                        {t("admin.newPrd.second_step.upload.btnText")}
                                                     </label>
                                                     <input
                                                         id={"fileInp"}
@@ -125,7 +123,7 @@ const Second: React.FC<ImageUploaderProps> = ({onChange, setProductFields, produ
                                                         style={{display: "none"}}
                                                         ref={fileInputRef}
                                                     />
-                                                    <p>Photos must be JPEG, PNG or JPG format and</p>
+                                                    <p>{t("admin.newPrd.second_step.upload.subtitle")}</p>
                                                 </div>
                                             )}
                                         </div>

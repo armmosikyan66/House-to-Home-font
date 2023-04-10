@@ -12,7 +12,7 @@ import Link from 'next/link'
 
 type ModalProps = {
     setModal: Dispatch<SetStateAction<boolean>>
-    onData: (data: string) => void
+    onData: (data: number) => void
     onToastify: (status: "success" | "info" | "danger", message: string) => void
 }
 type MyProps = IProduct & ModalProps
@@ -31,10 +31,10 @@ const SliderProductCard = ({id, prdId, rooms, floorArea, baths, imageUrl, status
     const handleSetFavorite = async (event: MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
         if (!user || !user?.id) {
-            onToastify("danger", "Please first SignIn or SignUp!");
+            onToastify("danger", "Please first SignIn or SignUp");
             return
         } else if (!user?.isActivated) {
-            onToastify("danger", "Please activate your account!");
+            onToastify("danger", "Please activate your account");
             return
         }
 
@@ -51,7 +51,7 @@ const SliderProductCard = ({id, prdId, rooms, floorArea, baths, imageUrl, status
 
     const handleClick = () => {
         setModal(true);
-        onData(id)
+        onData(prdId)
     }
 
     return (

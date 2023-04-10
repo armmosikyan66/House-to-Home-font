@@ -24,7 +24,7 @@ function MyApp({Component, pageProps}: AppProps) {
     const checkIsAuth = async () => {
         const {user, status} = await checkAuth();
 
-        if (!user && status === "error" && router.asPath.includes("admin") && !router.asPath.includes("/admin/login")) router.push("/");
+        if (!user && router.asPath.includes("admin") && !router.asPath.includes("/admin/login")) router.push("/");
 
         dispatch(setUser(user as IUser));
     }

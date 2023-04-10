@@ -102,7 +102,7 @@
       "isNewBuilding": "новостройки",
       "isHasFurniture": "Мебель и техника совершенно новые."
     },
-    "dynamicDesc": "<span>{{type}}</span> <span>{{address}}</span> <span>{{isOnFloor}}</span>, <span>{{isNewBuilding}}</span> <span>{{floorsCount}}</span> этажного дома общей площадью <span>{{floorArea}}</span> квадратных метра, <span>{{isHasElevator}}</span> <span>{{rooms}}</span> комнаты, <span>{{baths}}</span> ванны со всеми комунальными услугами. <span>{{isHasFurniture}}</span> Для получения дополнительной информации позвоните"
+    "dynamicDesc": "<span>{{type}}</span> в <span>{{region}}</span> <span>{{isOnFloor}}</span>, <span>{{floorsCount}}</span> этажного дома общей площадью <span>{{floorArea}}</span> квадратных метра, <span>{{isHasElevator}}</span> <span>{{rooms}}</span> комнаты, <span>{{baths}}</span> ванны со всеми комунальными услугами. <span>{{isHasFurniture}}</span>"
   },
   "contactus": {
     "title": "Для получения дополнительной информации о наших услугах свяжитесь с нашими опытными консультантами. Мы всегда рады услышать от вас!",
@@ -119,6 +119,92 @@
     "time_hour": "Час работы",
     "mon_fr": "Понедельник - Пятница:",
     "sun_sat": "Воскресенье и суббота:"
+  },
+  "admin": {
+    "sidebar": {
+      "products": "Товары",
+      "newPrd": "Добавить новый товар",
+      "users": "Пользователи",
+      "newUser": "Добавить нового пользователя"
+    },
+    "products": {
+      "title": "Мои Недвижимости",
+      "listingTitle": "Название статьи",
+      "datePublished": "Дата Публикации",
+      "author": "Автор",
+      "status": "Статус",
+      "view": "Вид",
+      "action": "Действие"
+    },
+    "newPrd": {
+      "title": "Добавить новую недвижимость",
+      "steps": {
+        "desc": "Описание",
+        "media": "Медия",
+        "location": "Расположение",
+        "detail": "Детали"
+      },
+      "first_step": {
+        "type": {
+          "title": "Тип Недвижимости",
+          "category": "Категория",
+          "public": "Общественный"
+        },
+        "category": {
+          "title": "Выберите Категорию",
+          "category": "Категория"
+        }
+      },
+      "second_step": {
+        "title": "Загрузите фотографии вашей недвижимости",
+        "upload": {
+          "title": "Перетащите изображение или",
+          "btnText": "Загрузить файл",
+          "subtitle": "Фотографии должны быть в формате JPEG, PNG или JPG."
+        }
+      },
+      "third_step": {
+        "title": "Расположение Недвижимости",
+        "cities": "Город",
+        "region": "Регион",
+        "address": "Адрес"
+      },
+      "fourth_step": {
+        "title": "Расположения Недвижимости",
+        "size": "Площадь в м² (только цифры)",
+        "price": "Цена (только цифры)",
+        "rooms": "Комнаты",
+        "baths": "Санузлы",
+        "ceiling_height": "Высота потолка (только цифры)",
+        "plot_area": "Площадь участка в м² (только цифры)",
+        "current_floor": "Текущий этаж (только цифры)",
+        "floors_count": "Количевство этажей (только цифры)",
+        "building_type": "Тип здания",
+        "newBuilding": "Новостройка",
+        "balcony": "Балкон",
+        "elevator": "Лифт",
+        "furniture": "Мебель"
+      }
+    },
+    "users": {
+      "name": "Имя",
+      "email": "Email",
+      "phone": "Телефон",
+      "date": "Дата",
+      "status": "Статус",
+      "actions": "Действия",
+      "btnText": "Добавить"
+    },
+    "newUser": {
+      "title": "Добавить Нового Пользователя",
+      "subtitle": "Информация о пользователе",
+      "firstName": "Имя",
+      "lastName": "Фамилия",
+      "email": "E-mail",
+      "phoneNumber": "Телефон",
+      "password": "Пароль",
+      "status": "Выбрать Статус"
+    }
   },
   "services": {
     "intro": {

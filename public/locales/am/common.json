@@ -90,7 +90,7 @@
     "similar": "Նման տներ, որոնք կարող եք հավանել",
     "active": "Ակտիվ",
     "details": "Լրացուցիչ մանրամասներ",
-    "dynamicDesc": "<span>{{type}}</span> <span>{{address}}</span> <span>{{buildingType}}</span>, <span>{{isOnFloor}}</span> <span>{{floorsCount}}</span> հարկանի քարե շենքի <span>{{floorArea}}</span> քմ ընդհանուր մակերեսով, <span>{{isHasElevator}} '?'</span> <span>{{rooms}}</span> սենյակ, <span>{{baths}}</span> սանհանգույց կոմունալ բոլոր հարմարություններով։ <span>{{isHasFurniture}}</span>։ Լրացուցիչ տեղեկությունների համար զանգահարել՝",
+    "dynamicDesc": "<span>{{type}}</span> <span>{{region}}</span>ում, <span>{{floorsCount}}</span> հարկանի <span>{{isNewBuilding}}</span> <span>{{buildingType}}</span> շինության <span>{{isOnFloor}}</span> <span>{{floorArea}}</span> քմ ընդհանուր մակերեսով, <span>{{isHasElevator}}</span> <span>{{rooms}}</span> սենյակ, <span>{{baths}}</span> սանհանգույց կոմունալ բոլոր հարմարություններով։ <span>{{isHasFurniture}}</span>",
     "recommended": {
       "house": "Նման տներ, որոնք ձեզ կարող են դուր գալ",
       "office": "Նման գրասենյակներ, որոնք կարող են ձեզ դուր գալ",
@@ -99,7 +99,7 @@
     },
     "isHas": {
       "elevator": "ունի վերելակ",
-      "inFloor": "<span>{{currentFloor}}</span>-րդ հարկում",
+      "inFloor": "<span>{{currentFloor}}</span> հարկում",
       "isNewBuilding": "նորակառույց",
       "isHasFurniture": "Կահույք և տեխնիկա լրիվ նոր։"
     }
@@ -119,6 +119,92 @@
     "time_hour": "Աշխատանքի ժամ",
     "mon_fr": "Երկուշաբթի - ուրբաթ:",
     "sun_sat": "Կիրակի և շաբաթ."
+  },
+  "admin": {
+    "sidebar": {
+      "products": "Ապրանքներ",
+      "newPrd": "Ավելացնել նոր Ապրանք",
+      "users": "Օգտատերեր",
+      "newUser": "Ավելացնել նոր օգտվող"
+    },
+    "products": {
+      "title": "Իմ Անշարժ Գույքը",
+      "listingTitle": "Ցուցակման անվանումը",
+      "datePublished": "Հրապարակման ամսաթիվ",
+      "author": "Հեղինակ",
+      "status": "Կարգավիճակ",
+      "view": "Տեսք",
+      "action": "Գործողություն"
+    },
+    "newPrd": {
+      "title": "Ավելացնել նոր անշարժ գույք",
+      "steps": {
+        "desc": "Նկարագրություն",
+        "media": "Մեդիա",
+        "location": "Գտնվելու վայրը",
+        "detail": "Մանրամասն"
+      },
+      "first_step": {
+        "type": {
+          "title": "Գույքի տեսակը",
+          "category": "Կատեգորիա",
+          "public": "Հանրային"
+        },
+        "category": {
+          "title": "Ընտրեք Կատեգորիա",
+          "category": "Կատեգորիա"
+        }
+      },
+      "second_step": {
+        "title": "Վերբեռնեք ձեր սեփականության լուսանկարները",
+        "upload": {
+          "title": "Քաշեք և թողեք պատկերը կամ",
+          "btnText": "Թերթիր ֆայլը",
+          "subtitle": "Լուսանկարները պետք է լինեն JPEG, PNG կամ JPG ձևաչափով"
+        }
+      },
+      "third_step": {
+        "title": "Ցուցակման վայրը",
+        "cities": "Քաղաքներ",
+        "region": "Տարածաշրջան",
+        "address": "հասցեն"
+      },
+      "fourth_step": {
+        "title": "Ցուցակման մանրամասները",
+        "size": "Չափը մ²-ով (միայն թվերով)",
+        "price": "Գինը (միայն թվեր)",
+        "rooms": "Սենյակներ",
+        "baths": "Բաղնիքներ",
+        "ceiling_height": "Առաստաղի բարձրություն (միայն թվեր)",
+        "plot_area": "Հողամասի մակերեսը սմ-ով (միայն թվերով)",
+        "current_floor": "Ընթացիկ հարկ (միայն թվեր)",
+        "floors_count": "Հարկերի քանակը (միայն թվեր)",
+        "building_type": "Շենքի տեսակը",
+        "newBuilding": "Նորակառույց",
+        "balcony": "պատշգամբ",
+        "elevator": "Վերելակ",
+        "furniture": "կահույք"
+      }
+    },
+    "users": {
+      "name": "Անուն",
+      "email": "Email",
+      "phone": "Հեռախոսահամար",
+      "date": "Ամսաթիվ",
+      "status": "Կարգավիճակ",
+      "actions": "Գործողություններ",
+      "btnText": "Ավելացնել"
+    },
+    "newUser": {
+      "title": "Նոր օգտատեր",
+      "subtitle": "Օգտագործողի մանրամասները",
+      "firstName": "Անուն",
+      "lastName": "Ազգանուն",
+      "email": "E-mail",
+      "phoneNumber": "Հեռախոսահամար",
+      "password": "Գաղտնաբառ",
+      "status": "Նշել Կարգավիճակ"
+    }
   },
   "services": {
     "intro": {

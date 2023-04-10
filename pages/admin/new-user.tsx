@@ -9,6 +9,7 @@ import useForm, {FormErrors} from "../../utils/hooks/useForm";
 import {register} from "../../services/auth";
 import {useTypedSelector} from "../../redux/types/IRedux";
 import {useRouter} from "next/router";
+import {useTranslation} from "next-i18next";
 
 const validate = (values: IRegister) => {
     let errors: FormErrors<IRegister> = {};
@@ -43,6 +44,7 @@ const validate = (values: IRegister) => {
 
 const NewUser: NextPage<{}> = () => {
     const [role, setRole] = useState<"admin" | "locale" | "user" | undefined>(undefined);
+    const {t} = useTranslation();
     const user = useTypedSelector(state => state.auth.user);
     const router = useRouter();
     const {values, errors, handleChange, handleSubmit} = useForm<IRegister>({
@@ -61,7 +63,7 @@ const NewUser: NextPage<{}> = () => {
         if(!router.isReady) return;
 
         if(user.role !== "admin") {
-            router.push('/')
+            router.push('/admin')
         }
     }, [router.isReady])
 
@@ -85,28 +87,28 @@ const NewUser: NextPage<{}> = () => {
                         <div className="col-lg-8">
                             <div className="card">
                                 <div className="card-body px-6 pt-6 pb-5">
-                                    <h3 className="card-title mb-0 text-heading fs-22 lh-15">User detail</h3>
+                                    <h3 className="card-title mb-0 text-heading fs-22 lh-15">{t("admin.newUser.title")}</h3>
                                     <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
                                     <div className="mb-2">
-                                        <FormInput error={errors?.firstName} onChange={handleChange} defaultValue={values.firstName} label={"First Name"} type={"text"} keyWord={"firstName"}/>
+                                        <FormInput error={errors?.firstName} onChange={handleChange} defaultValue={values.firstName} label={t("admin.newUser.firstName")} type={"text"} keyWord={"firstName"}/>
                                     </div>
                                     <div className="mb-2">
-                                        <FormInput error={errors?.lastName} onChange={handleChange} defaultValue={values.lastName} label={"Last Name"} type={"text"} keyWord={"lastName"}/>
+                                        <FormInput error={errors?.lastName} onChange={handleChange} defaultValue={values.lastName} label={t("admin.newUser.lastName")} type={"text"} keyWord={"lastName"}/>
                                     </div>
                                     <div className="mb-2">
-                                        <FormInput error={errors?.email} onChange={handleChange} defaultValue={values.email} label={"E-mail"} type={"email"} keyWord={"email"}/>
+                                        <FormInput error={errors?.email} onChange={handleChange} defaultValue={values.email} label={t("admin.newUser.email")} type={"email"} keyWord={"email"}/>
                                     </div>
                                     <div className="mb-2">
-                                        <FormInput error={errors?.phoneNumber} onChange={handleChange} defaultValue={values.phoneNumber} label={"Phone Number"} type={"text"} keyWord={"phoneNumber"}/>
+                                        <FormInput error={errors?.phoneNumber} onChange={handleChange} defaultValue={values.phoneNumber} label={t("admin.newUser.phoneNumber")} type={"text"} keyWord={"phoneNumber"}/>
                                     </div>
                                     <div className="mb-2">
-                                        <FormInput error={errors?.password} onChange={handleChange} defaultValue={values.password} label={"Password"} type={"password"} keyWord={"password"}/>
+                                        <FormInput error={errors?.password} onChange={handleChange} defaultValue={values.password} label={t("admin.newUser.password")} type={"password"} keyWord={"password"}/>
                                     </div>
                                     <div className="mb-2">
                                         <FormSelect
                                             onChange={(key, val) => setRole(val as any)}
                                             options={["admin", "locale", "user"]}
-                                            label={"Select Status"}
+                                            label={t("admin.newUser.status")}
                                             keyWord={"role"}
                                         />
                                     </div>

@@ -9,6 +9,7 @@ import FormSelect from "../../../ui/FormSelect";
 const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const {t} = useTranslation();
 
     const handleChange = (key: string, value: string | number | boolean): void => {
         setProductFields(prev => ({...prev, [key]: value}))
@@ -38,7 +39,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                 data-toggle="collapse" data-number="4."
                                 data-target="#detail-collapse" aria-expanded="true"
                                 aria-controls="detail-collapse">
-                            <span className="number">4.</span> Detail
+                            <span className="number">4.</span> {t("admin.newPrd.steps.detail")}
                         </button>
                     </h5>
                 </div>
@@ -48,8 +49,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                     <div className="card-body py-4 py-md-0 px-0">
                         <div className="card mb-6">
                             <div className="card-body p-6">
-                                <h3 className="card-title mb-0 text-heading fs-22 lh-15">Listing
-                                    Detail</h3>
+                                <h3 className="card-title mb-0 text-heading fs-22 lh-15">{t("admin.newPrd.fourth_step.title")}</h3>
                                 <p className="card-text mb-5">Lorem ipsum dolor sit amet,
                                     consectetur
                                     adipiscing elit</p>
@@ -57,7 +57,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                     <div className="col-lg-4">
                                         <div className="mb-2">
                                             <FormInput
-                                                label={"Size in Mt (only numbers)"}
+                                                label={t("admin.newPrd.fourth_step.size")}
                                                 type={"number"}
                                                 keyWord={"floorArea"}
                                                 onChange={handleChange}
@@ -68,7 +68,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                     <div className="col-lg-4">
                                         <div className="mb-2">
                                             <FormInput
-                                                label={"Price (only numbers)"}
+                                                label={t("admin.newPrd.fourth_step.price")}
                                                 type={"number"}
                                                 keyWord={"price"}
                                                 onChange={handleChange}
@@ -79,7 +79,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                     <div className="col-lg-4">
                                         <div className="mb-2">
                                             <FormInput
-                                                label={"Rooms"}
+                                                label={t("admin.newPrd.fourth_step.rooms")}
                                                 type={"number"}
                                                 keyWord={"rooms"}
                                                 onChange={handleChange}
@@ -90,7 +90,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                     <div className="col-lg-4">
                                         <div className="mb-2">
                                             <FormInput
-                                                label={"Baths"}
+                                                label={t("admin.newPrd.fourth_step.baths")}
                                                 type={"number"}
                                                 keyWord={"baths"}
                                                 onChange={handleChange}
@@ -102,7 +102,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                         <div className="mb-2">
                                             <FormInput
                                                 keyWord={"ceilingHeight"}
-                                                label={"Ceiling height (only numbers)"}
+                                                label={t("admin.newPrd.fourth_step.ceiling_height")}
                                                 type={"number"}
                                                 onChange={handleChange}
                                                 defaultValue={productFields?.ceilingHeight ? productFields?.ceilingHeight : undefined}
@@ -113,7 +113,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                         <div className="mb-2">
                                             <FormInput
                                                 keyWord={"plotArea"}
-                                                label={"Plot Area in MT (only numbers)"}
+                                                label={t("admin.newPrd.fourth_step.plot_area")}
                                                 type={"number"}
                                                 onChange={handleChange}
                                                 defaultValue={productFields?.plotArea ? productFields?.plotArea : undefined}
@@ -124,7 +124,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                         <div className="mb-2">
                                             <FormInput
                                                 keyWord={"currentFloor"}
-                                                label={"Current Floor (only numbers)"}
+                                                label={t("admin.newPrd.fourth_step.current_floor")}
                                                 type={"number"}
                                                 onChange={handleChange}
                                                 defaultValue={productFields?.currentFloor ? productFields?.currentFloor : undefined}
@@ -135,7 +135,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                         <div className="mb-2">
                                             <FormInput
                                                 keyWord={"floorsCount"}
-                                                label={"Floors Count (only numbers)"}
+                                                label={t("admin.newPrd.fourth_step.floors_count")}
                                                 type={"number"}
                                                 onChange={handleChange}
                                                 defaultValue={productFields?.floorsCount ? productFields?.floorsCount : undefined}
@@ -147,7 +147,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                             <FormSelect
                                                 keyWord={"buildingType"}
                                                 options={Object.values(buildingTypes[lang])}
-                                                label={"buildingType"}
+                                                label={t("admin.newPrd.fourth_step.building_type")}
                                                 onChange={(key, val) => handleChangeType(key, val, buildingTypes)}
                                                 selected={productFields?.buildingType ? productFields?.buildingType[lang] : undefined}
                                             />
@@ -158,7 +158,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                             <FormSelect
                                                 onChange={handleChange}
                                                 options={[true, false]}
-                                                label={"New Building"}
+                                                label={t("admin.newPrd.fourth_step.newBuilding")}
                                                 keyWord={"newBuilding"}
                                                 selected={productFields?.newBuilding ? productFields?.newBuilding : undefined}
                                             />
@@ -169,7 +169,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                             <FormSelect
                                                 onChange={handleChange}
                                                 options={[true, false]}
-                                                label={"Balcony"}
+                                                label={t("admin.newPrd.fourth_step.balcony")}
                                                 keyWord={"balcony"}
                                                 selected={productFields?.balcony ? productFields?.balcony : undefined}
                                             />
@@ -180,7 +180,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                             <FormSelect
                                                 onChange={handleChange}
                                                 options={[true, false]}
-                                                label={"Elevator"}
+                                                label={t("admin.newPrd.fourth_step.elevator")}
                                                 keyWord={"elevator"}
                                                 selected={productFields?.elevator ? productFields?.elevator : undefined}
                                             />
@@ -191,7 +191,7 @@ const Last: FC<StepsProps> = ({setProductFields, productFields}) => {
                                             <FormSelect
                                                 onChange={handleChange}
                                                 options={[true, false]}
-                                                label={"Furniture"}
+                                                label={t("admin.newPrd.fourth_step.furniture")}
                                                 keyWord={"furniture"}
                                                 selected={productFields?.furniture ? productFields?.furniture : undefined}
                                             />

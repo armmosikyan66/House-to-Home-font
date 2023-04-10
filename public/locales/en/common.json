@@ -103,7 +103,7 @@
       "isNewBuilding": "of a newly built",
       "isHasFurniture": "Furniture and equipment completely new. "
     },
-    "dynamicDesc": "<span>{{type}}</span> <span>{{address}}</span> <span>{{isOnFloor}}</span>, <span>{{isNewBuilding}}</span> <span>{{floorsCount}}</span>-story building with a total area of <span>{{floorArea}}</span> square meters, <span>{{isHasElevator}}</span> <span>{{rooms}}</span> rooms, <span>{{baths}}</span> baths with all utilities. <span>{{isHasFurniture}}</span> For more information call"
+    "dynamicDesc": "<span>{{type}}</span> in <span>{{region}}</span> <span>{{isOnFloor}}</span> <span>{{isNewBuilding}}</span> <span>{{floorsCount}}</span>-story building , with a total area of <span>{{floorArea}}</span> square meters, <span>{{isHasElevator}}</span> <span>{{rooms}}</span> rooms, <span>{{baths}}</span> baths with all utilities. <span>{{isHasFurniture}}</span>"
   },
   "contactus": {
     "title": "For more information about our services, get in touch with our expert consultants. We're always eager to hear from you!",
@@ -120,6 +120,92 @@
     "time_hour": "Hour of operation",
     "mon_fr": "Monday - Friday:",
     "sun_sat": "Sunday & Saturday:"
+  },
+  "admin": {
+    "sidebar": {
+      "products": "Products",
+      "newPrd": "Add new Product",
+      "users": "Users",
+      "newUser": "Add new User"
+    },
+    "products": {
+      "title": "My Properties",
+      "listingTitle": "Listing title",
+      "datePublished": "Date Published",
+      "author": "Author",
+      "status": "Status",
+      "view": "View",
+      "action": "Action"
+    },
+    "newPrd": {
+      "title": "Add new property",
+      "steps": {
+        "desc": "Description",
+        "media": "Media",
+        "location": "Location",
+        "detail": "Detail"
+      },
+      "first_step": {
+        "type": {
+          "title": "Property Type",
+          "category": "Category",
+          "public": "Public"
+        },
+        "category": {
+          "title": "Select Category",
+          "category": "Category"
+        }
+      },
+      "second_step": {
+        "title": "Upload photos of your property",
+        "upload": {
+          "title": "Drag and drop image or",
+          "btnText": "Browse file",
+          "subtitle": "Photos must be JPEG, PNG, or JPG format"
+        }
+      },
+      "third_step": {
+        "title": "Listing Location",
+        "cities": "Cities",
+        "region": "Region",
+        "address": "address"
+      },
+      "fourth_step": {
+        "title": "Listing Detail",
+        "size": "Size in Sm (only numbers)",
+        "price": "Price (only numbers)",
+        "rooms": "Rooms",
+        "baths": "Baths",
+        "ceiling_height": "Ceiling height (only numbers)",
+        "plot_area": "Plot Area in Sm (only numbers)",
+        "current_floor": "Current Floor (only numbers)",
+        "floors_count": "Floors Count (only numbers)",
+        "building_type": "Building Type",
+        "newBuilding": "New Building",
+        "balcony": "balcony",
+        "elevator": "Elevator",
+        "furniture": "furniture"
+      }
+    },
+    "users": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "date": "Date",
+      "status": "Status",
+      "actions": "Actions",
+      "btnText": "Add New"
+    },
+    "newUser": {
+      "title": "New User",
+      "subtitle": "User Detail",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "E-mail",
+      "phoneNumber": "Phone Number",
+      "password": "Password",
+      "status": "Select Status"
+    }
   },
   "services": {
     "intro": {

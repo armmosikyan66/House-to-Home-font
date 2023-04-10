@@ -1,5 +1,6 @@
 import $api from "../utils/http";
 import {ILogin, IAuthResponse, IRegister} from "../utils/types/IAuth";
+import {redirect} from "next/navigation";
 
 export const register = async (user: IRegister): Promise<IAuthResponse> => {
     try {
@@ -29,7 +30,7 @@ export const checkAuth = async (): Promise<IAuthResponse> => {
 
         return {status: "success", user: response.data.user};
     } catch (e: any) {
-        return {status: "error", message: e.response.data.message};
+       return {status: "error", message: e.response.data.message};
     }
 }
 

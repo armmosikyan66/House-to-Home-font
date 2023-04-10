@@ -23,17 +23,21 @@ const Users: NextPage<{}> = () => {
     const router = useRouter();
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const {t} = useTranslation();
     const user = useTypedSelector(state => state.auth.user);
     const [items, setItems] = useState<UsersTypes>({
         users: [],
         founded: 0,
     });
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [searchResult, setSearchResult] = useState<IUser[]>([])
     const [page, setPage] = useState<number>(0);
 
     useEffect(() => {
         if (!router.isReady) return;
 
-        if(user.role !== "admin") {
+        if(user?.role !== "admin") {
+            console.log("kjsdh")
             router.push('/')
         } else if ("page" in router.query) {
             setPage(Number(router.query.page) - 1)
@@ -48,6 +52,18 @@ const Users: NextPage<{}> = () => {
     };
     const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
 
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const searchTerm = event.target.value;
+        setSearchTerm(searchTerm);
+
+        const result = items.users.filter((user) =>
+            user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.email.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+
+        setSearchResult(result);
+    }
     const handleClose = (): void => {
         setSelectedUser(null);
     }
@@ -62,6 +78,7 @@ const Users: NextPage<{}> = () => {
             const {users, founded} = await getUsers(Number(page + 1));
 
             setItems({users, founded});
+            setSearchResult(users)
         })()
     }, [page, selectedUser])
 
@@ -74,13 +91,13 @@ const Users: NextPage<{}> = () => {
                             <div className="col-sm-12 col-md-6 d-flex justify-content-md-start justify-content-center">
                                 <div className="align-self-center">
                                     <button onClick={() => router.push("/admin/new-user")} className="btn btn-primary btn-lg" aria-controls="invoice-list">
-                                        <span>Add New</span></button>
+                                        <span>{t("admin.users.btnText")}</span></button>
                                 </div>
                             </div>
                             <div
                                 className="col-sm-12 col-md-6 d-flex justify-content-md-end justify-content-center mt-md-0 mt-3">
                                 <div className="input-group input-group-lg bg-white mb-0 position-relative mr-2">
-                                    <input type="text" className="form-control bg-transparent border-1x"
+                                    <input value={searchTerm} onChange={handleSearch} type="text" className="form-control bg-transparent border-1x"
                                            placeholder="Search..." aria-label="" aria-describedby="basic-addon1"/>
                                     <div className="input-group-append position-absolute pos-fixed-right-center">
                                         <button className="btn bg-transparent border-0 text-gray lh-1" type="button"><i
@@ -97,29 +114,29 @@ const Users: NextPage<{}> = () => {
                                 <thead>
                                 <tr role="row">
                                     <th className="py-6 sorting pl-6" aria-controls="invoice-list" rowSpan={1}
-                                        colSpan={1} aria-label="Name: activate to sort column ascending">Name
+                                        colSpan={1} aria-label="Name: activate to sort column ascending">{t("admin.users.name")}
                                     </th>
                                     <th className="py-6 sorting" aria-controls="invoice-list" rowSpan={1}
                                         colSpan={1} aria-label="Email: activate to sort column ascending"
-                                    >Email
+                                    >{t("admin.users.email")}
                                     </th>
                                     <th className="py-6 sorting" aria-controls="invoice-list" rowSpan={1}
                                         colSpan={1} aria-label="Email: activate to sort column ascending"
-                                    >Phone
+                                    >{t("admin.users.phone")}
                                     </th>
                                     <th className="py-6 sorting" aria-controls="invoice-list" rowSpan={1}
-                                        colSpan={1} aria-label="Date: activate to sort column ascending">Date
+                                        colSpan={1} aria-label="Date: activate to sort column ascending">{t("admin.users.date")}
                                     </th>
                                     <th className="py-6 sorting" aria-controls="invoice-list" rowSpan={1}
-                                        colSpan={1} aria-label="Status: activate to sort column ascending">Status
+                                        colSpan={1} aria-label="Status: activate to sort column ascending">{t("admin.users.status")}
                                     </th>
                                     <th className="no-sort py-6 sorting_disabled" rowSpan={1} colSpan={1}
-                                        aria-label="Actions">Actions
+                                        aria-label="Actions">{t("admin.users.actions")}
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {items.users.length ? items.users.map((user, index) => (
+                                {searchResult.length ? searchResult.map((user, index) => (
                                     <tr key={user.firstName + index} role="row" className="odd">
                                         <td className="align-middle pl-6">
                                             <div className="d-flex align-items-center">

@@ -26,7 +26,7 @@ export type SliderProps = {
 
 const SliderComp: FC<SliderProps> = ({items}) => {
     const [modal, setModal] = useState<boolean>(false);
-    const [data, setData] = useState<string | null>(null);
+    const [data, setData] = useState<number | null>(null);
     const [toastify, setToastify] = useState<{ status: "danger" | "info" | "success"; message: string }>({
         status: "info",
         message: ""
@@ -69,7 +69,7 @@ const SliderComp: FC<SliderProps> = ({items}) => {
             },
         ]
     };
-    function handleData(data: string) {
+    function handleData(data: number) {
         setData(data)
     }
     function handleToastifyData(status: "success" | "info" | "danger", message: string) {

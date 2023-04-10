@@ -2,6 +2,7 @@ import React, {MouseEvent, useEffect, useState} from 'react';
 // @ts-ignore
 import Slider from 'react-slick';
 import {useTranslation, withTranslation} from "next-i18next";
+import ShareModal from '../../component/ui/ShareModal'
 import SliderComp from "../../component/ui/Slider";
 import {useRouter} from "next/router";
 import {IProduct} from "../../utils/types/IProduct";
@@ -49,10 +50,11 @@ const Id: NextPage<{}> = () => {
     const user = useTypedSelector(state => state.auth.user);
     const dispatch = useTypedDispatch();
     const [liked, setLiked] = useState<boolean>(false);
+    const [modal, setModal] = useState<boolean>(false);
     const {t} = useTranslation("common");
     const isNewBuilding = product?.newBuilding ? t("singlePrd.isHas.isNewBuilding") : null;
     const isHasElevator = product?.elevator ? t("singlePrd.isHas.elevator") : null;
-    const isOnFloor = product?.type && product?.type[lang] === 'house' || 'дом' || 'տուն' ? null : t("singlePrd.isHas.inFloor", {currentFloor: product?.currentFloor});
+    const isOnFloor = product?.type && product?.type[lang] === 'house' || 'дом' || 'տուն' ?  t("singlePrd.isHas.inFloor", {currentFloor: product?.currentFloor}) : null;
     const isHasFurniture = product?.furniture ? t("singlePrd.isHas.isHasFurniture") : null;
 
     useEffect(() => {
@@ -113,7 +115,7 @@ const Id: NextPage<{}> = () => {
                                         <i className="far fa-heart"></i></Link>
                                 </li>
                                 <li className="list-inline-item mr-2">
-                                    <button type="button"
+                                    <button onClick={() => setModal(true)} type="button"
                                             className="btn btn-white p-0 d-flex align-items-center justify-content-center w-40px h-40 text-heading bg-hover-primary hover-white rounded-circle border-0 shadow-none"
                                             data-container="body" data-toggle="popover" data-placement="top"
                                             data-html="true" data-original-title="" title="">
@@ -163,7 +165,7 @@ const Id: NextPage<{}> = () => {
                                 <p className="mb-0 lh-214" dangerouslySetInnerHTML={{
                                     __html: t("singlePrd.dynamicDesc", {
                                         type: product?.type && capitalize(product?.type[lang]),
-                                        address: product?.address,
+                                        region: product?.region && product?.region[lang],
                                         buildingType: product?.buildingType && product?.buildingType[lang],
                                         isOnFloor: isOnFloor,
                                         floorsCount: product?.floorsCount,
@@ -172,7 +174,8 @@ const Id: NextPage<{}> = () => {
                                         rooms: product?.rooms,
                                         baths: product?.baths,
                                         isHasFurniture: isHasFurniture,
-                                        isNewBuilding: isNewBuilding
+                                        isNewBuilding: isNewBuilding,
+                                        authorPhoneNumber: product?.authorPhoneNumber
                                     })
                                 }}/>
                             </section>
@@ -254,7 +257,7 @@ const Id: NextPage<{}> = () => {
                                         <dt className="fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.rooms").toUpperCase()}</dt>
                                         <dd>{product.rooms}</dd>
                                     </dl> : null}
-                                    {product?.status?.en !== "land" ? <dl className="col-sm-6 mb-0 d-flex">
+                                    {product?.status?.en !== "land" ? <dl className="col-sm-6 mb-0 d-flex justify-content-between">
                                         <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.baths").toUpperCase()}</dt>
                                         <dd>{product.baths}</dd>
                                     </dl> : null}
@@ -313,6 +316,7 @@ const Id: NextPage<{}> = () => {
                     </div>
                 </div>
             </div>
+            {modal ? <ShareModal setModal={setModal} propertyId={product?.prdId} /> : null}
         </>
     );
 };

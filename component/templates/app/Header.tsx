@@ -13,6 +13,7 @@ import {useRouter} from "next/router";
 import useClickOutside from "../../../utils/hooks/useClickOutside";
 import capitalize from "../../../utils/helpers/capitalize";
 
+
 const Header: FC<{}> = () => {
     const router = useRouter();
     const [dropdown, setDropdown] = useState<boolean>(false)
@@ -157,5 +158,6 @@ const Header: FC<{}> = () => {
         </>
     );
 };
+
 
 export default withTranslation("common")(Header);

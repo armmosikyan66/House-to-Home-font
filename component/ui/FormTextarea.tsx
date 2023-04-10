@@ -3,7 +3,7 @@ import capitalize from "../../utils/helpers/capitalize";
 
 interface FormTextProps {
     onChange?: (key: string, value: string | number) => void;
-    label?: string;
+    label?: any;
     defaultValue?: string | number;
     keyWord: string;
     rows?: number;

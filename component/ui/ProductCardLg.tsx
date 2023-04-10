@@ -6,9 +6,15 @@ import {useTranslation} from "next-i18next";
 import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
 import Link from "next/link";
 
-const ProductCardLg: FC<IProduct> = ({prdId, desc, region, city, imageUrl, rooms, baths, floorArea, price, status}) => {
+const ProductCardLg: FC<IProduct> = ({prdId, type, newBuilding, currentFloor, elevator, furniture,buildingType, authorPhoneNumber, floorsCount, address, region, city, imageUrl, rooms, baths, floorArea, price, status}) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const {t} = useTranslation();
+    const isNewBuilding = newBuilding ? t("singlePrd.isHas.isNewBuilding") : null;
+    const isHasElevator = elevator ? t("singlePrd.isHas.elevator") : null;
+    const isOnFloor = type && type[lang] === 'house' || 'дом' || 'տուն' ? null : t("singlePrd.isHas.inFloor", {currentFloor: currentFloor});
+    const isHasFurniture = furniture ? t("singlePrd.isHas.isHasFurniture") : null;
+
     return (
         <div className="py-5 px-4 border rounded-lg shadow-hover-1 bg-white mb-4 fadeInUp animated"
              data-animate="fadeInUp">
@@ -48,9 +54,22 @@ const ProductCardLg: FC<IProduct> = ({prdId, desc, region, city, imageUrl, rooms
                     <p className="fs-17 font-weight-bold text-heading mb-1">
                         ${price}
                     </p>
-                    <p className="mb-2 ml-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam aliquid
-                        assumenda consequatur consequuntur, cupiditate deserunt ea eligendi eos illo impedit
-                        necessitatibus nobis perferendis porro quae repellat sapiente vitae, voluptas! Praesentium.</p>
+                    <p className="mb-2 ml-0" dangerouslySetInnerHTML={{
+                        __html: t("singlePrd.dynamicDesc", {
+                            type: type && capitalize(type[lang]),
+                            region: region[lang],
+                            buildingType: buildingType && buildingType[lang],
+                            isOnFloor: isOnFloor,
+                            floorsCount: floorsCount,
+                            floorArea: floorArea,
+                            isHasElevator: isHasElevator,
+                            rooms: rooms,
+                            baths: baths,
+                            isHasFurniture: isHasFurniture,
+                            isNewBuilding: isNewBuilding,
+                            authorPhoneNumber: authorPhoneNumber
+                        })
+                    }}/>
                 </div>
             </div>
             <div className="d-sm-flex justify-content-sm-between">
