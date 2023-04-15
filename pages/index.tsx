@@ -7,7 +7,7 @@ import $api from '../utils/http';
 const HomePage: NextPage<{}> = () => {
     useEffect(() => {
         (async () => {
-            const qwe = $api.post("/check");
+            const qwe = $api.get("/check");
             console.info(qwe)
         })()
     }, []) 
