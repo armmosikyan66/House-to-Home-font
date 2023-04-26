@@ -2,6 +2,7 @@ import type {GetStaticProps, NextPage} from 'next';
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {Home} from '../component/templates/app/home';
 import nextI18NextConfig from '../next-i18next.config.js';
+
 const HomePage: NextPage<{}> = () => {
     return (
         <>
