@@ -1,4 +1,4 @@
-import React, {useEffect, useState, MouseEvent} from 'react';
+import React, {useEffect, useState, MouseEvent, FormEvent} from 'react';
 import {GetStaticProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config";
@@ -13,7 +13,8 @@ import Link from "next/link";
 import ProductModal from "../../component/templates/admin/ProductModal";
 import ReactPaginate from "react-paginate";
 import {useRouter} from "next/router";
-import {useTypedSelector} from "../../redux/types/IRedux";
+import FormInput from "../../component/ui/FormInput";
+import {decodeParams, encodeQueryString} from "../../utils/helpers/queryString";
 
 const Dashboard: NextPage<{}> = () => {
     const {i18n} = useTranslation();
@@ -22,34 +23,42 @@ const Dashboard: NextPage<{}> = () => {
         products: [],
         founded: 0,
     });
-    const [searchTerm, setSearchTerm] = useState<string>('')
-    const [searchResults, setSearchResults] = useState<IProduct[]>([]);
+    const [searchTerm, setSearchTerm] = useState({})
     const {t} = useTranslation()
     const [selected, setSelected] = useState<IProduct | null>(null);
-    const user = useTypedSelector(state => state.auth.user)
     const [page, setPage] = useState<number>(0);
     const router = useRouter();
 
     useEffect(() => {
         if (!router.isReady) return;
-        if(!user) {
-            router.push('/admin/login')
-        } else if ("page" in router.query) {
+
+        if ("page" in router.query) {
             setPage(Number(router.query.page) - 1)
         }
     }, [router.isReady])
 
-    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const searchTerm = event.target.value;
-        setSearchTerm(searchTerm);
+    useEffect(() => {
+        (async () => {
+            if(!router.isReady) return;
+            console.log("qwe")
+            const {page, ...options} = decodeParams(router.asPath.replace(router.route, ""));
 
-        const result = items.products.filter((product) =>
-            product.city[lang].toLowerCase().includes(searchTerm.toLowerCase()) ||
-            product.prdId.toString().includes(searchTerm.toLowerCase())
-        )
+            const data = await getAdminPrd(Number(page || 1), options);
+            console.log(options)
 
-        setSearchResults(result)
-        setItems({products: items.products, founded: result.length})
+            setItems(data)
+            console.log(items)
+        })();
+    }, [router.query])
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+        event.preventDefault();
+        const queryString = encodeQueryString<any>(searchTerm);
+        router.push(router.pathname + queryString)
+    }
+
+    const handleChange = (key: string, val: string | number): void => {
+        setSearchTerm({[key]: val})
     }
 
     const handlePageClick = (event: { selected: number }) => {
@@ -59,15 +68,6 @@ const Dashboard: NextPage<{}> = () => {
         router.push(router);
     };
 
-    const getData = async (page: number): Promise<void> => {
-        const {products, founded} = await getAdminPrd(Number(page + 1));
-        setItems({
-            products,
-            founded
-        })
-        setSearchResults(products)
-        console.log(items)
-    }
 
     const handleSelectPrd = (event: MouseEvent<HTMLAnchorElement>, item: IProduct): void => {
         event.preventDefault();
@@ -87,12 +87,6 @@ const Dashboard: NextPage<{}> = () => {
     };
 
 
-    useEffect(() => {
-        (async () => {
-            await getData(page);
-        })();
-    }, [selected, page]);
-
     return (
         <>
             <main id="content" className="bg-gray-01 pt-xl-0 pt-12">
@@ -105,15 +99,15 @@ const Dashboard: NextPage<{}> = () => {
                         </div>
                         <div className="col-12 col-sm-6 form-inline justify-content-md-end mx-n2">
                             <div className="p-2 w-100">
-                                <div className="input-group input-group-lg bg-white border">
-                                    <div className="input-group-prepend">
-                                        <button className="btn pr-0 shadow-none" type="button"><i
-                                            className="far fa-search"></i></button>
+                                <form onSubmit={handleSubmit}>
+                                    <div className="input-group input-group-lg bg-white border">
+                                        <div className="input-group-prepend">
+                                            <button className="btn pr-0 shadow-none" type="submit"><i
+                                                className="far fa-search"></i></button>
+                                        </div>
+                                        <FormInput onChange={handleChange} placeholder="Search listing" className="form-control bg-transparent border-0 shadow-none text-body" type="text" keyWord="q" />
                                     </div>
-                                    <input value={searchTerm} onChange={handleSearch} id="search-input" type="text"
-                                           className="form-control bg-transparent border-0 shadow-none text-body"
-                                           placeholder="Search listing" name="search"/>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -130,7 +124,7 @@ const Dashboard: NextPage<{}> = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {searchResults.length ? searchResults.map(prd => (
+                            {items.products.length ? items.products.map(prd => (
                                 <tr key={prd.prdId} className="shadow-hover-xs-2 bg-hover-white">
                                     <td className="align-middle pt-6 pb-4 px-6">
                                         <div className="media">

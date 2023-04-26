@@ -5,6 +5,8 @@ import ProductCardLg from '../../../ui/ProductCardLg';
 import ReactPaginate from 'react-paginate';
 import {useRouter} from "next/router";
 import {useTranslation} from "next-i18next";
+import Toastify from "../../../ui/Toastify";
+import ShareModal from "../../../ui/ShareModal";
 
 export type ContentProps = {
     items: IProduct[];
@@ -14,6 +16,12 @@ export type ContentProps = {
 
 const Content: FC<ContentProps> = ({items, count, founded}) => {
     const [page, setPage] = useState<number>(0);
+    const [modal, setModal] = useState<boolean>(false);
+    const [data, setData] = useState<number | null>(null);
+    const [toastify, setToastify] = useState<{ status: "danger" | "info" | "success"; message: string }>({
+        status: "info",
+        message: ""
+    })
     const router = useRouter();
     const {t} = useTranslation("common");
 
@@ -32,17 +40,25 @@ const Content: FC<ContentProps> = ({items, count, founded}) => {
         router.push(router)
     };
 
+    function handleData(data: number) {
+        setData(data)
+    }
+    function handleToastifyData(status: "success" | "info" | "danger", message: string) {
+        setToastify({status: status, message: message})
+    }
+
     return (
         <>
+            {toastify.message.length ? <Toastify setToastify={setToastify} status={toastify.status} message={toastify.message} /> : null}
             <div className="row">
                 {items ? items.map((item) => (
                     <Fragment key={item.id}>
                         {count === 2 ? (
                             <div className="col-md-6 mb-6">
-                                <ProductCard {...item}/>
+                                <ProductCard onToastify={handleToastifyData} onData={handleData} setModal={setModal} {...item}/>
                             </div>
                         ) : (
-                            <ProductCardLg {...item} />
+                            <ProductCardLg onToastify={handleToastifyData} onData={handleData} setModal={setModal} {...item} />
                         )}
                     </Fragment>
                 )) : null}
@@ -65,6 +81,7 @@ const Content: FC<ContentProps> = ({items, count, founded}) => {
                 hrefBuilder={() => "#"}
                 forcePage={page}
             />
+            {modal ? <ShareModal propertyId={data} setModal={setModal} /> : null}
         </>
     );
 };

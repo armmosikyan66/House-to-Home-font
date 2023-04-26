@@ -90,18 +90,44 @@
     "similar": "Նման տներ, որոնք կարող եք հավանել",
     "active": "Ակտիվ",
     "details": "Լրացուցիչ մանրամասներ",
-    "dynamicDesc": "<span>{{type}}</span> <span>{{region}}</span>ում, <span>{{floorsCount}}</span> հարկանի <span>{{isNewBuilding}}</span> <span>{{buildingType}}</span> շինության <span>{{isOnFloor}}</span> <span>{{floorArea}}</span> քմ ընդհանուր մակերեսով, <span>{{isHasElevator}}</span> <span>{{rooms}}</span> սենյակ, <span>{{baths}}</span> սանհանգույց կոմունալ բոլոր հարմարություններով։ <span>{{isHasFurniture}}</span>",
     "recommended": {
       "house": "Նման տներ, որոնք ձեզ կարող են դուր գալ",
       "office": "Նման գրասենյակներ, որոնք կարող են ձեզ դուր գալ",
       "land": "Նման երկրներ, որոնք կարող են ձեզ դուր գալ",
       "apartment": "Նմանատիպ բնակարաններ, որոնք ձեզ դուր կգան"
     },
-    "isHas": {
-      "elevator": "ունի վերելակ",
-      "inFloor": "<span>{{currentFloor}}</span> հարկում",
-      "isNewBuilding": "նորակառույց",
-      "isHasFurniture": "Կահույք և տեխնիկա լրիվ նոր։"
+    "houseDesc": {
+      "desc": "Բարի գալուստ <span>{{region}}</span>-ի տուն: Այս գեղեցիկ տունը գտնվում է <span>{{isNewBuilding}}</span> <span>{{floorsCount}}</span> հարկանի շենքում: Տան ընդհանուր մակերեսը <span>{{floorArea}}</span> քառակուսի մետր է, <span>{{isHasMuchFloorArea}}</span>: <span>{{isHasElevator}}</span> Ընդամենը <span>{{rooms}}</span> <span>{{isHasMuchRooms}}</span>-ում: <span>{{isHasBath}}</span> <span>{{isHasFurniture}}</span> Ձեզ դուր կգա ապրել այս գեղեցիկ տանը <span>{{region}}</span>-ում, որտեղ դուք կգտնեք ամեն ինչ անհրաժեշտ է հարմարավետ կյանքի համար!",
+      "isHas": {
+        "elevator": "Առանձնատունն ունի վերելակ, որն ապահովում է շենքի շուրջը տեղաշարժվելու հարմարավետություն և հեշտություն։",
+        "isNewBuilding": "նորակառույց",
+        "isHasFurniture": "Այս տունը ապահովված է բոլոր անհրաժեշտ կահույքով և տեխնիկայով։",
+        "isHasMuchFloorArea": ", որը մեծ տեղ է տալիս հարմարավետ հանգստի համար",
+        "isHasMuchRooms": "սենյակներ, որտեղ դուք կարող եք հարմարավետ մնալ ընտանիքի կամ ընկերների հետ:",
+        "isHasBath": "Առկա է նաև սանհանգույց՝ ապահովված բոլոր հարմարություններով։"
+      }
+    },
+    "officeDesc": {
+      "desc": "Բարի գալուստ մեր գրասենյակ: Մենք գտնվում ենք <span>{{currentFloor}}</span> հարկում <span>{{floorsCount}}</span> հարկանի շենքի <span>{{isHasElevator}}</span> Ընդհանուր մակերեսը գրասենյակի տարածքը <span> {{floorArea}}</span> քառակուսի մետր է<span>{{isHasMuchFloorArea}}</span> Գրասենյակն ունի <span>{{rooms}}</span> առանձին սենյակներ, որոնք կարող է օգտագործվել աշխատանքի, հանդիպումների և բանակցությունների համար: Լոգասենյակների թիվը՝ <span>{{isHasBath}}</span>{{isHasMuchBath}}<span> <span>{{isHasFurniture}}</span>",
+      "isHas": {
+        "elevator": "Շենքն ունի վերելակ՝ գրասենյակ հեշտ մուտք գործելու համար։",
+        "isNewBuilding": "նորակառույց",
+        "isHasMuchBaths": "որն ապահովում է հարմարավետություն և հարմարավետություն աշխատակիցների և այցելուների համար:",
+        "isHasFurniture": "Տրվում է գրասենյակային կահույք։",
+        "isHasMuchFloorArea": "որը շատ տեղ է տալիս աշխատանքի և հանդիպումների համար:",
+        "isHasBath": "Առկա է նաև սանհանգույց՝ ապահովված բոլոր հարմարություններով։"
+      }
+    },
+    "apartmentDesc": {
+      "desc": "Բնակարանը գտնվում է <span>{{currentFloor}}</span> հարկում <span>{{floorsCount}}</span> հարկանի շենքի <span>{{isHasElevator}}</span>-ում: Բնակարանն ունի <span>{{rooms}}</span> սենյակ(ներ), <span>{{baths}}</span> լոգարան <span>{{isHasFurniture}}</span> <span>{{isNewBuilding}}</span>",
+      "isHas": {
+        "elevator": "ինտեգրված վերելակով",
+        "isNewBuilding": "Շենքը պատկանում է նորակառույցներին։",
+        "isHasFurniture": "Բնակարանը ամբողջությամբ կահավորված է և հագեցած է անհրաժեշտ ամեն ինչով։"
+      }
+    },
+    "landDesc": {
+      "desc": "<span>{{floorArea}}</span> քառակուսի մետր մակերեսով հողատարածք <span>{{region}}</span>-ում"
     }
   },
   "contactus": {

@@ -39,11 +39,9 @@ const SliderProductCard = ({id, prdId, rooms, floorArea, baths, imageUrl, status
         }
 
         if (!liked) {
-            console.log("qwe")
             const favorite = await addFavorite(user.id, id);
             dispatch(setUser(favorite))
         } else {
-            console.log("ert")
             const favorite = await removeFavorite(user.id, id)
             dispatch(setUser(favorite))
         }

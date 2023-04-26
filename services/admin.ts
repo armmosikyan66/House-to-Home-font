@@ -80,14 +80,14 @@ export const deleteUser = async (id: string): Promise<true | {status: "error" , 
     }
 }
 
-export const getAdminPrd = async (page: number = 1): Promise<IProductResponse> => {
-    const {data} = await $api.get<IProductResponse>(`/admin/get-prd/${page}`);
+export const getAdminPrd = async (page: number = 1, options = {}): Promise<IProductResponse> => {
+    const {data} = await $api.post<IProductResponse>(`/admin/get-prd/${page}`, options);
 
     return data;
 }
 
-export const getUsers = async (page: number = 1): Promise<any> => {
-    const {data} = await $api.get(`/admin/get-users/${page}`);
+export const getUsers = async (page: number = 1, options = {}): Promise<any> => {
+    const {data} = await $api.post(`/admin/get-users/${page}`, options);
 
     return data;
 }

@@ -52,10 +52,6 @@ const Id: NextPage<{}> = () => {
     const [liked, setLiked] = useState<boolean>(false);
     const [modal, setModal] = useState<boolean>(false);
     const {t} = useTranslation("common");
-    const isNewBuilding = product?.newBuilding ? t("singlePrd.isHas.isNewBuilding") : null;
-    const isHasElevator = product?.elevator ? t("singlePrd.isHas.elevator") : null;
-    const isOnFloor = product?.type && product?.type[lang] === 'house' || 'дом' || 'տուն' ?  t("singlePrd.isHas.inFloor", {currentFloor: product?.currentFloor}) : null;
-    const isHasFurniture = product?.furniture ? t("singlePrd.isHas.isHasFurniture") : null;
 
     useEffect(() => {
         (async () => {
@@ -71,11 +67,100 @@ const Id: NextPage<{}> = () => {
             setProduct(prd);
         })();
     }, [router.isReady, router.query]);
-    console.log(isOnFloor)
     useEffect(() => {
         setLiked(user?.favorites?.some(fav => fav === product.id));
     }, [user])
 
+    const handleDescription = () => {
+        switch (product.type?.en) {
+            case "house": {
+                const isHasElevator = product?.elevator ? t("singlePrd.houseDesc.isHas.elevator") : null;
+                const isNewBuilding = product?.newBuilding ? t("singlePrd.houseDesc.isHas.isNewBuilding") : null;
+                const isHasFurniture = product?.furniture ? t("singlePrd.houseDesc.isHas.isHasFurniture") : null;
+                const isHasMuchFloorArea = product?.floorArea && product?.floorArea >= 100 ? t("singlePrd.houseDesc.isHas.isHasMuchFloorArea") : null;
+                const isHasMuchRooms = product?.rooms && product?.rooms >= 2 ? t("singlePrd.houseDesc.isHas.isHasMuchRooms") : null;
+                const isHasBath = product?.baths ? t("singlePrd.houseDesc.isHas.isHasBath") : null;
+
+                return (
+                    <p className="mb-0 lh-214" dangerouslySetInnerHTML={{
+                        __html: t("singlePrd.houseDesc.desc", {
+                            region: product?.region && product?.region[lang],
+                            floorsCount: product?.floorsCount,
+                            floorArea: product?.floorArea,
+                            isHasMuchFloorArea: isHasMuchFloorArea,
+                            isHasMuchRooms: isHasMuchRooms,
+                            isHasElevator: isHasElevator,
+                            rooms: product?.rooms,
+                            isHasBath: isHasBath,
+                            isHasFurniture: isHasFurniture,
+                            isNewBuilding: isNewBuilding,
+                        })
+                    }} />
+                )
+                break;
+            }
+
+            case "office": {
+                const isHasElevator = product?.elevator ? t("singlePrd.officeDesc.isHas.elevator") : null;
+                const isNewBuilding = product?.newBuilding ? t("singlePrd.officeDesc.isHas.isNewBuilding") : null;
+                const isHasFurniture = product?.furniture ? t("singlePrd.officeDesc.isHas.isHasFurniture") : null;
+                const isHasMuchFloorArea = product?.floorArea && product?.floorArea >= 100 ? t("singlePrd.officeDesc.isHas.isHasMuchFloorArea") : null;
+                const isHasBath = product?.baths ? t("singlePrd.officeDesc.isHas.isHasBath") : null;
+                const isHasMuchBaths = product?.baths && product?.baths > 1 ? t("singlePrd.officeDesc.isHas.isHasMuchBaths") : null;
+
+                return (
+                    <p className="mb-0 lh-214" dangerouslySetInnerHTML={{
+                        __html: t("singlePrd.officeDesc.desc", {
+                            floorsCount: product?.floorsCount,
+                            currentFloor: product?.currentFloor,
+                            floorArea: product?.floorArea,
+                            isHasMuchFloorArea: isHasMuchFloorArea,
+                            isHasElevator: isHasElevator,
+                            rooms: product?.rooms,
+                            isHasBath: isHasBath,
+                            isHasFurniture: isHasFurniture,
+                            isNewBuilding: isNewBuilding,
+                            isHasMuchBath: isHasMuchBaths
+                        })
+                    }} />
+                )
+
+                break;
+            }
+            case "apartment": {
+                const isHasElevator = product?.elevator ? t("singlePrd.apartmentDesc.isHas.elevator") : null;
+                const isNewBuilding = product?.newBuilding ? t("singlePrd.apartmentDesc.isHas.isNewBuilding") : null;
+                const isHasFurniture = product?.furniture ? t("singlePrd.apartmentDesc.isHas.isHasFurniture") : null;
+
+                return (
+                    <p className="mb-0 lh-214" dangerouslySetInnerHTML={{
+                        __html: t("singlePrd.apartmentDesc.desc", {
+                            floorsCount: product?.floorsCount,
+                            currentFloor: product?.currentFloor,
+                            floorArea: product?.floorArea,
+                            baths: product?.baths,
+                            isHasElevator: isHasElevator,
+                            rooms: product?.rooms,
+                            isHasFurniture: isHasFurniture,
+                            isNewBuilding: isNewBuilding,
+                        })
+                    }} />
+                )
+            }
+            case "land": {
+                return (
+                    <p className="mb-0 lh-214" dangerouslySetInnerHTML={{
+                        __html: t("singlePrd.landDesc.desc", {
+                            floorArea: product?.floorArea,
+                            region: product?.region
+                        })
+                    }} />
+                )
+            }
+            default:
+                break;
+        }
+    }
     const handleSetFavorite = async (event: MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
         if (!user || !user?.id) {
@@ -162,22 +247,7 @@ const Id: NextPage<{}> = () => {
                                     </div>
                                 </div>
                                 <h4 className="fs-22 text-heading mt-6 mb-2">{t("singlePrd.desc")}</h4>
-                                <p className="mb-0 lh-214" dangerouslySetInnerHTML={{
-                                    __html: t("singlePrd.dynamicDesc", {
-                                        type: product?.type && capitalize(product?.type[lang]),
-                                        region: product?.region && product?.region[lang],
-                                        buildingType: product?.buildingType && product?.buildingType[lang],
-                                        isOnFloor: isOnFloor,
-                                        floorsCount: product?.floorsCount,
-                                        floorArea: product?.floorArea,
-                                        isHasElevator: isHasElevator,
-                                        rooms: product?.rooms,
-                                        baths: product?.baths,
-                                        isHasFurniture: isHasFurniture,
-                                        isNewBuilding: isNewBuilding,
-                                        authorPhoneNumber: product?.authorPhoneNumber
-                                    })
-                                }}/>
+                                {handleDescription()}
                             </section>
                             <section className="mt-2 pb-3 px-6 pt-5 bg-white rounded-lg">
                                 <h4 className="fs-22 text-heading mb-6">{t("singlePrd.facts").toUpperCase()}</h4>

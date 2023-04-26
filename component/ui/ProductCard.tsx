@@ -1,4 +1,4 @@
-import React, {FC, MouseEvent, useEffect, useState} from 'react';
+import React, {Dispatch, FC, MouseEvent, SetStateAction, useEffect, useState} from 'react';
 import {IProduct} from "../../utils/types/IProduct";
 import {API_URL} from "../../utils/constants/api";
 import {useTranslation} from "next-i18next";
@@ -9,7 +9,14 @@ import {addFavorite, removeFavorite} from "../../services/user";
 import {useTypedDispatch, useTypedSelector} from "../../redux/types/IRedux";
 import {setUser} from "../../redux/actions/user";
 
-const ProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, imageUrl, status, price, city, region}) => {
+type ModalProps = {
+    setModal: Dispatch<SetStateAction<boolean>>
+    onData: (data: number) => void
+    onToastify: (status: "success" | "info" | "danger", message: string) => void
+}
+type MyProps = IProduct & ModalProps
+
+const ProductCard = ({id, prdId, rooms, floorArea, baths, imageUrl, status, price, city, region, setModal, onData, onToastify}: MyProps) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     const user = useTypedSelector(state => state.auth.user);
@@ -23,16 +30,25 @@ const ProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, imageUrl
     const handleSetFavorite = async (event: MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
         if (!user || !user?.id) {
-            return;
+            onToastify("danger", "Please first SignIn or SignUp");
+            return
+        } else if (!user?.isActivated) {
+            onToastify("danger", "Please activate your account");
+            return
         }
 
         if (!liked) {
             const favorite = await addFavorite(user.id, id);
-            dispatch(setUser(favorite));
+            dispatch(setUser(favorite))
         } else {
-            const favorite = await removeFavorite(user.id, id);
-            dispatch(setUser(favorite));
+            const favorite = await removeFavorite(user.id, id)
+            dispatch(setUser(favorite))
         }
+    }
+
+    const handleClick = () => {
+        setModal(true);
+        onData(prdId)
     }
 
     return (
@@ -58,7 +74,7 @@ const ProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, imageUrl
                             <li className="list-inline-item mr-3 h-32"
                                 data-toggle="tooltip" title=""
                                 data-original-title="Wishlist">
-                                <a onClick={handleSetFavorite} href="#"
+                                <a href="#" onClick={handleSetFavorite}
                                    className={`text-${liked ? "primary" : "white"} fs-20 hover-primary`}>
                                     <i className="far fa-heart"></i>
                                 </a>
@@ -66,7 +82,7 @@ const ProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, imageUrl
                             <li className="list-inline-item mr-3 h-32"
                                 data-toggle="tooltip" title=""
                                 data-original-title="Compare">
-                                <a href="pages/properties/properties#" className="text-white fs-20 hover-primary">
+                                <a href="#" onClick={handleClick} className="text-white fs-20 hover-primary">
                                     <i className="fas fa-exchange-alt"></i>
                                 </a>
                             </li>

@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import Logo from "../../../assets/images/logo.svg"
 import Link from "next/link";
 import {useTranslation} from "next-i18next";
@@ -6,7 +6,6 @@ import {LanguagesKeys} from "../../../utils/types/ILanguagesKeys";
 import {useTypedSelector} from "../../../redux/types/IRedux";
 import capitalize from "../../../utils/helpers/capitalize";
 import {useRouter} from "next/router";
-import {logout} from "../../../services/auth";
 import Toastify from "../../ui/Toastify";
 
 const Sidebar: FC<{}> = () => {
@@ -17,7 +16,6 @@ const Sidebar: FC<{}> = () => {
     const [dropdownOpened, setDropdownOpened] = useState<boolean>(false);
     const [burgerOpened, setBurgerOpened] = useState<boolean>(false);
 
-    const router = useRouter();
     const [toastify, setToastify] = useState<{status: "danger" | "info" | "success"; message: string;}>({
         status: "info",
         message: ""

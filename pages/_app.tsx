@@ -9,7 +9,7 @@ import {appWithTranslation} from "next-i18next";
 import nextI18NextConfig from '../next-i18next.config.js'
 import {wrapper} from "../redux/store";
 import {useLayoutEffect, useRef} from "react";
-import {useTypedDispatch} from "../redux/types/IRedux";
+import {useTypedDispatch, useTypedSelector} from "../redux/types/IRedux";
 import {checkAuth} from "../services/auth";
 import {setUser} from "../redux/actions/user";
 import {IUser} from "../utils/types/IUser";
@@ -19,12 +19,12 @@ import {useRouter} from "next/router";
 function MyApp({Component, pageProps}: AppProps) {
     const dispatch = useTypedDispatch();
     const router = useRouter();
-    const mounted = useRef(false)
+    const mounted = useRef(false);
 
     const checkIsAuth = async () => {
         const {user, status} = await checkAuth();
 
-        if (!user && router.asPath.includes("admin") && !router.asPath.includes("/admin/login")) router.push("/");
+        if (!user && status === "error" && router.asPath.includes("admin") && !router.asPath.includes("/admin/login")) router.push("/");
 
         dispatch(setUser(user as IUser));
     }

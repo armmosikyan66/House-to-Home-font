@@ -96,13 +96,39 @@
       "land": "Похожие страны, которые могут вам понравиться",
       "apartment": "Похожие квартиры, которые могут вам понравиться"
     },
-    "isHas": {
-      "elevator": "есть лифт,",
-      "inFloor": "на <span>{{currentFloor}}</span> этаже",
-      "isNewBuilding": "новостройки",
-      "isHasFurniture": "Мебель и техника совершенно новые."
+    "houseDesc": {
+      "desc": "Добро пожаловать в дом в <span>{{region}}</span>! Этот прекрасный дом расположен в <span>{{isNewBuilding}}</span> <span>{{floorsCount}}</span>-этажном здании. Общая площадь дома составляет <span>{{floorArea}}</span> квадратных метров, <span>{{isHasMuchFloorArea}}</span>. <span>{{isHasElevator}}</span> Всего в доме <span>{{rooms}}</span> <span>{{isHasMuchRooms}}</span>. <span>{{isHasBath}}</span> <span>{{isHasFurniture}}</span> Вы будете любить жить в этом прекрасном доме в <span>{{region}}</span>, где вы найдете все необходимое для комфортной жизни!",
+      "isHas": {
+        "elevator": "В доме есть лифт, что обеспечивает удобство и легкость перемещения по зданию.",
+        "isNewBuilding": "недавно построенном",
+        "isHasFurniture": "Этот дом оборудован всей необходимой мебелью и оборудованием.",
+        "isHasMuchFloorArea": ", что дает много места для комфортного проживания",
+        "isHasMuchRooms": "комнаты, где вы можете комфортно разместиться с семьей или друзьями.",
+        "isHasBath": "Ванная комната также доступна, что обеспечивает все необходимые удобства."
+      }
     },
-    "dynamicDesc": "<span>{{type}}</span> в <span>{{region}}</span> <span>{{isOnFloor}}</span>, <span>{{floorsCount}}</span> этажного дома общей площадью <span>{{floorArea}}</span> квадратных метра, <span>{{isHasElevator}}</span> <span>{{rooms}}</span> комнаты, <span>{{baths}}</span> ванны со всеми комунальными услугами. <span>{{isHasFurniture}}</span>"
+    "officeDesc": {
+      "desc": "Добро пожаловать в наш офис! Мы находимся на <span>{{currentFloor}}</span> этаже <span>{{floorsCount}}</span>-этажного здания <span>{{isHasElevator}}</span> Общая площадь офиса составляет <span>{{floorArea}}</span> квадратных метров<span>{{isHasMuchFloorArea}}</span> В офисе есть <span>{{rooms}}</span> отдельных комнат, которые могут использоваться для работы, встреч и переговоров. Количество ванных комнат составляет <span>{{isHasBath}}</span>{{isHasMuchBath}}<span> <span>{{isHasFurniture}}</span>",
+      "isHas": {
+        "elevator": "В здании есть лифт, что обеспечивает легкий доступ к офису.",
+        "isNewBuilding": "недавно построенном",
+        "isHasMuchBaths": ", что обеспечивает комфорт и удобство для сотрудников и посетителей.",
+        "isHasFurniture": "Мебель в офисе предоставляется.",
+        "isHasMuchFloorArea": ", что предоставляет много места для работы и проведения встреч.",
+        "isHasBath": "Ванная комната также доступна, что обеспечивает все необходимые удобства."
+      }
+    },
+    "apartmentDesc": {
+      "desc": "Квартира находится на <span>{{currentFloor}}</span> этаже <span>{{floorsCount}}</span>-этажного здания <span>{{isHasElevator}}</span>. В квартире есть <span>{{rooms}}</span> комнаты(а), <span>{{baths}}</span> ванная комната> <span>{{isHasFurniture}}</span> <span>{{isNewBuilding}}</span>",
+      "isHas": {
+        "elevator": "со встроенным лифтом",
+        "isNewBuilding": "Здание относится к новостройкам.",
+        "isHasFurniture": "Квартира полностью меблирована и оборудована всем необходимым."
+      }
+    },
+    "landDesc": {
+      "desc": "Участок земли с площадью <span>{{floorArea}}</span> кважратных метров в <span>{{region}}</span>"
+    }
   },
   "contactus": {
     "title": "Для получения дополнительной информации о наших услугах свяжитесь с нашими опытными консультантами. Мы всегда рады услышать от вас!",

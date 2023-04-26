@@ -33,6 +33,8 @@ const Login: NextPage<{}> = () => {
 
         if (status === "error" && message) {
             return setToastify({status: "danger", message: message})
+        } else if(user?.role === 'user') {
+            return setToastify({status: "danger", message: "You dont have permission"})
         }
 
         setToastify({status: "success", message: "You successfully logged in"});

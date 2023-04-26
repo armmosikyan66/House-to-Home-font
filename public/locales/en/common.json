@@ -97,17 +97,43 @@
       "land": "Lands You Might Like",
       "apartment": "Similar Apartments You'll Like"
     },
-    "isHas": {
-      "elevator": "has elevator",
-      "inFloor": "on the <span>{{currentFloor}}</span>th floor",
-      "isNewBuilding": "of a newly built",
-      "isHasFurniture": "Furniture and equipment completely new. "
+    "houseDesc": {
+      "desc": "Welcome to the house in <span>{{region}}</span>! This beautiful house is located in a <span>{{isNewBuilding}}</span> <span>{{floorsCount}}</span>-storey building. The total area of the house is <span>{{floorArea}}</span> square meters, <span>{{isHasMuchFloorArea}}</span>. <span>{{isHasElevator}}</span> There are <span>{{rooms}}</span> <span>{{isHasMuchRooms}}</span> in the house. <span>{{isHasBath}}</span> <span>{{isHasFurniture}}</span> You will love living in this beautiful house in <span>{{region}}</span>, where you will find everything you need for a comfortable life!",
+      "isHas": {
+        "elevator": "There is an elevator in the building, which provides convenience and ease of movement throughout the building.",
+        "isNewBuilding": "recently built.",
+        "isHasFurniture": "This house is equipped with all the necessary furniture and equipment.",
+        "isHasMuchFloorArea": ", providing plenty of space for comfortable living.",
+        "isHasMuchRooms": "Rooms where you can comfortably accommodate with your family or friends.",
+        "isHasBath": "The bathroom is also available, providing all the necessary amenities."
+      }
     },
-    "dynamicDesc": "<span>{{type}}</span> in <span>{{region}}</span> <span>{{isOnFloor}}</span> <span>{{isNewBuilding}}</span> <span>{{floorsCount}}</span>-story building , with a total area of <span>{{floorArea}}</span> square meters, <span>{{isHasElevator}}</span> <span>{{rooms}}</span> rooms, <span>{{baths}}</span> baths with all utilities. <span>{{isHasFurniture}}</span>"
+    "officeDesc": {
+      "desc": "Welcome to our office! We are located on the <span>{{currentFloor}}</span> floor of a <span>{{floorsCount}}</span>-story building <span>{{isHasElevator}}</span>. The total area of the office is <span>{{floorArea}}</span> square meters <span>{{isHasMuchFloorArea}}</span>. The office has <span>{{rooms}}</span> separate rooms that can be used for work, meetings, and negotiations. There are <span>{{isHasBath}}</span>{{isHasMuchBath}} bathrooms available in the office, and it is <span>{{isHasFurniture}}</span> furnished for your convenience.",
+      "isHas": {
+        "elevator": "There is an elevator in the building, which provides easy access to the office.",
+        "isNewBuilding": "recently built.",
+        "isHasMuchBaths": "This building is equipped with an elevator, providing easy access to the office and ensuring comfort and convenience for both employees and visitors.",
+        "isHasFurniture": "Furniture is provided in the office.",
+        "isHasMuchFloorArea": ", providing ample space for work and meetings.",
+        "isHasBath": "A bathroom is also available, providing all necessary amenities."
+      }
+    },
+    "apartmentDesc": {
+      "desc": "The apartment is located on the <span>{{currentFloor}}</span> floor of a <span>{{floorsCount}}</span>-storey building<span>{{isHasElevator}}</span>. The apartment has <span>{{rooms}}</span> room(s), <span>{{baths}}</span> bathroom(s), <span>{{isHasFurniture}}</span><span>{{isNewBuilding}}</span>.",
+      "isHas": {
+        "elevator": "with an built-in elevator",
+        "isNewBuilding": "The building belongs to new constructions.",
+        "isHasFurniture": "The apartment is fully furnished and equipped with everything necessary."
+      }
+    },
+    "landDesc": {
+      "desc": "The land plot has an area of <span>{{floorArea}}</span> square meters in <span>{{region}}</span>."
+    }
   },
   "contactus": {
     "title": "For more information about our services, get in touch with our expert consultants. We're always eager to hear from you!",
-    "submitBtn": "հաստատել",
+    "submitBtn": "confirm",
     "first_name": "First name",
     "last_name": "Last Name",
     "your_email": "Your E-mail",
@@ -242,12 +268,12 @@
     "form": {
       "title": "Do You Have An Upcoming Real Estate Transaction?",
       "subtitle": "Expert Assistance for Your Next Real Estate Transaction: Comprehensive Services and Personalized Support to Help You Navigate the Complexities of Buying or Selling Property with Confidence and Success",
-      "submitBtn": "հաստատել",
-      "first_name": "Անուն",
-      "last_name": "Ազգանուն",
-      "your_email": "Ձեր էլ.փոստը",
-      "your_phone": "Դու հեռախոս",
-      "message": "հաղորդագրություն"
+      "submitBtn": "confirm",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "your_email": "E-mail",
+      "your_phone": "Phone Number",
+      "message": "Message"
     }
   }
 }
