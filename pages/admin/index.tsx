@@ -1,5 +1,5 @@
 import React, {useEffect, useState, MouseEvent, FormEvent} from 'react';
-import {GetStaticProps, NextPage} from "next";
+import {GetServerSideProps, GetStaticProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config";
 import {IProduct, IProductResponse} from "../../utils/types/IProduct";
@@ -15,6 +15,7 @@ import ReactPaginate from "react-paginate";
 import {useRouter} from "next/router";
 import FormInput from "../../component/ui/FormInput";
 import {decodeParams, encodeQueryString} from "../../utils/helpers/queryString";
+import {checkAuth} from "../../services/auth";
 
 const Dashboard: NextPage<{}> = () => {
     const {i18n} = useTranslation();
@@ -40,14 +41,12 @@ const Dashboard: NextPage<{}> = () => {
     useEffect(() => {
         (async () => {
             if(!router.isReady) return;
-            console.log("qwe")
+
             const {page, ...options} = decodeParams(router.asPath.replace(router.route, ""));
 
             const data = await getAdminPrd(Number(page || 1), options);
-            console.log(options)
 
             setItems(data)
-            console.log(items)
         })();
     }, [router.query])
 
@@ -196,14 +195,29 @@ const Dashboard: NextPage<{}> = () => {
     );
 };
 
-export const getStaticProps: GetStaticProps<{}> = async ({locale}) => ({
-    props: {
-        ...(await serverSideTranslations(
-            locale ?? "am",
-            ['common'],
-            nextI18NextConfig
-        )),
-    },
-})
+export const getServerSideProps: GetServerSideProps = async ({ locale , req}) => {
+     const token = req.cookies.refreshToken;
+     let isAdmin = false;
+
+     if(token) {
+         const decodedToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf8'));
+         isAdmin = decodedToken.role === 'admin'
+     }
+
+    if(!isAdmin) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/'
+            }
+        }
+    }
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? "am", ['common'])),
+        },
+    }
+}
 
 export default Dashboard;
