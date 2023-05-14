@@ -10,9 +10,9 @@ import {addFavorite, removeFavorite} from "../../services/user";
 import {setUser} from "../../redux/actions/user";
 
 type ModalProps = {
-    setModal?: Dispatch<SetStateAction<boolean>>
-    onData?: (data: number) => void
-    onToastify?: (status: "success" | "info" | "danger", message: string) => void
+    setModal: Dispatch<SetStateAction<boolean>>
+    onData: (data: number) => void
+    onToastify: (status: "success" | "info" | "danger", message: string) => void
 }
 type MyProps = IProduct & ModalProps
 
