@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {GetStaticProps, NextPage} from "next";
+import {GetServerSideProps, GetStaticProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config";
 import FormInput from "../../component/ui/FormInput";
@@ -125,14 +125,29 @@ const NewUser: NextPage<{}> = () => {
     );
 };
 
-export const getStaticProps: GetStaticProps<{}> = async ({locale}) => ({
-    props: {
-        ...(await serverSideTranslations(
-            locale ?? "am",
-            ['common'],
-            nextI18NextConfig
-        )),
-    },
-})
+export const getServerSideProps: GetServerSideProps = async ({ locale , req}) => {
+    const token = req.cookies.refreshToken;
+    let isAdmin = false;
+
+    if(token) {
+        const decodedToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf8'));
+        isAdmin = decodedToken.role === 'admin'
+    }
+
+    if(!isAdmin) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/'
+            }
+        }
+    }
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? "am", ['common'])),
+        },
+    }
+}
 
 export default NewUser;
