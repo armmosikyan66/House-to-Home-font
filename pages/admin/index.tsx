@@ -40,14 +40,11 @@ const Dashboard: NextPage<{}> = () => {
     useEffect(() => {
         (async () => {
             if(!router.isReady) return;
-            console.log("qwe")
             const {page, ...options} = decodeParams(router.asPath.replace(router.route, ""));
 
             const data = await getAdminPrd(Number(page || 1), options);
-            console.log(options)
 
             setItems(data)
-            console.log(items)
         })();
     }, [router.query])
 
