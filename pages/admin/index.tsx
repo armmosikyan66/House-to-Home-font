@@ -1,7 +1,6 @@
 import React, {useEffect, useState, MouseEvent, FormEvent} from 'react';
-import {GetServerSideProps, GetStaticProps, NextPage} from "next";
+import {GetServerSideProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import nextI18NextConfig from "../../next-i18next.config";
 import {IProduct, IProductResponse} from "../../utils/types/IProduct";
 import {deletePrd, getAdminPrd} from "../../services/admin";
 import {useTranslation} from "next-i18next";
@@ -15,7 +14,6 @@ import ReactPaginate from "react-paginate";
 import {useRouter} from "next/router";
 import FormInput from "../../component/ui/FormInput";
 import {decodeParams, encodeQueryString} from "../../utils/helpers/queryString";
-import {checkAuth} from "../../services/auth";
 
 const Dashboard: NextPage<{}> = () => {
     const {i18n} = useTranslation();
@@ -41,7 +39,6 @@ const Dashboard: NextPage<{}> = () => {
     useEffect(() => {
         (async () => {
             if(!router.isReady) return;
-
             const {page, ...options} = decodeParams(router.asPath.replace(router.route, ""));
 
             const data = await getAdminPrd(Number(page || 1), options);

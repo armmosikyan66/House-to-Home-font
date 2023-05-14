@@ -8,7 +8,10 @@ module.exports = {
   i18n: {
     defaultLocale: 'am',
     locales: ['am', 'en', 'ru'],
+    localeDetection: false,
+    serializeConfig: false,
   },
+  trailingSlash: true,
   localePath:
       typeof window === 'undefined'
           ? require('path').resolve('./public/locales')
