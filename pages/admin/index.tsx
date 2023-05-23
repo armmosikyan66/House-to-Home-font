@@ -14,6 +14,9 @@ import ReactPaginate from "react-paginate";
 import {useRouter} from "next/router";
 import FormInput from "../../component/ui/FormInput";
 import {decodeParams, encodeQueryString} from "../../utils/helpers/queryString";
+import {useTypedDispatch, useTypedSelector} from "../../redux/types/IRedux";
+import {updateProduct} from "../../redux/actions/product";
+import {GenerateTitle} from "../../component/ui/GenerateTitle";
 
 const Dashboard: NextPage<{}> = () => {
     const {i18n} = useTranslation();
@@ -27,7 +30,8 @@ const Dashboard: NextPage<{}> = () => {
     const [selected, setSelected] = useState<IProduct | null>(null);
     const [page, setPage] = useState<number>(0);
     const router = useRouter();
-
+    const product = useTypedSelector(state => state.product)
+    const dispatch = useTypedDispatch()
     useEffect(() => {
         if (!router.isReady) return;
 
@@ -45,7 +49,7 @@ const Dashboard: NextPage<{}> = () => {
 
             setItems(data)
         })();
-    }, [router.query])
+    }, [router.query, product])
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
@@ -78,7 +82,7 @@ const Dashboard: NextPage<{}> = () => {
         event.preventDefault();
         const dirId = imageUrl.replace("/uploads/", "").split("/")[0];
         const deleted = await deletePrd(dirId, prdId);
-
+        dispatch(updateProduct({} as IProduct))
         if (deleted) return;
     };
 
@@ -133,9 +137,12 @@ const Dashboard: NextPage<{}> = () => {
                                                     className={`badge badge-${prd.status.en === "rent" ? 'primary' : 'indigo'} position-absolute pos-fixed-top`}>{capitalize(`${prd.status[lang]}`)}</span>
                                             </div>
                                             <div className="media-body">
-                                                <Link href="single-property-1.html" className="text-dark hover-primary">
-                                                    <h5 className="fs-16 mb-0 lh-18">Home in Metric Way</h5>
-                                                </Link>
+                                                {/*<Link href="single-property-1.html" className="text-dark hover-primary">*/}
+                                                {/*    <h5 className="fs-16 mb-0 lh-18">Home in Metric Way</h5>*/}
+                                                {/*</Link>*/}
+                                                <h5 className="fs-16 mb-0 lh-18">
+                                                    <GenerateTitle type={prd.type} region={prd.region} status={prd.status} prdId={prd.prdId} className="text-dark hover-primary"/>
+                                                </h5>
                                                 <p className="mb-1 font-weight-500">{capitalize(prd.city[lang])}, {capitalize(prd.region[lang])}</p>
                                                 <span
                                                     className="text-heading lh-15 font-weight-bold fs-17">${prd.price}</span>

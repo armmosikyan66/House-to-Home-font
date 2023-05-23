@@ -8,6 +8,8 @@ import Link from "next/link";
 import {useTypedDispatch, useTypedSelector} from "../../redux/types/IRedux";
 import {addFavorite, removeFavorite} from "../../services/user";
 import {setUser} from "../../redux/actions/user";
+import {GenerateDescription} from "./GenerateDescription";
+import {GenerateTitle} from "./GenerateTitle";
 
 type ModalProps = {
     setModal: Dispatch<SetStateAction<boolean>>
@@ -19,129 +21,10 @@ type MyProps = IProduct & ModalProps
 const ProductCardLg = ({prdId, id, type, newBuilding, currentFloor, elevator, furniture, floorsCount, region, city, imageUrl, rooms, baths, floorArea, price, status, onToastify, onData, setModal}: MyProps) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
-    const {t} = useTranslation();
     const user = useTypedSelector(state => state.auth.user);
     const dispatch = useTypedDispatch();
     const [liked, setLiked] = useState<boolean>(false);
 
-    const handleDescription = () => {
-        switch (type?.en) {
-            case "house": {
-                const isHasElevator = elevator ? t("singlePrd.houseDesc.isHas.elevator") : null;
-                const isNewBuilding = newBuilding ? t("singlePrd.houseDesc.isHas.isNewBuilding") : null;
-                const isHasFurniture = furniture ? t("singlePrd.houseDesc.isHas.isHasFurniture") : null;
-                const isHasMuchFloorArea = floorArea && floorArea >= 100 ? t("singlePrd.houseDesc.isHas.isHasMuchFloorArea") : null;
-                const isHasMuchRooms = rooms && rooms >= 2 ? t("singlePrd.houseDesc.isHas.isHasMuchRooms") : null;
-                const isHasBath = baths ? t("singlePrd.houseDesc.isHas.isHasBath") : null;
-
-                const description = t("singlePrd.houseDesc.desc", {
-                    region: region && region[lang],
-                    floorsCount: floorsCount,
-                    floorArea: floorArea,
-                    isHasMuchFloorArea: isHasMuchFloorArea,
-                    isHasMuchRooms: isHasMuchRooms,
-                    isHasElevator: isHasElevator,
-                    rooms: rooms,
-                    isHasBath: isHasBath,
-                    isHasFurniture: isHasFurniture,
-                    isNewBuilding: isNewBuilding,
-                })
-
-                if(description.split(" ").length > 20) {
-                    return (
-                        <p
-                            className="mb-0 lh-214"
-                            dangerouslySetInnerHTML={{
-                                __html: description.split(" ").slice(0, 20).join(" ") + "..."
-                            }}
-                        />
-                    );
-                }
-
-                return <p className="mb-0 lh-214" dangerouslySetInnerHTML={{ __html: description }} />;
-
-                break;
-            }
-
-            case "office": {
-                const isHasElevator = elevator ? t("singlePrd.officeDesc.isHas.elevator") : null;
-                const isNewBuilding = newBuilding ? t("singlePrd.officeDesc.isHas.isNewBuilding") : null;
-                const isHasFurniture = furniture ? t("singlePrd.officeDesc.isHas.isHasFurniture") : null;
-                const isHasMuchFloorArea = floorArea && floorArea >= 100 ? t("singlePrd.officeDesc.isHas.isHasMuchFloorArea") : null;
-                const isHasBath = baths ? t("singlePrd.officeDesc.isHas.isHasBath") : null;
-                const isHasMuchBaths = baths && baths > 1 ? t("singlePrd.officeDesc.isHas.isHasMuchBaths") : null;
-
-                const description = t("singlePrd.officeDesc.desc", {
-                    floorsCount: floorsCount,
-                    currentFloor: currentFloor,
-                    floorArea: floorArea,
-                    isHasMuchFloorArea: isHasMuchFloorArea,
-                    isHasElevator: isHasElevator,
-                    rooms: rooms,
-                    isHasBath: isHasBath,
-                    isHasFurniture: isHasFurniture,
-                    isNewBuilding: isNewBuilding,
-                    isHasMuchBath: isHasMuchBaths
-                });
-
-                if(description.split(" ").length > 20) {
-                    return (
-                        <p
-                            className="mb-0 lh-214"
-                            dangerouslySetInnerHTML={{
-                                __html: description.split(" ").slice(0, 20).join(" ") + "..."
-                            }}
-                        />
-                    );
-                }
-
-                return <p className="mb-0 lh-214" dangerouslySetInnerHTML={{ __html: description }} />;
-                break;
-            }
-            case "apartment": {
-                const isHasElevator = elevator ? t("singlePrd.apartmentDesc.isHas.elevator") : null;
-                const isNewBuilding = newBuilding ? t("singlePrd.apartmentDesc.isHas.isNewBuilding") : null;
-                const isHasFurniture = furniture ? t("singlePrd.apartmentDesc.isHas.isHasFurniture") : null;
-
-                const description = t("singlePrd.apartmentDesc.desc", {
-                    floorsCount: floorsCount,
-                    currentFloor: currentFloor,
-                    floorArea: floorArea,
-                    baths: baths,
-                    isHasElevator: isHasElevator,
-                    rooms: rooms,
-                    isHasFurniture: isHasFurniture,
-                    isNewBuilding: isNewBuilding,
-                });
-
-                if(description.split(" ").length > 20) {
-                    return (
-                        <p
-                            className="mb-0 lh-214"
-                            dangerouslySetInnerHTML={{
-                                __html: description.split(" ").slice(0, 20).join(" ") + "..."
-                            }}
-                        />
-                    );
-                }
-
-                return <p className="mb-0 lh-214" dangerouslySetInnerHTML={{ __html: description }} />;
-                break;
-            }
-            case "land": {
-                return (
-                    <p className="mb-0 lh-214" dangerouslySetInnerHTML={{
-                        __html: t("singlePrd.landDesc.desc", {
-                            floorArea: floorArea,
-                            region: region
-                        })
-                    }} />
-                )
-            }
-            default:
-                break;
-        }
-    }
 
     useEffect(() => {
         setLiked(user?.favorites?.some(fav => fav === id))
@@ -202,15 +85,13 @@ const ProductCardLg = ({prdId, id, type, newBuilding, currentFloor, elevator, fu
                 </div>
                 <div className="media-body mt-3 mt-sm-0">
                     <h2 className="my-0">
-                        <Link href={`/properties/${prdId}`} className="fs-16 lh-2 text-dark hover-primary d-block">Home
-                            in Metric
-                            Way</Link>
+                        <GenerateTitle type={type} region={region} status={status} prdId={prdId} className={"fs-16 lh-2 text-dark hover-primary d-block"}/>
                     </h2>
                     <p className="mb-1 font-weight-500 text-gray-light">{capitalize(`${city[lang]}, ${region[lang]}`)}</p>
                     <p className="fs-17 font-weight-bold text-heading mb-1">
                         ${price}
                     </p>
-                    {handleDescription()}
+                    <GenerateDescription type={type} floorsCount={floorsCount} floorArea={floorArea} region={region} newBuilding={newBuilding} elevator={elevator} furniture={furniture} rooms={rooms} baths={baths} currentFloor={currentFloor} substr={true}/>
                 </div>
             </div>
             <div className="d-sm-flex justify-content-sm-between">

@@ -1,13 +1,13 @@
-import React, {Dispatch, FC, MouseEvent, SetStateAction, useEffect, useState} from 'react';
+import React, {Dispatch, MouseEvent, SetStateAction, useEffect, useState} from 'react';
 import {IProduct} from "../../utils/types/IProduct";
 import {API_URL} from "../../utils/constants/api";
 import {useTranslation} from "next-i18next";
 import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
 import capitalize from "../../utils/helpers/capitalize";
-import Link from 'next/link';
 import {addFavorite, removeFavorite} from "../../services/user";
 import {useTypedDispatch, useTypedSelector} from "../../redux/types/IRedux";
 import {setUser} from "../../redux/actions/user";
+import {GenerateTitle} from "./GenerateTitle";
 
 type ModalProps = {
     setModal: Dispatch<SetStateAction<boolean>>
@@ -16,7 +16,7 @@ type ModalProps = {
 }
 type MyProps = IProduct & ModalProps
 
-const ProductCard = ({id, prdId, rooms, floorArea, baths, imageUrl, status, price, city, region, setModal, onData, onToastify}: MyProps) => {
+const ProductCard = ({id, prdId, rooms, type, floorArea, baths, imageUrl, status, price, city, region, setModal, onData, onToastify}: MyProps) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     const user = useTypedSelector(state => state.auth.user);
@@ -92,8 +92,7 @@ const ProductCard = ({id, prdId, rooms, floorArea, baths, imageUrl, status, pric
             </div>
             <div className="card-body pt-3 px-0 pb-1">
                 <h2 className="fs-16 mb-1">
-                    <Link href={`/properties/${prdId}`} className="text-dark hover-primary">Home in
-                        Metric Way</Link>
+                    <GenerateTitle type={type} region={region} status={status} prdId={prdId} className="text-dark hover-primary"/>
                 </h2>
                 <p className="font-weight-500 text-gray-light mb-0">{capitalize(`${city[lang]}, ${region[lang]}`)}</p>
                 <p className="fs-17 font-weight-bold text-heading mb-0 lh-16">

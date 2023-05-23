@@ -54,10 +54,10 @@ const Header: FC<{}> = () => {
                                              className="normal-logo"/>
                                         <img style={{height: 40}} src={Logo.src} alt="HomeID" className="sticky-logo"/>
                                     </Link>
-                                    <Link className="d-block d-xl-none ml-auto mr-4 position-relative text-white p-2"
-                                       href="#">
+                                    <Link locale={lang} className="d-block d-xl-none ml-auto mr-4 position-relative text-white p-2" href="/favorites">
                                         <i className="fal fa-heart fs-large-4"></i>
-                                        <span className="badge badge-primary badge-circle badge-absolute">1</span>
+                                        {user?.favorites?.length ? <span
+                                            className="badge badge-primary badge-circle badge-absolute">{user?.favorites?.length}</span> : null}
                                     </Link>
                                     <button onClick={() => setBurgerMenu(!burgerMenu)} className="navbar-toggler border-0 px-0" type="button"
                                             data-toggle="collapse"

@@ -97,6 +97,10 @@
       "land": "Lands You Might Like",
       "apartment": "Similar Apartments You'll Like"
     },
+    "dynamicTitle": {
+      "forRent": "<span>{{type}}</span> for rent in <span>{{region}}</span>.",
+      "forSale": "<span>{{type}}</span> for sale in <span>{{region}}</span>."
+    },
     "houseDesc": {
       "desc": "Welcome to the house in <span>{{region}}</span>! This beautiful house is located in a <span>{{isNewBuilding}}</span> <span>{{floorsCount}}</span>-storey building. The total area of the house is <span>{{floorArea}}</span> square meters, <span>{{isHasMuchFloorArea}}</span>. <span>{{isHasElevator}}</span> There are <span>{{rooms}}</span> <span>{{isHasMuchRooms}}</span> in the house. <span>{{isHasBath}}</span> <span>{{isHasFurniture}}</span> You will love living in this beautiful house in <span>{{region}}</span>, where you will find everything you need for a comfortable life!",
       "isHas": {
@@ -274,6 +278,26 @@
       "your_email": "E-mail",
       "your_phone": "Phone Number",
       "message": "Message"
+    }
+  },
+  "footer": {
+    "popular_searches": {
+      "title": "Popular Searches",
+      "apartment_for_rent": "Apartment for Rent",
+      "apartment_low_to_hide": "Apartment Low to hide",
+      "offices_for_buy": "Offices for Buy",
+      "offices_for_rent": "Offices for Rent"
+    },
+    "quick_links": {
+      "title": "Quick links",
+      "terms_of_use": "Terms of Use",
+      "privacy_policy": "Privacy Policy",
+      "contact_support": "Contact Support",
+      "careers": "Careers"
+    },
+    "sign_up_for_our_newsletter": {
+      "title": "Sign Up for Our Newsletter",
+      "your_email": "Your email"
     }
   }
 }

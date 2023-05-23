@@ -16,6 +16,7 @@ import {IUser} from "../utils/types/IUser";
 import App from "../component/layouts/App";
 import {useRouter} from "next/router";
 
+
 function MyApp({Component, pageProps}: AppProps) {
     const dispatch = useTypedDispatch();
     const router = useRouter();

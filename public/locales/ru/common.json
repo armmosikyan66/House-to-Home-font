@@ -96,6 +96,10 @@
       "land": "Похожие страны, которые могут вам понравиться",
       "apartment": "Похожие квартиры, которые могут вам понравиться"
     },
+    "dynamicTitle": {
+      "forRent": "Сдается в аренду <span>{{type}}</span> в регионе <span>{{region}}</span>.",
+      "forSale": "Продается <span>{{type}}</span> в регионе <span>{{region}}</span>."
+    },
     "houseDesc": {
       "desc": "Добро пожаловать в дом в <span>{{region}}</span>! Этот прекрасный дом расположен в <span>{{isNewBuilding}}</span> <span>{{floorsCount}}</span>-этажном здании. Общая площадь дома составляет <span>{{floorArea}}</span> квадратных метров, <span>{{isHasMuchFloorArea}}</span>. <span>{{isHasElevator}}</span> Всего в доме <span>{{rooms}}</span> <span>{{isHasMuchRooms}}</span>. <span>{{isHasBath}}</span> <span>{{isHasFurniture}}</span> Вы будете любить жить в этом прекрасном доме в <span>{{region}}</span>, где вы найдете все необходимое для комфортной жизни!",
       "isHas": {
@@ -273,6 +277,26 @@
       "your_email": "Ваш адрес электронной почты",
       "your_phone": "Твой телефон",
       "message": "сообщение"
+    }
+  },
+  "footer": {
+    "popular_searches": {
+      "title": "Популярные запросы",
+      "apartment_for_rent": "Квартира в аренду",
+      "apartment_low_to_hide": "Квартира недорого для скрытия",
+      "offices_for_buy": "Офисы на продажу",
+      "offices_for_rent": "Офисы в аренду"
+    },
+    "quick_links": {
+      "title": "Быстрые ссылки",
+      "terms_of_use": "Условия использования",
+      "privacy_policy": "Политика конфиденциальности",
+      "contact_support": "Связаться с поддержкой",
+      "careers": "Карьера"
+    },
+    "sign_up_for_our_newsletter": {
+      "title": "Подпишитесь на нашу рассылку",
+      "your_email": "Ваш электронный адрес"
     }
   }
 }

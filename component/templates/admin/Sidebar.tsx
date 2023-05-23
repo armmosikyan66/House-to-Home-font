@@ -5,7 +5,6 @@ import {useTranslation} from "next-i18next";
 import {LanguagesKeys} from "../../../utils/types/ILanguagesKeys";
 import {useTypedSelector} from "../../../redux/types/IRedux";
 import capitalize from "../../../utils/helpers/capitalize";
-import {useRouter} from "next/router";
 import Toastify from "../../ui/Toastify";
 
 const Sidebar: FC<{}> = () => {

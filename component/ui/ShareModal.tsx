@@ -42,17 +42,29 @@ const ShareModal: FC<ShareProps> = ({setModal, propertyId}) => {
                 <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered mxw-571">
                     <div className="modal-content">
                         <div className="modal-header border-0 p-0">
-                            <div
-                                className="row border-bottom w-100 border-bottom-2 no-gutters d-flex align-items-center justify-content-around">
-                                <h2 className="fs-24 mb-0 font-weight-600">Share</h2>
+                            <div className="d-block d-xl-none row border-bottom w-100 border-bottom-2 no-gutters d-flex align-items-center justify-content-between">
+                                <h2 className="fs-24 mb-0 font-weight-600 ml-3">Share</h2>
                                 <div
-                                    className="nav-item col-sm-6 ml-0 d-flex align-items-center justify-content-end bg-white">
+                                    className="nav-item col-sm-6 w-auto ml-0 bg-white mr-3">
                                     <button onClick={() => setModal(false)} type='button' className='close m-0 fs-23' data-dismiss="modal"
                                             aria-label="Close">
                                         <span aria-hidden="true">×</span>
                                     </button>
                                 </div>
                             </div>
+                            <div className="d-none d-xl-block w-100">
+                                <div className="row border-bottom w-100 border-bottom-2 no-gutters d-flex align-items-center justify-content-around">
+                                    <h2 className="fs-24 mb-0 font-weight-600">Share</h2>
+                                    <div
+                                        className="nav-item col-sm-6 ml-0 d-flex align-items-center justify-content-end bg-white">
+                                        <button onClick={() => setModal(false)} type='button' className='close m-0 fs-23' data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div className="modal-body p-4 py-sm-7 px-sm-8">
                             <div className="tab-content shadow-none p-0">
@@ -90,6 +102,7 @@ const ShareModal: FC<ShareProps> = ({setModal, propertyId}) => {
                     </div>
                 </div>
             </div>
+            <div className="modal-backdrop fade show"></div>
         </>
     );
 };

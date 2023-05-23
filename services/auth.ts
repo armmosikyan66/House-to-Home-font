@@ -1,6 +1,5 @@
 import $api from "../utils/http";
 import {ILogin, IAuthResponse, IRegister} from "../utils/types/IAuth";
-import {redirect} from "next/navigation";
 
 export const register = async (user: IRegister): Promise<IAuthResponse> => {
     try {

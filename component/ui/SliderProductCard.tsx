@@ -9,6 +9,7 @@ import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
 import {addFavorite, removeFavorite} from "../../services/user";
 import {setUser} from "../../redux/actions/user";
 import Link from 'next/link'
+import {GenerateTitle} from "./GenerateTitle";
 
 type ModalProps = {
     setModal: Dispatch<SetStateAction<boolean>>
@@ -17,7 +18,7 @@ type ModalProps = {
 }
 type MyProps = IProduct & ModalProps
 
-const SliderProductCard = ({id, prdId, rooms, floorArea, baths, imageUrl, status, price, city, region, setModal, onData, onToastify}: MyProps) => {
+const SliderProductCard = ({id, prdId, type,rooms, floorArea, baths, imageUrl, status, price, city, region, setModal, onData, onToastify}: MyProps) => {
     const {i18n} = useTranslation()
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     const user = useTypedSelector(state => state.auth.user);
@@ -75,7 +76,7 @@ const SliderProductCard = ({id, prdId, rooms, floorArea, baths, imageUrl, status
                         </div>
                     </div>
                     <div className="card-body pt-3">
-                        <h2 className="card-title fs-16 lh-2 mb-0"><Link href={`/properties/${prdId}`} className="text-dark hover-primary">Affordable Urban House</Link></h2>
+                        <h2 className="card-title fs-16 lh-2 mb-0"><GenerateTitle type={type} region={region} status={status} prdId={prdId} className="text-dark hover-primary"/></h2>
                         <p className="card-text font-weight-500 text-gray-light mb-2">{capitalize(`${city[lang]}, ${region[lang]}`)}</p>
                         <ul className="list-inline d-flex mb-0 flex-wrap mr-n5">
                             <li className="list-inline-item text-gray font-weight-500 fs-13 d-flex align-items-center mr-5"

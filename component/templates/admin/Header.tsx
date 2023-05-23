@@ -1,4 +1,4 @@
-import React, {FC, useState, useRef, useEffect} from 'react';
+import React, {FC, useState, useRef} from 'react';
 import {useRouter} from "next/router";
 import {logout} from "../../../services/auth";
 import Toastify from "../../ui/Toastify";
@@ -87,5 +87,6 @@ const Header: FC<{}> = () => {
         </>
     );
 };
+
 
 export default Header;
