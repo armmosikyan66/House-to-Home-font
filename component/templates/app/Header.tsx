@@ -13,12 +13,15 @@ import {useRouter} from "next/router";
 import useClickOutside from "../../../utils/hooks/useClickOutside";
 import capitalize from "../../../utils/helpers/capitalize";
 
+
 const Header: FC<{}> = () => {
     const router = useRouter();
-    const [dropdown, setDropdown] = useState<boolean>(false)
+    const [dropdown, setDropdown] = useState<boolean>(false);
+    const [mobileDropdown, setMobileDropdown] = useState<boolean>(false);
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     const [modal, setModal] = useState<boolean>(false);
+    const [burgerMenu, setBurgerMenu] = useState<boolean>(false);
     const user = useTypedSelector(state => state.auth.user);
     const dispatch = useTypedDispatch();
     const langRef = useRef<HTMLLIElement>(null);
@@ -51,19 +54,19 @@ const Header: FC<{}> = () => {
                                              className="normal-logo"/>
                                         <img style={{height: 40}} src={Logo.src} alt="HomeID" className="sticky-logo"/>
                                     </Link>
-                                    <Link className="d-block d-xl-none ml-auto mr-4 position-relative text-white p-2"
-                                       href="#">
+                                    <Link locale={lang} className="d-block d-xl-none ml-auto mr-4 position-relative text-white p-2" href="/favorites">
                                         <i className="fal fa-heart fs-large-4"></i>
-                                        <span className="badge badge-primary badge-circle badge-absolute">1</span>
+                                        {user?.favorites?.length ? <span
+                                            className="badge badge-primary badge-circle badge-absolute">{user?.favorites?.length}</span> : null}
                                     </Link>
-                                    <button className="navbar-toggler border-0 px-0" type="button"
+                                    <button onClick={() => setBurgerMenu(!burgerMenu)} className="navbar-toggler border-0 px-0" type="button"
                                             data-toggle="collapse"
                                             data-target="#primaryMenu02" aria-controls="primaryMenu02"
-                                            aria-expanded="false"
+                                            aria-expanded="true"
                                             aria-label="Toggle navigation">
                                         <span className="text-white fs-24"><i className="fal fa-bars"></i></span>
                                     </button>
-                                    <div className="collapse navbar-collapse mt-3 mt-xl-0" id="primaryMenu02">
+                                    <div className={`collapse navbar-collapse mt-3 mt-xl-0 ${burgerMenu ? "show" : ""}`} id="primaryMenu02">
                                         <ul className="navbar-nav hover-menu main-menu px-0 mx-xl-n4">
                                             <li id="navbar-item-home" aria-haspopup="true" aria-expanded="false"
                                                 className="nav-item dropdown py-2 py-xl-5 px-0 px-xl-4">
@@ -92,14 +95,14 @@ const Header: FC<{}> = () => {
                                         </ul>
                                         <div className="d-block d-xl-none">
                                             <ul className="navbar-nav flex-row ml-auto align-items-center justify-content-lg-end flex-wrap py-2">
-                                                <li className="nav-item dropdown">
-                                                    <a className="nav-link dropdown-toggle mr-md-2 pr-2 pl-0 pl-lg-2"
-                                                       href="#" id="bd-versions-mobile" data-toggle="dropdown"
-                                                       aria-haspopup="true" aria-expanded="false">
+                                                <li ref={langRef} className="pointer nav-item dropdown">
+                                                    <div className="nav-link dropdown-toggle mr-md-2 pr-2 pl-0 pl-lg-2"
+                                                         onClick={() => setMobileDropdown(!mobileDropdown)}>
                                                         {lang.toUpperCase()}
-                                                    </a>
-                                                    <div className="dropdown-menu dropdown-sm dropdown-menu-left"
-                                                         aria-labelledby="bd-versions-mobile">
+                                                    </div>
+                                                    <div
+                                                        className={`dropdown-menu dropdown-sm dropdown-menu-left ${mobileDropdown ? "show" : ""}`}
+                                                        aria-labelledby="bd-versions">
                                                         {["am", "en", "ru"].map(el => (
                                                             <div key={el} className={`dropdown-item ${lang === el ? "active" : ""}`} onClick={() => onToggleLanguageClick(el)}>{el.toUpperCase()}</div>
                                                         ))}
@@ -107,8 +110,13 @@ const Header: FC<{}> = () => {
                                                 </li>
                                                 <li className="divider"></li>
                                                 <li className="nav-item ">
-                                                    <a className="nav-link pl-3 pr-2" data-toggle="modal"
-                                                       href="#login-register-modal">{capitalize(t("header.sign_in"))}</a>
+                                                    {user && !Object.keys(user).length ? (
+                                                        <div onClick={() => setModal(true)}
+                                                             className="pointer nav-link pl-3 pr-2" data-toggle="modal">{capitalize(t("header.sign_in"))}</div>
+                                                    ) : (
+                                                        <div onClick={handleLogout} className="pointer nav-link pl-3 pr-2"
+                                                             data-toggle="modal">{capitalize(t("header.logout"))}</div>
+                                                    )}
                                                 </li>
                                             </ul>
                                         </div>
@@ -157,5 +165,6 @@ const Header: FC<{}> = () => {
         </>
     );
 };
+
 
 export default withTranslation("common")(Header);

@@ -17,7 +17,7 @@ const Footer: FC<{}> = () => {
             setHomeLink(`${window.location.origin}${router.basePath}/${lang}`)
         }
     }, [])
-
+    
     return (
         <footer className="bg-dark pt-8 pb-6 footer text-muted">
             <div className="container container-xxl">
@@ -51,6 +51,19 @@ const Footer: FC<{}> = () => {
                             </li>
                             <li className="list-group-item bg-transparent p-0">
                                 <Link locale={lang} href={`/properties?type="office"&status="rent"`} className="text-muted lh-26 font-weight-500 hover-white">{t("footer.searches.office_rent")}</Link>
+                        <h4 className="text-white fs-16 my-4 font-weight-500">{t("footer.popular_searches.title")}</h4>
+                        <ul className="list-group list-group-flush list-group-no-border">
+                            <li className="list-group-item bg-transparent p-0">
+                                <a href="#" className="text-muted lh-26 font-weight-500 hover-white">{t("footer.popular_searches.apartment_for_rent")}</a>
+                            </li>
+                            <li className="list-group-item bg-transparent p-0">
+                                <a href="#" className="text-muted lh-26 font-weight-500 hover-white">{t("footer.popular_searches.apartment_low_to_hide")}</a>
+                            </li>
+                            <li className="list-group-item bg-transparent p-0">
+                                <a href="#" className="text-muted lh-26 font-weight-500 hover-white">{t("footer.popular_searches.offices_for_buy")}</a>
+                            </li>
+                            <li className="list-group-item bg-transparent p-0">
+                                <a href="#" className="text-muted lh-26 font-weight-500 hover-white">{t("footer.popular_searches.offices_for_rent")}</a>
                             </li>
                         </ul>
                     </div>
@@ -71,14 +84,24 @@ const Footer: FC<{}> = () => {
                             </li>
                             <li className="list-group-item bg-transparent p-0">
                                 <Link href="/privacy-policy" locale={lang} className="text-muted lh-26 font-weight-500 hover-white">{t("footer.links.privacyPolicy")}</Link>
+                        <h4 className="text-white fs-16 my-4 font-weight-500">{t("footer.quick_links.title")}</h4>
+                        <ul className="list-group list-group-flush list-group-no-border">
+                            <li className="list-group-item bg-transparent p-0">
+                                <a href="#" className="text-muted lh-26 font-weight-500 hover-white">{t("footer.quick_links.terms_of_use")}</a>
+                            </li>
+                            <li className="list-group-item bg-transparent p-0">
+                                <a href="#" className="text-muted lh-26 font-weight-500 hover-white">{t("footer.quick_links.privacy_policy")}</a>
+                            </li>
+                            <li className="list-group-item bg-transparent p-0">
+                                <a href="#" className="text-muted lh-26 font-weight-500 hover-white">{t("footer.quick_links.contact_support")}</a>
+                            </li>
+                            <li className="list-group-item bg-transparent p-0">
+                                <a href="#" className="text-muted lh-26 hover-white font-weight-500">{t("footer.quick_links.careers")}</a>
                             </li>
                         </ul>
                     </div>
                     <div className="col-md-6 col-lg-4 mb-6 mb-md-0">
-                        <h4 className="text-white fs-16 my-4 font-weight-500">Sign Up for Our Newsletter</h4>
-                        <p className="font-weight-500 text-muted lh-184">Lorem ipsum dolor sit amet, consecte tur cing
-                            elit.
-                            Suspe ndisse suscipit sagittis </p>
+                        <h4 className="text-white fs-16 my-4 font-weight-500">{t("footer.sign_up_for_our_newsletter.title")}</h4>
                         <form>
                             <div className="input-group input-group-lg mb-6">
                                 <input type="email" name="email"
@@ -87,6 +110,10 @@ const Footer: FC<{}> = () => {
                                 <div className="input-group-append">
                                     <button className="btn btn-primary" type="submit">Subscribe</button>
                                 </div>
+                                       placeholder={`${t("footer.sign_up_for_our_newsletter.your_email")}`}/>
+                                    <div className="input-group-append">
+                                        <button className="btn btn-primary" type="submit">Subscribe</button>
+                                    </div>
                             </div>
                         </form>
                         <ul className="list-inline mb-0">

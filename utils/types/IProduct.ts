@@ -45,6 +45,7 @@ export interface IProduct {
         ru: string;
     };
     prdId: number;
+    authorPhoneNumber?: string;
     createdAt: Date;
 }
 

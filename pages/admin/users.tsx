@@ -1,5 +1,5 @@
-import React, {useEffect, useState, MouseEvent} from 'react';
-import {GetStaticProps, NextPage} from "next";
+import React, {useEffect, useState, MouseEvent, FormEvent} from 'react';
+import {GetServerSideProps, GetStaticProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config";
 import {IUser} from "../../utils/types/IUser";
@@ -12,6 +12,9 @@ import {useRouter} from "next/router";
 import Link from "next/link";
 import UserModal from "../../component/templates/admin/UserModal";
 import ReactPaginate from "react-paginate";
+import {useTypedSelector} from "../../redux/types/IRedux";
+import FormInput from "../../component/ui/FormInput";
+import {decodeParams, encodeQueryString} from "../../utils/helpers/queryString";
 
 type UsersTypes = {
     users: IUser[] | [],
@@ -22,19 +25,35 @@ const Users: NextPage<{}> = () => {
     const router = useRouter();
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const {t} = useTranslation();
+    const user = useTypedSelector(state => state.auth.user);
     const [items, setItems] = useState<UsersTypes>({
         users: [],
         founded: 0,
     });
+    const [searchTerm, setSearchTerm] = useState({});
     const [page, setPage] = useState<number>(0);
 
     useEffect(() => {
         if (!router.isReady) return;
 
-        if ("page" in router.query) {
+        if (user?.role !== "admin") {
+            router.push('/')
+        } else if ("page" in router.query) {
             setPage(Number(router.query.page) - 1)
         }
     }, [router.isReady])
+
+    useEffect(() => {
+        (async () => {
+            if (!router.isReady) return;
+            const {page, ...options} = decodeParams(router.asPath.replace(router.route, ""));
+
+            const data = await getUsers(Number(page || 1), options);
+
+            setItems(data)
+        })();
+    }, [router.query])
 
     const handlePageClick = (event: { selected: number }) => {
         setPage(event.selected);
@@ -43,6 +62,16 @@ const Users: NextPage<{}> = () => {
         router.push(router);
     };
     const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+        event.preventDefault();
+        const queryString = encodeQueryString<any>(searchTerm);
+        router.push(router.pathname + queryString)
+    }
+
+    const handleChange = (key: string, val: string | number): void => {
+        setSearchTerm({[key]: val})
+    }
 
     const handleClose = (): void => {
         setSelectedUser(null);
@@ -69,19 +98,25 @@ const Users: NextPage<{}> = () => {
                         <div className="row">
                             <div className="col-sm-12 col-md-6 d-flex justify-content-md-start justify-content-center">
                                 <div className="align-self-center">
-                                    <button onClick={() => router.push("/admin/new-user")} className="btn btn-primary btn-lg" aria-controls="invoice-list">
-                                        <span>Add New</span></button>
+                                    <button onClick={() => router.push("/admin/new-user")}
+                                            className="btn btn-primary btn-lg" aria-controls="invoice-list">
+                                        <span>{t("admin.users.btnText")}</span></button>
                                 </div>
                             </div>
                             <div
                                 className="col-sm-12 col-md-6 d-flex justify-content-md-end justify-content-center mt-md-0 mt-3">
                                 <div className="input-group input-group-lg bg-white mb-0 position-relative mr-2">
-                                    <input type="text" className="form-control bg-transparent border-1x"
-                                           placeholder="Search..." aria-label="" aria-describedby="basic-addon1"/>
-                                    <div className="input-group-append position-absolute pos-fixed-right-center">
-                                        <button className="btn bg-transparent border-0 text-gray lh-1" type="button"><i
-                                            className="fal fa-search"></i></button>
-                                    </div>
+                                    <form onSubmit={handleSubmit} style={{width: "100%"}}>
+                                        <FormInput onChange={handleChange} placeholder="Search..."
+                                                   className="form-control bg-transparent border-1x h-100" type="text"
+                                                   keyWord="u" divClassName="h-100"/>
+                                        <div className="input-group-append position-absolute pos-fixed-right-center">
+                                            <button className="btn bg-transparent border-0 text-gray lh-1"
+                                                    type="submit"><i
+                                                className="fal fa-search"></i></button>
+                                        </div>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -89,28 +124,32 @@ const Users: NextPage<{}> = () => {
                     <div className="table-responsive">
                         <div id="invoice-list_wrapper" className="dataTables_wrapper no-footer">
                             <table id="invoice-list"
-                                   className="table table-hover bg-white border rounded-lg dataTable no-footer" role="grid">
+                                   className="table table-hover bg-white border rounded-lg dataTable no-footer"
+                                   role="grid">
                                 <thead>
                                 <tr role="row">
                                     <th className="py-6 sorting pl-6" aria-controls="invoice-list" rowSpan={1}
-                                        colSpan={1} aria-label="Name: activate to sort column ascending">Name
+                                        colSpan={1}
+                                        aria-label="Name: activate to sort column ascending">{t("admin.users.name")}
                                     </th>
                                     <th className="py-6 sorting" aria-controls="invoice-list" rowSpan={1}
                                         colSpan={1} aria-label="Email: activate to sort column ascending"
-                                    >Email
+                                    >{t("admin.users.email")}
                                     </th>
                                     <th className="py-6 sorting" aria-controls="invoice-list" rowSpan={1}
                                         colSpan={1} aria-label="Email: activate to sort column ascending"
-                                    >Phone
+                                    >{t("admin.users.phone")}
                                     </th>
                                     <th className="py-6 sorting" aria-controls="invoice-list" rowSpan={1}
-                                        colSpan={1} aria-label="Date: activate to sort column ascending">Date
+                                        colSpan={1}
+                                        aria-label="Date: activate to sort column ascending">{t("admin.users.date")}
                                     </th>
                                     <th className="py-6 sorting" aria-controls="invoice-list" rowSpan={1}
-                                        colSpan={1} aria-label="Status: activate to sort column ascending">Status
+                                        colSpan={1}
+                                        aria-label="Status: activate to sort column ascending">{t("admin.users.status")}
                                     </th>
                                     <th className="no-sort py-6 sorting_disabled" rowSpan={1} colSpan={1}
-                                        aria-label="Actions">Actions
+                                        aria-label="Actions">{t("admin.users.actions")}
                                     </th>
                                 </tr>
                                 </thead>
@@ -135,10 +174,13 @@ const Users: NextPage<{}> = () => {
                                             className={`badge badge-${user.role === "admin" ? "yellow" : user.role === "locale" ? "blue" : "green"} text-capitalize`}>{user.role}</span>
                                         </td>
                                         <td className="align-middle">
-                                            <Link onClick={() => setSelectedUser(user)} href="#" data-toggle="tooltip" title=""
+                                            <Link onClick={() => setSelectedUser(user)} href="#" data-toggle="tooltip"
+                                                  title=""
                                                   className="d-inline-block fs-18 text-muted hover-primary mr-5"
-                                                  data-original-title="Edit"><i className="fal fa-pencil-alt"></i></Link>
-                                            <a onClick={(event) => handleDelete(event, user.id)} href="#" data-toggle="tooltip" title=""
+                                                  data-original-title="Edit"><i
+                                                className="fal fa-pencil-alt"></i></Link>
+                                            <a onClick={(event) => handleDelete(event, user.id)} href="#"
+                                               data-toggle="tooltip" title=""
                                                className="d-inline-block fs-18 text-muted hover-primary"
                                                data-original-title="Delete"><i className="fal fa-trash-alt"></i></a>
                                         </td>
@@ -170,19 +212,35 @@ const Users: NextPage<{}> = () => {
                     </div>
                 </div>
             </main>
-            <UserModal handleClose={handleClose} open={Boolean(selectedUser && Object.keys(selectedUser).length)} selected={selectedUser}/>
+            <UserModal handleClose={handleClose} open={Boolean(selectedUser && Object.keys(selectedUser).length)}
+                       selected={selectedUser}/>
         </>
     );
 };
 
-export const getStaticProps: GetStaticProps<{}> = async ({locale}) => ({
-    props: {
-        ...(await serverSideTranslations(
-            locale ?? "am",
-            ['common'],
-            nextI18NextConfig
-        )),
-    },
-})
+export const getServerSideProps: GetServerSideProps = async ({ locale , req}) => {
+    const token = req.cookies.refreshToken;
+    let isAdmin = false;
+
+    if(token) {
+        const decodedToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf8'));
+        isAdmin = decodedToken.role === 'admin'
+    }
+
+    if(!isAdmin) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/'
+            }
+        }
+    }
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? "am", ['common'])),
+        },
+    }
+}
 
 export default Users;

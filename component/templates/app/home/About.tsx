@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {useTranslation} from "next-i18next";
 import capitalize from "../../../../utils/helpers/capitalize";
+import Link from 'next/link'
 
 
 const About: FC<{}> = () => {
@@ -22,7 +23,7 @@ const About: FC<{}> = () => {
                         <i className="fal fa-phone fs-40 text-primary"></i>
                         <p className="fs-13 font-weight-500 letter-spacing-173 text-uppercase lh-2 mt-3">{t("home.contact_us.tell")}</p>
                         <p className="fs-md-42 fs-32 font-weight-600 text-secondary lh-1">1900 68668</p>
-                        <a href="#" className="btn btn-lg btn-primary mt-2 px-10">{capitalize(t("home.contact_us.btn"))}</a>
+                        <Link href="/contactus" className="btn btn-lg btn-primary mt-2 px-10">{capitalize(t("home.contact_us.btn"))}</Link>
                     </div>
                 </div>
             </div>

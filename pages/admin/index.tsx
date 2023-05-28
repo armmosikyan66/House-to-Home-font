@@ -1,7 +1,6 @@
-import React, {useEffect, useState, MouseEvent} from 'react';
-import {GetStaticProps, NextPage} from "next";
+import React, {useEffect, useState, MouseEvent, FormEvent} from 'react';
+import {GetServerSideProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import nextI18NextConfig from "../../next-i18next.config";
 import {IProduct, IProductResponse} from "../../utils/types/IProduct";
 import {deletePrd, getAdminPrd} from "../../services/admin";
 import {useTranslation} from "next-i18next";
@@ -13,6 +12,11 @@ import Link from "next/link";
 import ProductModal from "../../component/templates/admin/ProductModal";
 import ReactPaginate from "react-paginate";
 import {useRouter} from "next/router";
+import FormInput from "../../component/ui/FormInput";
+import {decodeParams, encodeQueryString} from "../../utils/helpers/queryString";
+import {useTypedDispatch, useTypedSelector} from "../../redux/types/IRedux";
+import {updateProduct} from "../../redux/actions/product";
+import {GenerateTitle} from "../../component/ui/GenerateTitle";
 
 const Dashboard: NextPage<{}> = () => {
     const {i18n} = useTranslation();
@@ -21,10 +25,13 @@ const Dashboard: NextPage<{}> = () => {
         products: [],
         founded: 0,
     });
+    const [searchTerm, setSearchTerm] = useState({})
+    const {t} = useTranslation()
     const [selected, setSelected] = useState<IProduct | null>(null);
     const [page, setPage] = useState<number>(0);
     const router = useRouter();
-
+    const product = useTypedSelector(state => state.product)
+    const dispatch = useTypedDispatch()
     useEffect(() => {
         if (!router.isReady) return;
 
@@ -33,6 +40,27 @@ const Dashboard: NextPage<{}> = () => {
         }
     }, [router.isReady])
 
+    useEffect(() => {
+        (async () => {
+            if(!router.isReady) return;
+            const {page, ...options} = decodeParams(router.asPath.replace(router.route, ""));
+
+            const data = await getAdminPrd(Number(page || 1), options);
+
+            setItems(data)
+        })();
+    }, [router.query, product])
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+        event.preventDefault();
+        const queryString = encodeQueryString<any>(searchTerm);
+        router.push(router.pathname + queryString)
+    }
+
+    const handleChange = (key: string, val: string | number): void => {
+        setSearchTerm({[key]: val})
+    }
+
     const handlePageClick = (event: { selected: number }) => {
         setPage(event.selected);
 
@@ -40,14 +68,6 @@ const Dashboard: NextPage<{}> = () => {
         router.push(router);
     };
 
-    const getData = async (page: number): Promise<void> => {
-        const {products, founded} = await getAdminPrd(Number(page + 1));
-
-        setItems({
-            products,
-            founded
-        })
-    }
 
     const handleSelectPrd = (event: MouseEvent<HTMLAnchorElement>, item: IProduct): void => {
         event.preventDefault();
@@ -62,15 +82,10 @@ const Dashboard: NextPage<{}> = () => {
         event.preventDefault();
         const dirId = imageUrl.replace("/uploads/", "").split("/")[0];
         const deleted = await deletePrd(dirId, prdId);
-
+        dispatch(updateProduct({} as IProduct))
         if (deleted) return;
     };
 
-    useEffect(() => {
-        (async () => {
-            await getData(page);
-        })();
-    }, [selected, page]);
 
     return (
         <>
@@ -78,21 +93,21 @@ const Dashboard: NextPage<{}> = () => {
                 <div className="px-3 px-lg-6 px-xxl-13 py-5 py-lg-10" data-animated-id="1">
                     <div className="d-flex flex-wrap flex-column flex-md-row flex-md-nowrap mb-6 align-items-center">
                         <div className="mr-0 mr-md-auto d-flex align-items-center justify-content-center">
-                            <h2 className="mb-0 text-heading fs-22 lh-15">My Properties<span
+                            <h2 className="mb-0 text-heading fs-22 lh-15">{t("admin.products.title")}<span
                                 className="badge badge-white badge-pill text-primary fs-18 font-weight-bold ml-2">{items.founded}</span>
                             </h2>
                         </div>
                         <div className="col-12 col-sm-6 form-inline justify-content-md-end mx-n2">
                             <div className="p-2 w-100">
-                                <div className="input-group input-group-lg bg-white border">
-                                    <div className="input-group-prepend">
-                                        <button className="btn pr-0 shadow-none" type="button"><i
-                                            className="far fa-search"></i></button>
+                                <form onSubmit={handleSubmit}>
+                                    <div className="input-group input-group-lg bg-white border">
+                                        <div className="input-group-prepend">
+                                            <button className="btn pr-0 shadow-none" type="submit"><i
+                                                className="far fa-search"></i></button>
+                                        </div>
+                                        <FormInput onChange={handleChange} placeholder="Search listing" className="form-control bg-transparent border-0 shadow-none text-body" type="text" keyWord="q" />
                                     </div>
-                                    <input type="text"
-                                           className="form-control bg-transparent border-0 shadow-none text-body"
-                                           placeholder="Search listing" name="search"/>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -100,12 +115,12 @@ const Dashboard: NextPage<{}> = () => {
                         <table className="table table-hover bg-white border rounded-lg">
                             <thead className="thead-sm thead-black">
                             <tr>
-                                <th scope="col" className="border-top-0 px-6 pt-5 pb-4">Listing title</th>
-                                <th scope="col" className="border-top-0 pt-5 pb-4">Date Published</th>
-                                <th scope="col" className="border-top-0 pt-5 pb-4">Author</th>
-                                <th scope="col" className="border-top-0 pt-5 pb-4">Status</th>
-                                <th scope="col" className="border-top-0 pt-5 pb-4">View</th>
-                                <th scope="col" className="border-top-0 pt-5 pb-4">Action</th>
+                                <th scope="col" className="border-top-0 px-6 pt-5 pb-4">{t("admin.products.listingTitle")}</th>
+                                <th scope="col" className="border-top-0 pt-5 pb-4">{t("admin.products.datePublished")}</th>
+                                <th scope="col" className="border-top-0 pt-5 pb-4">{t("admin.products.author")}</th>
+                                <th scope="col" className="border-top-0 pt-5 pb-4">{t("admin.products.status")}</th>
+                                <th scope="col" className="border-top-0 pt-5 pb-4">{t("admin.products.view")}</th>
+                                <th scope="col" className="border-top-0 pt-5 pb-4">{t("admin.products.action")}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -114,17 +129,20 @@ const Dashboard: NextPage<{}> = () => {
                                     <td className="align-middle pt-6 pb-4 px-6">
                                         <div className="media">
                                             <div className="w-120px mr-4 position-relative">
-                                                <a href="single-property-1.html">
+                                                <Link href={`/properties/${prd.prdId}`}>
                                                     <img width={120} src={`${API_URL}${prd.imageUrl[0]}`}
                                                          alt="Home in Metric Way"/>
-                                                </a>
+                                                </Link>
                                                 <span
                                                     className={`badge badge-${prd.status.en === "rent" ? 'primary' : 'indigo'} position-absolute pos-fixed-top`}>{capitalize(`${prd.status[lang]}`)}</span>
                                             </div>
                                             <div className="media-body">
-                                                <Link href="single-property-1.html" className="text-dark hover-primary">
-                                                    <h5 className="fs-16 mb-0 lh-18">Home in Metric Way</h5>
-                                                </Link>
+                                                {/*<Link href="single-property-1.html" className="text-dark hover-primary">*/}
+                                                {/*    <h5 className="fs-16 mb-0 lh-18">Home in Metric Way</h5>*/}
+                                                {/*</Link>*/}
+                                                <h5 className="fs-16 mb-0 lh-18">
+                                                    <GenerateTitle type={prd.type} region={prd.region} status={prd.status} prdId={prd.prdId} className="text-dark hover-primary"/>
+                                                </h5>
                                                 <p className="mb-1 font-weight-500">{capitalize(prd.city[lang])}, {capitalize(prd.region[lang])}</p>
                                                 <span
                                                     className="text-heading lh-15 font-weight-bold fs-17">${prd.price}</span>
@@ -181,14 +199,29 @@ const Dashboard: NextPage<{}> = () => {
     );
 };
 
-export const getStaticProps: GetStaticProps<{}> = async ({locale}) => ({
-    props: {
-        ...(await serverSideTranslations(
-            locale ?? "am",
-            ['common'],
-            nextI18NextConfig
-        )),
-    },
-})
+export const getServerSideProps: GetServerSideProps = async ({ locale , req}) => {
+     const token = req.cookies.refreshToken;
+     let isAdmin = false;
+
+     if(token) {
+         const decodedToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf8'));
+         isAdmin = decodedToken.role === 'admin'
+     }
+
+    if(!isAdmin) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/'
+            }
+        }
+    }
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? "am", ['common'])),
+        },
+    }
+}
 
 export default Dashboard;

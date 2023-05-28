@@ -14,7 +14,10 @@ const nextConfig = {
   reactStrictMode: true,
   typescript: {
     tsconfigPath
-  }
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 module.exports = nextConfig

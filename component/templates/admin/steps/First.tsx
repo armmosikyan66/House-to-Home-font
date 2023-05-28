@@ -8,6 +8,7 @@ import {ITrans, LanguagesKeys} from "../../../../utils/types/ILanguagesKeys";
 const First: FC<StepsProps> = ({setProductFields, productFields}) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const {t} = useTranslation("common")
 
     const handleChange = (key: string, value: boolean | string | number, obj: ITrans): void => {
         const keyword = Object.keys(obj[lang]).find(key => obj[lang][key] === value.toString());
@@ -42,7 +43,7 @@ const First: FC<StepsProps> = ({setProductFields, productFields}) => {
                                         data-toggle="collapse" data-number="1."
                                         data-target="#description-collapse" aria-expanded="true"
                                         aria-controls="description-collapse">
-                                        <span className="number">1.</span> Description
+                                        <span className="number">1.</span> {t("admin.newPrd.steps.desc")}
                                     </button>
                                 </h5>
                             </div>
@@ -54,9 +55,7 @@ const First: FC<StepsProps> = ({setProductFields, productFields}) => {
                                         <div className="col-lg-8">
                                             <div className="card mb-6">
                                                 <div className="card-body p-6">
-                                                    <h3 className="card-title mb-0 text-heading fs-22 lh-15">
-                                                        Property
-                                                        Type</h3>
+                                                    <h3 className="card-title mb-0 text-heading fs-22 lh-15">{t("admin.newPrd.first_step.type.title")}</h3>
                                                     <p className="card-text mb-5">Lorem ipsum dolor sit
                                                         amet, consectetur
                                                         adipiscing elit</p>
@@ -64,25 +63,28 @@ const First: FC<StepsProps> = ({setProductFields, productFields}) => {
                                                         <FormSelect
                                                             onChange={(key, val) => handleChange(key, val, types)}
                                                             options={Object.values(types[lang])}
-                                                            label={"Category"}
+                                                            label={t("admin.newPrd.first_step.type.category")}
                                                             keyWord={"type"}
+                                                            selected={productFields?.type ? productFields?.type[lang] : undefined}
                                                         />
                                                     </div>
                                                     <div className="">
                                                         <FormSelect
-                                                            onChange={(key, val) => setProductFields(prev => ({...prev, [key]: val}))}
+                                                            onChange={(key, val) => setProductFields(prev => ({
+                                                                ...prev,
+                                                                [key]: val
+                                                            }))}
                                                             options={[true, false]}
-                                                            label={"Public"}
+                                                            label={t("admin.newPrd.first_step.type.public")}
                                                             keyWord={"public"}
+                                                            selected={productFields?.public ? productFields?.public : undefined}
                                                         />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="card mb-6">
                                                 <div className="card-body p-6">
-                                                    <h3 className="card-title mb-0 text-heading fs-22 lh-15">
-                                                        Select
-                                                        Category</h3>
+                                                    <h3 className="card-title mb-0 text-heading fs-22 lh-15">{t("admin.newPrd.first_step.category.title")}</h3>
                                                     <p className="card-text mb-5">Lorem ipsum dolor sit
                                                         amet, consectetur
                                                         adipiscing elit</p>
@@ -92,8 +94,9 @@ const First: FC<StepsProps> = ({setProductFields, productFields}) => {
                                                             <FormSelect
                                                                 onChange={(key, val) => handleChange(key, val, status)}
                                                                 options={Object.values(status[lang])}
-                                                                label={"Category"}
+                                                                label={t("admin.newPrd.first_step.category.category")}
                                                                 keyWord={"status"}
+                                                                selected={productFields?.status ? productFields?.status[lang] : undefined}
                                                             />
                                                         </div>
                                                     </div>

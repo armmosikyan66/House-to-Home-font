@@ -1,4 +1,4 @@
-import React, {Dispatch, FC, SetStateAction, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import FormTextarea from "../../../ui/FormTextarea";
 import {IRegions, ITrans, LanguagesKeys} from "../../../../utils/types/ILanguagesKeys";
 import {PropertyTypes} from "../steps/Third";
@@ -12,6 +12,8 @@ import FormInput from "../../../ui/FormInput";
 import {buildingTypes} from "../../../../utils/constants/buildingTypes";
 import {updatePrd} from "../../../../services/admin";
 import Toastify from "../../../ui/Toastify";
+import {useTypedDispatch} from "../../../../redux/types/IRedux";
+import {updateProduct} from "../../../../redux/actions/product";
 
 interface InfoModalProps extends IProduct {
     handleClose: () => void;
@@ -22,6 +24,7 @@ const Info: FC<InfoModalProps> = ({handleClose, ...props}) => {
     const lang: LanguagesKeys = i18n.language as LanguagesKeys || "am";
     const [updatesPrd, setUpdatedPrd] = useState<IProduct>({} as IProduct);
     const [selectedCity, setSelectedCity] = useState<string>("");
+    const dispatch = useTypedDispatch();
     const [toastify, setToastify] = useState<{status: "danger" | "info" | "success"; message: string;}>({
         status: "info",
         message: ""
@@ -68,9 +71,9 @@ const Info: FC<InfoModalProps> = ({handleClose, ...props}) => {
         const newPrd = await updatePrd(updatesPrd, props.prdId);
 
         if (newPrd?.status === "error") {
-            return setToastify({status: "success", message: newPrd.message});;
+            return setToastify({status: "success", message: newPrd.message});
         }
-
+        if(newPrd) dispatch(updateProduct(newPrd));
         setToastify({status: "success", message: "Success"});
         setTimeout(() => handleClose(), 1500);
     }
@@ -89,7 +92,7 @@ const Info: FC<InfoModalProps> = ({handleClose, ...props}) => {
                         <FormSelect
                             onChange={(key, val) => handleChangeTypes(key, val, types)}
                             options={Object.values(types[lang])}
-                            label={"Category"}
+                            label={"admin.newPrd.first_step.type.category"}
                             keyWord={"type"}
                             selected={props.type[lang]}
                         />

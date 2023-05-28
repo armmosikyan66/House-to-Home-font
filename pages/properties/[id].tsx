@@ -2,6 +2,7 @@ import React, {MouseEvent, useEffect, useState} from 'react';
 // @ts-ignore
 import Slider from 'react-slick';
 import {useTranslation, withTranslation} from "next-i18next";
+import ShareModal from '../../component/ui/ShareModal'
 import SliderComp from "../../component/ui/Slider";
 import {useRouter} from "next/router";
 import {IProduct} from "../../utils/types/IProduct";
@@ -16,6 +17,8 @@ import Link from "next/link";
 import {useTypedDispatch, useTypedSelector} from "../../redux/types/IRedux";
 import {addFavorite, removeFavorite} from "../../services/user";
 import {setUser} from "../../redux/actions/user";
+import {GenerateDescription} from "../../component/ui/GenerateDescription";
+
 
 const PrevArrow = ({onClick}: { onClick?: () => void }) => (
     <div onClick={onClick} className="slick-prev slick-arrow" aria-label="Previous" aria-disabled="false">
@@ -48,6 +51,7 @@ const Id: NextPage<{}> = () => {
     const user = useTypedSelector(state => state.auth.user);
     const dispatch = useTypedDispatch();
     const [liked, setLiked] = useState<boolean>(false);
+    const [modal, setModal] = useState<boolean>(false);
     const {t} = useTranslation("common");
 
     useEffect(() => {
@@ -55,7 +59,7 @@ const Id: NextPage<{}> = () => {
             if (!router.isReady && !router.query.id || typeof router.query.id !== "string") return;
 
             const prd = await getOne(router.query.id);
-
+            console.log(router.query.id)
             if (prd?.status?.en) {
                 const items = await getRecommended(prd.status["en"] as "rent" | "sale", "en");
                 setSliderItems(items);
@@ -64,7 +68,6 @@ const Id: NextPage<{}> = () => {
             setProduct(prd);
         })();
     }, [router.isReady, router.query]);
-
     useEffect(() => {
         setLiked(user?.favorites?.some(fav => fav === product.id));
     }, [user])
@@ -83,7 +86,6 @@ const Id: NextPage<{}> = () => {
             dispatch(setUser(favorite));
         }
     }
-
     return (
         <>
             <section className="pt-16 bg-white shadow-5 pb-7">
@@ -109,7 +111,7 @@ const Id: NextPage<{}> = () => {
                                         <i className="far fa-heart"></i></Link>
                                 </li>
                                 <li className="list-inline-item mr-2">
-                                    <button type="button"
+                                    <button onClick={() => setModal(true)} type="button"
                                             className="btn btn-white p-0 d-flex align-items-center justify-content-center w-40px h-40 text-heading bg-hover-primary hover-white rounded-circle border-0 shadow-none"
                                             data-container="body" data-toggle="popover" data-placement="top"
                                             data-html="true" data-original-title="" title="">
@@ -156,17 +158,7 @@ const Id: NextPage<{}> = () => {
                                     </div>
                                 </div>
                                 <h4 className="fs-22 text-heading mt-6 mb-2">{t("singlePrd.desc")}</h4>
-                                <p className="mb-0 lh-214">Massa tempor nec feugiat nisl pretium. Egestas fringilla
-                                    phasellus faucibus
-                                    scelerisque eleifend donec.
-                                    Porta nibh venenatis cras sed felis eget velit aliquet. Neque volutpat ac tincidunt
-                                    vitae semper
-                                    quis lectus. Turpis in eu mi bibendum neque
-                                    egestas congue quisque. Sed elementum tempus egestas sed sed risus pretium quam.
-                                    Dignissim sodales
-                                    ut eu sem. Nibh mauris cursus mattis molestie a
-                                    iaculis at erat pellentesque. Id interdum velit laoreet id donec ultrices
-                                    tincidunt.</p>
+                                <GenerateDescription substr={false} {...product} />
                             </section>
                             <section className="mt-2 pb-3 px-6 pt-5 bg-white rounded-lg">
                                 <h4 className="fs-22 text-heading mb-6">{t("singlePrd.facts").toUpperCase()}</h4>
@@ -246,8 +238,8 @@ const Id: NextPage<{}> = () => {
                                         <dt className="fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.rooms").toUpperCase()}</dt>
                                         <dd>{product.rooms}</dd>
                                     </dl> : null}
-                                    {product?.status?.en !== "land" ? <dl className="col-sm-6 mb-0 d-flex justify-content-between ">
-                                        <dt className="fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.baths").toUpperCase()}</dt>
+                                    {product?.status?.en !== "land" ? <dl className="col-sm-6 mb-0 d-flex justify-content-between">
+                                        <dt className="w-110px fs-14 font-weight-500 text-heading pr-2">{t("catalog.filter.baths").toUpperCase()}</dt>
                                         <dd>{product.baths}</dd>
                                     </dl> : null}
                                     <dl className="col-sm-6 mb-0 d-flex justify-content-between">
@@ -298,13 +290,14 @@ const Id: NextPage<{}> = () => {
                                 </ul>
                             </section>
                             <section className="mt-2 pb-7 px-6 pt-6 bg-white rounded-lg">
-                                <h4 className="fs-22 text-heading mb-6">{t(`singlePrd.recommended.${product.type.en}`)}</h4>
+                                <h4 className="fs-22 text-heading mb-6">{t(`singlePrd.recommended.${product.type && product?.type.en}`)}</h4>
                                 <SliderComp items={sliderItems}/>
                             </section>
                         </div>
                     </div>
                 </div>
             </div>
+            {modal ? <ShareModal setModal={setModal} propertyId={product?.prdId} /> : null}
         </>
     );
 };

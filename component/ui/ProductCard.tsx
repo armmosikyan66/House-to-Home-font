@@ -1,15 +1,22 @@
-import React, {FC, MouseEvent, useEffect, useState} from 'react';
+import React, {Dispatch, MouseEvent, SetStateAction, useEffect, useState} from 'react';
 import {IProduct} from "../../utils/types/IProduct";
 import {API_URL} from "../../utils/constants/api";
 import {useTranslation} from "next-i18next";
 import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
 import capitalize from "../../utils/helpers/capitalize";
-import Link from 'next/link';
 import {addFavorite, removeFavorite} from "../../services/user";
 import {useTypedDispatch, useTypedSelector} from "../../redux/types/IRedux";
 import {setUser} from "../../redux/actions/user";
+import {GenerateTitle} from "./GenerateTitle";
 
-const ProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, imageUrl, status, price, city, region}) => {
+type ModalProps = {
+    setModal: Dispatch<SetStateAction<boolean>>
+    onData: (data: number) => void
+    onToastify: (status: "success" | "info" | "danger", message: string) => void
+}
+type MyProps = IProduct & ModalProps
+
+const ProductCard = ({id, prdId, rooms, type, floorArea, baths, imageUrl, status, price, city, region, setModal, onData, onToastify}: MyProps) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     const user = useTypedSelector(state => state.auth.user);
@@ -23,16 +30,25 @@ const ProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, imageUrl
     const handleSetFavorite = async (event: MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
         if (!user || !user?.id) {
-            return;
+            onToastify("danger", "Please first SignIn or SignUp");
+            return
+        } else if (!user?.isActivated) {
+            onToastify("danger", "Please activate your account");
+            return
         }
 
         if (!liked) {
             const favorite = await addFavorite(user.id, id);
-            dispatch(setUser(favorite));
+            dispatch(setUser(favorite))
         } else {
-            const favorite = await removeFavorite(user.id, id);
-            dispatch(setUser(favorite));
+            const favorite = await removeFavorite(user.id, id)
+            dispatch(setUser(favorite))
         }
+    }
+
+    const handleClick = () => {
+        setModal(true);
+        onData(prdId)
     }
 
     return (
@@ -58,7 +74,7 @@ const ProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, imageUrl
                             <li className="list-inline-item mr-3 h-32"
                                 data-toggle="tooltip" title=""
                                 data-original-title="Wishlist">
-                                <a onClick={handleSetFavorite} href="#"
+                                <a href="#" onClick={handleSetFavorite}
                                    className={`text-${liked ? "primary" : "white"} fs-20 hover-primary`}>
                                     <i className="far fa-heart"></i>
                                 </a>
@@ -66,7 +82,7 @@ const ProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, imageUrl
                             <li className="list-inline-item mr-3 h-32"
                                 data-toggle="tooltip" title=""
                                 data-original-title="Compare">
-                                <a href="pages/properties/properties#" className="text-white fs-20 hover-primary">
+                                <a href="#" onClick={handleClick} className="text-white fs-20 hover-primary">
                                     <i className="fas fa-exchange-alt"></i>
                                 </a>
                             </li>
@@ -76,8 +92,7 @@ const ProductCard: FC<IProduct> = ({id, prdId, rooms, floorArea, baths, imageUrl
             </div>
             <div className="card-body pt-3 px-0 pb-1">
                 <h2 className="fs-16 mb-1">
-                    <Link href={`/properties/${prdId}`} className="text-dark hover-primary">Home in
-                        Metric Way</Link>
+                    <GenerateTitle type={type} region={region} status={status} prdId={prdId} className="text-dark hover-primary"/>
                 </h2>
                 <p className="font-weight-500 text-gray-light mb-0">{capitalize(`${city[lang]}, ${region[lang]}`)}</p>
                 <p className="fs-17 font-weight-bold text-heading mb-0 lh-16">

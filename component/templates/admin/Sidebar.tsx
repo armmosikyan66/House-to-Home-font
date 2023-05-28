@@ -5,35 +5,21 @@ import {useTranslation} from "next-i18next";
 import {LanguagesKeys} from "../../../utils/types/ILanguagesKeys";
 import {useTypedSelector} from "../../../redux/types/IRedux";
 import capitalize from "../../../utils/helpers/capitalize";
-import {useRouter} from "next/router";
-import {logout} from "../../../services/auth";
 import Toastify from "../../ui/Toastify";
 
 const Sidebar: FC<{}> = () => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const {t} = useTranslation()
     const user = useTypedSelector(state => state.auth.user);
     const [dropdownOpened, setDropdownOpened] = useState<boolean>(false);
     const [burgerOpened, setBurgerOpened] = useState<boolean>(false);
 
-    const router = useRouter();
     const [toastify, setToastify] = useState<{status: "danger" | "info" | "success"; message: string;}>({
         status: "info",
         message: ""
     })
 
-    const handleClickLogout = async () => {
-        const err = await logout();
-
-        if (err) {
-            return setToastify({
-                status: "danger",
-                message: err.message,
-            })
-        }
-
-        router.push("/")
-    }
 
     return (
         <>
@@ -51,11 +37,11 @@ const Sidebar: FC<{}> = () => {
                                         <div onClick={() => setDropdownOpened(prev => !prev)} className="pointer dropdown-toggle d-flex align-items-center text-heading"
                                              data-toggle="dropdown">
                                         <span className="fs-13 font-weight-500 d-none d-sm-inline ml-2">
-                                            {capitalize(`${user.firstName} ${user.lastName}`)}
+                                            {capitalize(`${user?.firstName} ${user?.lastName}`)}
                                         </span>
                                         </div>
                                         <div className={`dropdown-menu dropdown-menu-right ${dropdownOpened ? "show" : ""}`}>
-                                            <a className="dropdown-item" href="#">Logout</a>
+                                            <Link className="dropdown-item" href="/">Logout</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -67,39 +53,33 @@ const Sidebar: FC<{}> = () => {
                             </div>
                         </div>
                         <div style={{zIndex: 10000}} className={`navbar-collapse bg-white collapse ${burgerOpened ? "show" : ""}`} id="primaryMenuSidebar">
-                            <form className="list-group-item pt-6 pb-4d-block d-xl-none pt-5 px-3">
-                                <div className="input-group">
-                                    <div className="input-group-prepend mr-0 bg-input">
-                                        <button className="btn border-0 shadow-none fs-20 text-muted pr-0"
-                                                type="submit"><i className="far fa-search"></i></button>
-                                    </div>
-                                    <input type="text" className="form-control border-0 form-control-lg shadow-none"
-                                           placeholder="Search for..." name="search"/>
-                                </div>
-                            </form>
                             <ul className="py-5 px-2 w-100 mb-2 list-group list-group-no-border rounded-lg">
                                 <li className="list-group-item px-3 px-xl-4 py-2 sidebar-item">
                                     <Link href="/admin" locale={lang} className="text-heading lh-1 sidebar-link">
-                                        <span className="sidebar-item-text">Products</span>
-                                    </Link>
-                                </li>
-                                <li className="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                                    <Link href="/admin/users" locale={lang} className="text-heading lh-1 sidebar-link">
-                                        <span className="sidebar-item-text">Users</span>
+                                        <span className="sidebar-item-text">{t("admin.sidebar.products")}</span>
                                     </Link>
                                 </li>
                                 <li className="mb-2 list-group-item px-3 px-xl-4 py-2 sidebar-item">
                                     <Link href={"/admin/new-product"} locale={lang}
                                           className="text-heading lh-1 sidebar-link">
-                                        <span className="sidebar-item-text">Add new Product</span>
+                                        <span className="sidebar-item-text">{t("admin.sidebar.newPrd")}</span>
                                     </Link>
                                 </li>
-                                <li className="mb-2 list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                                    <Link href="/admin/new-user" locale={lang}
-                                          className="text-heading lh-1 sidebar-link">
-                                        <span className="sidebar-item-text">Add new User</span>
-                                    </Link>
-                                </li>
+                                {user?.role === "admin" ?
+                                    <>
+                                        <li className="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                                            <Link href="/admin/users" locale={lang} className="text-heading lh-1 sidebar-link">
+                                                <span className="sidebar-item-text">{t("admin.sidebar.users")}</span>
+                                            </Link>
+                                        </li>
+                                        <li className="mb-2 list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                                            <Link href="/admin/new-user" locale={lang}
+                                                  className="text-heading lh-1 sidebar-link">
+                                                <span className="sidebar-item-text">{t("admin.sidebar.newUser")}</span>
+                                            </Link>
+                                        </li>
+                                    </>
+                                : null}
                             </ul>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {StepsProps} from "./Steps";
 import FormSelect from "../../../ui/FormSelect";
 import {cities} from "../../../../utils/constants/cities";
@@ -17,6 +17,7 @@ const Third: FC<StepsProps> = ({setProductFields, productFields}) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     const [selectedCity, setSelectedCity] = useState<string>("");
+    const {t} = useTranslation();
 
     const handleChange = (key: string, value: boolean | string | number, obj: ITrans | IRegions): void => {
         let options: PropertyTypes = {} as PropertyTypes;
@@ -47,6 +48,12 @@ const Third: FC<StepsProps> = ({setProductFields, productFields}) => {
         }))
     }
 
+    useEffect(() => {
+        if ("city" in productFields) {
+            setSelectedCity(productFields.city.en)
+        }
+    }, [])
+
     return (
         <div className="tab-pane tab-pane-parent fade px-0 active show" id="location" role="tabpanel"
              aria-labelledby="location-tab">
@@ -58,7 +65,7 @@ const Third: FC<StepsProps> = ({setProductFields, productFields}) => {
                                 data-toggle="collapse" data-number="3."
                                 data-target="#location-collapse" aria-expanded="true"
                                 aria-controls="location-collapse">
-                            <span className="number">3.</span> Location
+                            <span className="number">3.</span> {t("admin.newPrd.steps.location")}
                         </button>
                     </h5>
                 </div>
@@ -70,36 +77,37 @@ const Third: FC<StepsProps> = ({setProductFields, productFields}) => {
                             <div className="col-lg-8">
                                 <div className="card mb-6">
                                     <div className="card-body p-6">
-                                        <h3 className="card-title mb-0 text-heading fs-22 lh-15">
-                                            Listing
-                                            Location</h3>
+                                        <h3 className="card-title mb-0 text-heading fs-22 lh-15">{t("admin.newPrd.third_step.title")}</h3>
                                         <p className="card-text mb-5">Lorem ipsum dolor sit
                                             amet, consectetur
                                             adipiscing elit</p>
                                         <div className="mb-2">
                                             <FormSelect
                                                 options={Object.values(cities[lang])}
-                                                label={"Cities"}
+                                                label={t("admin.newPrd.third_step.cities")}
                                                 keyWord={"city"}
                                                 onChange={(key, val) => handleChange(key, val, cities)}
+                                                selected={selectedCity}
                                             />
                                         </div>
-                                        {"city" in productFields ? (
+                                        {selectedCity ? (
                                             <div className="mb-2">
                                                 <FormSelect
                                                     options={regions[lang][selectedCity]}
-                                                    label={"Region"}
+                                                    label={t("admin.newPrd.third_step.region")}
                                                     keyWord={"region"}
                                                     onChange={(key, val) => handleChange(key, val, regions)}
+                                                    selected={productFields.region ? productFields.region[lang] : undefined}
                                                 />
                                             </div>
                                         ) : null}
                                         <div className="">
                                             <FormTextarea
                                                 onChange={(key, val) => setProductFields(prev => ({...prev, [key]: val}))}
-                                                label={"Address"}
+                                                label={t("admin.newPrd.third_step.address")}
                                                 keyWord={"address"}
                                                 rows={5}
+                                                defaultValue={productFields?.address ? productFields?.address : undefined}
                                             />
                                         </div>
                                     </div>

@@ -1,14 +1,59 @@
-import React, {FC} from 'react';
+import React, {Dispatch, MouseEvent, SetStateAction, useEffect, useState} from 'react';
 import {IProduct} from "../../utils/types/IProduct";
 import {API_URL} from "../../utils/constants/api";
 import capitalize from "../../utils/helpers/capitalize";
 import {useTranslation} from "next-i18next";
 import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
 import Link from "next/link";
+import {useTypedDispatch, useTypedSelector} from "../../redux/types/IRedux";
+import {addFavorite, removeFavorite} from "../../services/user";
+import {setUser} from "../../redux/actions/user";
+import {GenerateDescription} from "./GenerateDescription";
+import {GenerateTitle} from "./GenerateTitle";
 
-const ProductCardLg: FC<IProduct> = ({prdId, desc, region, city, imageUrl, rooms, baths, floorArea, price, status}) => {
+type ModalProps = {
+    setModal: Dispatch<SetStateAction<boolean>>
+    onData: (data: number) => void
+    onToastify: (status: "success" | "info" | "danger", message: string) => void
+}
+type MyProps = IProduct & ModalProps
+
+const ProductCardLg = ({prdId, id, type, newBuilding, currentFloor, elevator, furniture, floorsCount, region, city, imageUrl, rooms, baths, floorArea, price, status, onToastify, onData, setModal}: MyProps) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const user = useTypedSelector(state => state.auth.user);
+    const dispatch = useTypedDispatch();
+    const [liked, setLiked] = useState<boolean>(false);
+
+
+    useEffect(() => {
+        setLiked(user?.favorites?.some(fav => fav === id))
+    }, [user])
+
+    const handleSetFavorite = async (event: MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault();
+        if (!user || !user?.id) {
+            onToastify("danger", "Please first SignIn or SignUp");
+            return
+        } else if (!user?.isActivated) {
+            onToastify("danger", "Please activate your account");
+            return
+        }
+
+        if (!liked) {
+            const favorite = await addFavorite(user.id, id);
+            dispatch(setUser(favorite))
+        } else {
+            const favorite = await removeFavorite(user.id, id)
+            dispatch(setUser(favorite))
+        }
+    }
+
+    const handleClick = () => {
+        setModal(true);
+        onData(prdId)
+    }
+
     return (
         <div className="py-5 px-4 border rounded-lg shadow-hover-1 bg-white mb-4 fadeInUp animated"
              data-animate="fadeInUp">
@@ -24,13 +69,13 @@ const ProductCardLg: FC<IProduct> = ({prdId, desc, region, city, imageUrl, rooms
                     <div className="card-img-overlay p-2">
                         <ul className="list-inline mb-0 d-flex justify-content-center align-items-center h-100 hover-image">
                             <li className="list-inline-item">
-                                <a href="#"
-                                   className="w-40px h-40 border rounded-circle d-inline-flex align-items-center justify-content-center text-heading bg-white border-white bg-hover-primary border-hover-primary hover-white">
+                                <a href="#" onClick={handleSetFavorite}
+                                   className={`w-40px h-40 border rounded-circle d-inline-flex align-items-center justify-content-center text-heading bg-white border-white bg-hover-primary border-hover-primary hover-white text-${liked ? "primary" : "white"}`}>
                                     <i className="far fa-heart"></i>
                                 </a>
                             </li>
                             <li className="list-inline-item">
-                                <a href="#"
+                                <a href="#" onClick={handleClick}
                                    className="w-40px h-40 border rounded-circle d-inline-flex align-items-center justify-content-center text-heading bg-white border-white bg-hover-primary border-hover-primary hover-white">
                                     <i className="fas fa-exchange-alt"></i>
                                 </a>
@@ -40,17 +85,13 @@ const ProductCardLg: FC<IProduct> = ({prdId, desc, region, city, imageUrl, rooms
                 </div>
                 <div className="media-body mt-3 mt-sm-0">
                     <h2 className="my-0">
-                        <Link href={`/properties/${prdId}`} className="fs-16 lh-2 text-dark hover-primary d-block">Home
-                            in Metric
-                            Way</Link>
+                        <GenerateTitle type={type} region={region} status={status} prdId={prdId} className={"fs-16 lh-2 text-dark hover-primary d-block"}/>
                     </h2>
                     <p className="mb-1 font-weight-500 text-gray-light">{capitalize(`${city[lang]}, ${region[lang]}`)}</p>
                     <p className="fs-17 font-weight-bold text-heading mb-1">
                         ${price}
                     </p>
-                    <p className="mb-2 ml-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam aliquid
-                        assumenda consequatur consequuntur, cupiditate deserunt ea eligendi eos illo impedit
-                        necessitatibus nobis perferendis porro quae repellat sapiente vitae, voluptas! Praesentium.</p>
+                    <GenerateDescription type={type} floorsCount={floorsCount} floorArea={floorArea} region={region} newBuilding={newBuilding} elevator={elevator} furniture={furniture} rooms={rooms} baths={baths} currentFloor={currentFloor} substr={true}/>
                 </div>
             </div>
             <div className="d-sm-flex justify-content-sm-between">

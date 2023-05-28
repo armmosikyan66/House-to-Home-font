@@ -3,6 +3,7 @@ import {useRouter} from "next/router";
 import { Admin } from '../templates/admin';
 import Header from "../templates/app/Header";
 import Footer from "../templates/app/Footer";
+import {GetServerSideProps} from "next";
 
 const App: FC<{ children: ReactNode }> = ({children}) => {
     const {asPath} = useRouter();

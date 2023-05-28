@@ -3,13 +3,21 @@ import {GetStaticProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../next-i18next.config";
 import Img from "../assets/images/page-404.jpg"
+import Image from 'next/image'
 
 const Error: NextPage<{}> = () => {
     return (
         <section className="pt-9 pb-10" data-animated-id="1">
             <div className="container">
                 <div className="text-center mb-5">
-                    <img src={Img.src} alt="Page 404" className="mb-5"/>
+                    <Image
+                        src={Img.src}
+                        alt="Picture of the author"
+                        width={Img.width}
+                        height={Img.height}
+                        priority
+                        className="mb-5"
+                    />
                     <h1 className="fs-30 lh-16 text-dark font-weight-600 mb-5">Oops! That page can’t be found.</h1>
                     <p className="mb-8">It looks like nothing was found at this location. Maybe try one of the links
                         below or a

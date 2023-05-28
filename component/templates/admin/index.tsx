@@ -2,6 +2,8 @@ import Steps from "./steps/Steps";
 import AdminHeader from "./Header";
 import AdminSidebar from "./Sidebar";
 import AdminModal, {AdminModalProps} from "../../ui/AdminModal";
+import {GetServerSideProps} from "next";
+
 
 export namespace Admin {
     export const NewProductSteps = () => {

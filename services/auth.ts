@@ -13,9 +13,10 @@ export const register = async (user: IRegister): Promise<IAuthResponse> => {
 
 export const login = async (user: ILogin): Promise<IAuthResponse> => {
     try {
-        const {data} = await $api.post("/login", user);
+        const response = await $api.post("/login", user);
+        localStorage.setItem("token", response.data.accessToken);
 
-        return {status: "success", user: data.user};
+        return {status: "success", user: response.data.user};
     } catch (e: any) {
         return {status: "error", message: e.response.data.message};
     }
@@ -23,12 +24,12 @@ export const login = async (user: ILogin): Promise<IAuthResponse> => {
 
 export const checkAuth = async (): Promise<IAuthResponse> => {
     try {
-        const response = await $api.get(`/refresh`, {withCredentials: true})
+        const response = await $api.get('/refresh', {withCredentials: true})
         localStorage.setItem('token', response.data.accessToken);
 
         return {status: "success", user: response.data.user};
     } catch (e: any) {
-        return {status: "error", message: e.response.data.message};
+       return {status: "error", message: e.response.data.message};
     }
 }
 
