@@ -20,7 +20,7 @@ export type ShareProps = {
 const ShareModal: FC<ShareProps> = ({setModal, propertyId}) => {
     const {i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys
-    const [url, setUrl] = useState(`http://localhost:3000`);
+    const [url, setUrl] = useState(window.location.origin);
     const [toastify, setToastify] = useState<{status: "danger" | "info" | "success", message: string}>({
         status: "info",
         message: ""
@@ -33,12 +33,17 @@ const ShareModal: FC<ShareProps> = ({setModal, propertyId}) => {
 
     useEffect(() => {
         setUrl(`${url}/${lang}/properties/${propertyId}`)
+        document.body.style.overflow = "hidden";
+
+        return () => {
+            document.body.style.overflow = "auto";
+        }
     }, [])
 
     return (
         <>
-            {toastify.message.length ? <Toastify setToastify={setToastify} status={toastify.status} message={toastify.message}/> : null}
-            <div className='modal fade login-register login-register-modal show opacity-10 d-block position-fixed'>
+            <div className='modal fade login-register login-register-modal show opacity-10 d-block position-fixed p-5'>
+                {toastify.message.length ? <Toastify setToastify={setToastify} status={toastify.status} message={toastify.message}/> : null}
                 <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered mxw-571">
                     <div className="modal-content">
                         <div className="modal-header border-0 p-0">

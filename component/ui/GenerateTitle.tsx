@@ -3,27 +3,11 @@ import Link from "next/link";
 import {useTranslation} from "next-i18next";
 import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
 import Capitalize from "../../utils/helpers/capitalize";
+import {IProduct} from "../../utils/types/IProduct";
 
-type titleType = {
-    type: {
-        am: string;
-        en: string;
-        ru: string;
-    };
-    region: {
-        am: string;
-        en: string;
-        ru: string;
-    };
-    status: {
-        am: string;
-        en: string;
-        ru: string;
-    };
-    prdId: number,
-    className?: string;
-}
-export const GenerateTitle = ({type, region, status, prdId, className}: titleType) => {
+interface ITitle extends Pick<IProduct, 'type' | 'region' | 'status' | 'prdId'> {className?: string}
+
+export const GenerateTitle = ({type, region, status, prdId, className}: ITitle) => {
     const {t, i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     switch (status.en) {

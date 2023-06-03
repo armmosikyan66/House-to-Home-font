@@ -1,21 +1,21 @@
 export const types = {
     en: {
-        apartment: "apartment",
-        house: "house",
-        office: "office",
-        land: "land",
+        apartment: "Apartment",
+        office: "Office",
+        house: "House",
+        land: "Land",
     },
     ru: {
-        apartment: "квартира",
-        house: "дом",
-        office: "оффис",
-        land: "земля",
+        apartment: "Квартира",
+        office: "Оффис",
+        house: "Дом",
+        land: "Земля",
     },
     am: {
-        apartment: "բնակարան",
-        house: "տուն",
-        office: "գրասենյակ",
-        land: "հողատարածք",
+        apartment: "Բնակարան",
+        office: "Գրասենյակ",
+        house: "Տուն",
+        land: "Հողատարածք",
     }
 }
 

@@ -24,7 +24,7 @@ const Index: FC<AuthProps> = ({setModal}) => {
 
     return (
         <>
-            <div className='modal fade login-register login-register-modal show opacity-10 d-block'>
+            <div className='modal fade login-register login-register-modal show opacity-10 d-block p-5'>
                 <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered mxw-571">
                     <div className="modal-content">
                         <div className="modal-header border-0 p-0">

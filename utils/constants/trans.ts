@@ -1,6 +1,6 @@
+import {ITranslations} from "../types/ILanguagesKeys";
 
-
-export const strings = {
+export const trans: ITranslations = {
     am: {
         buyNewHome: ['Գնել նոր տուն'],
         sellHome: ['վաճառել տուն'],
@@ -10,7 +10,7 @@ export const strings = {
         homeSubtitle: ["ԹՈՒՅԼ ՏՎԵՔ ՄԵԶ ԳՏՆԵՆՔ ՁԵՐ ՏՈՒՆԸ"],
         homeTitle: ["Ձեր երազանքի տունը"],
         products: ["Անշարժ գույք"],
-        cities: [
+        city: [
             "Արագածոտն",
             "Արարատ",
             "Արմավիր",
@@ -23,7 +23,7 @@ export const strings = {
             "Վայոց Ձոր",
             "երեվան",
         ],
-        "երեվան": [
+        erevan: [
             "Աջափնյակ",
             "Արաբկիր",
             "Ավան",
@@ -37,7 +37,7 @@ export const strings = {
             "Նորք Մարաշ",
             "Նուբարաշեն",
         ],
-        "արմավիր": [
+        armavir: [
             "Էջմիածին",
             "Արգավանդ",
             "Բաղրամյան",
@@ -125,7 +125,7 @@ export const strings = {
             "Երվանդաշատ",
             "Զարթոնք",
         ],
-        "արարատ": [
+        ararat: [
             "Արտաշատ",
             "Արարատ",
             "Արբաթ",
@@ -218,7 +218,7 @@ export const strings = {
             "Երասխ",
             "Զանգակատուն",
         ],
-        "կոտայք": [
+        kotayk: [
             "Աբովյան",
             "Արաքսավան",
             "Արալեզ",
@@ -364,7 +364,7 @@ export const strings = {
             "Զորավան",
             "Զովաշեն",
         ],
-        "շիրակ": [
+        shirak: [
             "Գյումրի",
             "Ախուրյան",
             "Արթիկ",
@@ -459,7 +459,7 @@ export const strings = {
             "Երազգավորս",
             "Զույգաղբյուր",
         ],
-        "լոռի": [
+        lori: [
             "Վանաձոր",
             "Ալավերդի",
             "Դսեղ",
@@ -552,7 +552,7 @@ export const strings = {
             "Վարդաբլուր",
             "Եղեգնուտ",
         ],
-        "գեղարքունիք": [
+        gegharkunik: [
             "Ճամբարակ",
             "Գավառ",
             "Մարտունի",
@@ -616,7 +616,7 @@ export const strings = {
             "Զոլաքար",
 
         ],
-        "սյունիք": [
+        syunik: [
             "Գորիս",
             "Կապան",
             "Մեղրի",
@@ -656,7 +656,7 @@ export const strings = {
             "Վերիշեն",
             "Եղվարդ",
         ],
-        "արագածոտն": [
+        aragatsotn: [
             "Աղձք",
             "Ապարան",
             "Արագած",
@@ -716,7 +716,7 @@ export const strings = {
             "Զարինջա",
             "Զովասար",
         ],
-        "տավուշ": [
+        tavush: [
             "Բերդ",
             "Դիլիջան",
             "Իջևան",
@@ -774,7 +774,7 @@ export const strings = {
             "Ենոքավան",
             "Զորական",
         ],
-        "վայոց ձոր": [
+        vayosDzor: [
             "Ջերմուկ",
             "Վայք",
             "Եղեգնաձոր",
@@ -815,7 +815,7 @@ export const strings = {
         ],
         type: ["Բնակարան", "Գրասենյակ", "Տուն", "Հողատարածք"],
         status: ["վաճառք", "վարձակալություն"],
-        rooms: ["1", "2", "3", "3+"],
+        rooms: ["1", "2", "3", "4", "5"],
         location: ["Գտնվելու վայրը"],
         allTypes: ["Բոլոր բաժինները"],
         allStatus: ["բոլոր տեսակի"],
@@ -857,7 +857,7 @@ export const strings = {
         homeTitle: ["Дом вашей мечты"],
         homeSubtitle: ["ПОЗВОЛЬТЕ НАМ НАЙТИ ВАШ ДОМ"],
         products: ["Недвижимость"],
-        cities: [
+        city: [
             "Арагацотн",
             "Арарат",
             "Армавир",
@@ -870,7 +870,7 @@ export const strings = {
             "Вайоц Дзор",
             "Ереван"
         ],
-        "ереван": [
+        erevan: [
             "Ачапняк",
             "Арабкир",
             "Аван",
@@ -884,7 +884,7 @@ export const strings = {
             "Норк Мараш",
             "Нубарашен",
         ],
-        "армавир": [
+        armavir: [
             "Эчмиадзин",
             "Аргаванд",
             "Баграмян",
@@ -972,7 +972,7 @@ export const strings = {
             "Ервандашат",
             "Зартонк",
         ],
-        "арарат": [
+        ararat: [
             "Арташат",
             "Арарат",
             "Арбат",
@@ -1066,7 +1066,7 @@ export const strings = {
             "Зангакатун",
             "Зорак",
         ],
-        "котайк": [
+        kotayk: [
             "Абовян",
             "Агверан",
             "Арагюх",
@@ -1137,7 +1137,7 @@ export const strings = {
             "Зовашен",
             "Зовк",
         ],
-        "ширак": [
+        shirak: [
             "Гюмри",
             "Ахурян",
             "Артик",
@@ -1232,7 +1232,7 @@ export const strings = {
             "Еразгаворс",
             "Зуйгахпюр",
         ],
-        "лори": [
+        lori: [
             "Ванадзор",
             "Алаверди",
             "Дсех",
@@ -1325,7 +1325,7 @@ export const strings = {
             "Вардаблур",
             "Ехегнут",
         ],
-        "гегаркуник": [
+        gegharkunik: [
             "Чамбарак",
             "Гавар",
             "Мартуни",
@@ -1389,7 +1389,7 @@ export const strings = {
             "Золакар",
             "Зовабер",
         ],
-        "сюник": [
+        syunik: [
             "Горис",
             "Капан",
             "Мегри",
@@ -1429,7 +1429,7 @@ export const strings = {
             "Веришен",
             "Егвард",
         ],
-        "арагацотн": [
+        aragatsotn: [
             "Ахцк",
             "Апаран",
             "Арагац",
@@ -1489,7 +1489,7 @@ export const strings = {
             "Заринджа",
             "Зовасар",
         ],
-        "тавуш": [
+        tavush: [
             "Берд",
             "Дилижан",
             "Иджеван",
@@ -1547,7 +1547,7 @@ export const strings = {
             "Енокаван",
             "Зоракан",
         ],
-        "вайоцдзор": [
+        vayosDzor: [
             "Джермук",
             "Вайк",
             "Егегнадзор",
@@ -1587,8 +1587,8 @@ export const strings = {
             "Зедеа",
         ],
         type: ["Квартира", "Офис", "Дом", "Земля"],
-        status: ["Квартира", "Офис", "Дом", "Земля"],
-        rooms: ["1", "2", "3", "3+"],
+        status: ["продажа", "аренда"],
+        rooms: ["1", "2", "3", "4", "5"],
         price: ["цена"],
     },
     en: {
@@ -1611,7 +1611,7 @@ export const strings = {
         location: ["Location"],
         homeSubtitle: ["LET US FIND YOUR HOME"],
         products: ["Real estate"],
-        cities: [
+        city: [
             "Aragatsotn",
             "Ararat",
             "Armavir",
@@ -1987,97 +1987,97 @@ export const strings = {
             "Zuygaghbyur"
         ],
         lori: [
-            "Վանաձոր",
-            "Ալավերդի",
-            "Դսեղ",
-            "Սպիտակ",
-            "Ստեփանավան",
-            "Տաշիր",
-            "Ագարակ",
-            "Ախթալա",
-            "Ակներ",
-            "Աքորի",
-            "Ամրակից",
-            "Անտառամուտ",
-            "Արևաշող",
-            "Արևածագ",
-            "Արջուտ",
-            "Արմանիս",
-            "Աթան",
-            "Այգեհատ",
-            "Ազնվաձոր",
-            "Բազում",
-            "Չկալով",
-            "Ճոճկան",
-            "Դարպաս",
-            "Դեբետ",
-            "Ձորագետ",
-            "Ձորագյուղ",
-            "Ձորամուտ",
-            "Ֆիոլետովո",
-            "Գարգառ",
-            "Գեղասար",
-            "Ղուրսալի",
-            "Գոգարան",
-            "Գուգարք",
-            "Գյուլագարակ",
-            "Հաղպատ",
-            "Հագվի",
-            "Հարթագյուղ",
-            "Հոբարձի",
-            "Ջրաշեն",
-            "Քարաձոր",
-            "Քարինջ",
-            "Քարկոփ",
-            "Կաթնաջուր",
-            "Կաթնառատ",
-            "Խնկոյան",
-            "Կողես",
-            "Կուրթան",
-            "Լեջան",
-            "Լերմոնտովո",
-            "Լեռնահովիտ",
-            "Լեռնանցք",
-            "Լեռնապատ",
-            "Լեռնավան",
-            "Լոռի բերդ",
-            "Լորուտ",
-            "Լուսաղբյուր",
-            "Մարգահովիտ",
-            "Մարց",
-            "Մեծ Այրում",
-            "Մեծ Պառնի",
-            "Մեծավան",
-            "Մղարթ",
-            "Միխայելովկա",
-            "Նեղոց",
-            "Նոր Խաչակապ",
-            "Նորաշեն",
-            "Օձուն",
-            "Փամբակ",
-            "Պրիվոլնոյե",
-            "Պուշկինո",
-            "Սարահարթ",
-            "Սարամեջ",
-            "Սարատովկա",
-            "Սարչապետ",
-            "Շահումյան",
-            "Շամլուղ",
-            "Շենավան",
-            "Շիրակամուտ",
-            "Շնող",
-            "Սվերդլով",
-            "Թեղուտ",
-            "Ծաղկաբեր",
-            "Ծաղկաշատ",
-            "Ծաթեր",
-            "Թումանյան",
-            "Ուրասար",
-            "Ուռուտ",
-            "Վահագնաձոր",
-            "Վահագնի",
-            "Վարդաբլուր",
-            "Եղեգնուտ",
+            "Vanadzor",
+            "Alaverdi",
+            "Dsex",
+            "Spitak",
+            "Stepanakert",
+            "Tashir",
+            "Agarak",
+            "Axtala",
+            "Akner",
+            "Aqori",
+            "Amrakic",
+            "Antaramut",
+            "Arevashox",
+            "Arevatsag",
+            "Arjut",
+            "Armanis",
+            "Atan",
+            "Aygehat",
+            "Aznvadzor",
+            "Bazum",
+            "Chkalov",
+            "Chochkan",
+            "Darpas",
+            "Debet",
+            "Dzoraget",
+            "Dzoragyux",
+            "Dzoramut",
+            "Fioletovo",
+            "Gargar",
+            "Gexasar",
+            "Dursali",
+            "Gogaran",
+            "Gugarq",
+            "Gyulagarak",
+            "Haxpat",
+            "Hagvi",
+            "Hortagyux",
+            "Hobardzi",
+            "Jrashen",
+            "Qaradzor",
+            "Qarinj",
+            "Qarkop",
+            "Katnajur",
+            "Katnarat",
+            "Xnkoyan",
+            "Koxes",
+            "Kurtan",
+            "Lejan",
+            "Lermontovo",
+            "Lernahovit",
+            "Lernancq",
+            "Lernapat",
+            "Lernavan",
+            "Lori berd",
+            "Lorut",
+            "Lusabyur",
+            "Margahovit",
+            "Marc",
+            "Mets Ayrum",
+            "Mets Parni",
+            "Metsavan",
+            "Mxart",
+            "Mrxayelovka",
+            "nexoc",
+            "Nor Xachakap",
+            "Norashen",
+            "Odzun",
+            "Pambak",
+            "Privlonoye",
+            "Pushkino",
+            "Sarahart",
+            "Saramej",
+            "Maratovka",
+            "Sarchapet",
+            "Shahumyan",
+            "Shamlux",
+            "Shenavan",
+            "Shirakamut",
+            "Shnox",
+            "Sverdlov",
+            "Texut",
+            "Tsaxkaber",
+            "Tsaxkashat",
+            "Tsater",
+            "Tumanyan",
+            "Urasar",
+            "Urut",
+            "Vahagnadzor",
+            "Vahagni",
+            "Vardablur",
+            "Exegnut",
         ],
         gegharkunik: [
             "Chambarak",
@@ -2343,7 +2343,7 @@ export const strings = {
         ],
         type: ["Apartment", "Office", "House", "Land"],
         status: ["sale", "rent"],
-        rooms: ["1", "2", "3", "3+"],
+        rooms: ["1", "2", "3", "4", "5"],
         homeTitle: ["Your Dream Home"],
         areaSize: ["area size"],
         price: ["Price"],

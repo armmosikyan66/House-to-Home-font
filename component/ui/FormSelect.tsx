@@ -1,17 +1,24 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import useClickOutside from "../../utils/hooks/useClickOutside";
 import capitalize from "../../utils/helpers/capitalize";
+import {useTranslation} from "next-i18next";
+import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
+import {trans} from "../../utils/constants/trans";
 
 export type FormSelectProps = {
     onChange?: (key: string, value: number | boolean | string) => void;
     options: (string | number | boolean)[];
     label: string;
-    selected?: number | boolean | string;
+    selected?: number | boolean | string | null;
     keyWord: string;
+    keyWordForTranslation?: string,
 }
 
-const FormSelect: FC<FormSelectProps> = ({selected, onChange, keyWord, options, label}) => {
+const FormSelect: FC<FormSelectProps> = ({selected, onChange, keyWord, options, label, keyWordForTranslation}) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const {t, i18n} = useTranslation();
+    const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const [sourceLanguage, setSourceLanguage] = useState(lang);
     const [selectedOption, setSelectedOption] = useState<number | boolean | string | null>(null);
     const selectRef = useRef<HTMLDivElement>(null);
     useClickOutside(selectRef, (): void => setIsOpen(false));
@@ -26,10 +33,25 @@ const FormSelect: FC<FormSelectProps> = ({selected, onChange, keyWord, options, 
         }
     }, [selected]);
 
+    useEffect(() => {
+        if(selectedOption !== null && keyWordForTranslation) {
+            const sourceArray = trans[sourceLanguage][keyWordForTranslation];
+            const targetArray = trans[lang][keyWordForTranslation]
+
+            const sourceIndex = sourceArray.findIndex(item => item === selectedOption.toString());
+            const translation = targetArray[sourceIndex];
+            setSelectedOption(translation);
+            setSourceLanguage(lang);
+            if (onChange) {
+                onChange(keyWord, translation);
+            }
+        }
+    }, [lang])
+
     const handleOptionSelect = (option: number | boolean | string): void => {
         setSelectedOption(option);
         setIsOpen(false);
-
+        setSourceLanguage(lang);
         if (onChange) {
             onChange(keyWord, option);
         }

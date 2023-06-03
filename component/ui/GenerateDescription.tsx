@@ -1,31 +1,10 @@
 import React from "react";
 import {useTranslation} from "next-i18next";
 import {LanguagesKeys} from "../../utils/types/ILanguagesKeys";
+import {IProduct} from "../../utils/types/IProduct";
 
-type descriptionTypes = {
-    type: {
-        am: string;
-        en: string;
-        ru: string;
-    };
-    region: {
-        am: string;
-        en: string;
-        ru: string;
-    };
-    floorArea?: number;
-    rooms?: number;
-    furniture?: boolean;
-    baths?: number;
-    elevator?: boolean;
-    newBuilding?: boolean;
-    floorsCount?: number;
-    currentFloor?: number;
-    ceilingHeight?: number;
-    balcony?: boolean;
-    substr: boolean;
-}
-export const GenerateDescription = ({type, floorsCount, floorArea, region, newBuilding, elevator, furniture, rooms, baths, currentFloor, substr}: descriptionTypes) => {
+interface IDescription extends Omit<IProduct, 'id' | 'price' | 'imageUrl' | 'public' | 'status' | 'city' | 'prdId' | 'createdAt'> {substr: boolean}
+export const GenerateDescription = ({type, floorsCount, floorArea, region, newBuilding, elevator, furniture, rooms, baths, currentFloor, substr}: IDescription) => {
     const {t, i18n} = useTranslation();
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     switch (type?.en) {
@@ -64,8 +43,6 @@ export const GenerateDescription = ({type, floorsCount, floorArea, region, newBu
 
 
             return <p className="mb-0 lh-214" dangerouslySetInnerHTML={{ __html: description }} />;
-
-            break;
         }
 
         case "office": {
@@ -103,7 +80,6 @@ export const GenerateDescription = ({type, floorsCount, floorArea, region, newBu
             }
 
             return <p className="mb-0 lh-214" dangerouslySetInnerHTML={{ __html: description }} />;
-            break;
         }
         case "apartment": {
             const isHasElevator = elevator ? t("singlePrd.apartmentDesc.isHas.elevator") : null;
@@ -135,7 +111,6 @@ export const GenerateDescription = ({type, floorsCount, floorArea, region, newBu
             }
 
             return <p className="mb-0 lh-214" dangerouslySetInnerHTML={{ __html: description }} />;
-            break;
         }
         case "land": {
             return (
@@ -146,10 +121,8 @@ export const GenerateDescription = ({type, floorsCount, floorArea, region, newBu
                     })
                 }} />
             )
-            break;
         }
         default:
             return <></>
-            break;
     }
 }

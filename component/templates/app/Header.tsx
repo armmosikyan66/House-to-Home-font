@@ -37,6 +37,7 @@ const Header: FC<{}> = () => {
     const onToggleLanguageClick = (newLocale: string) => {
         const {pathname, asPath, query} = router
         router.push({pathname, query}, asPath, {locale: newLocale})
+        setBurgerMenu(false)
     }
 
     return (

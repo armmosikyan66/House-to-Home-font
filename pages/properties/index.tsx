@@ -35,7 +35,6 @@ const Index: NextPage<{}> = () => {
         (async () => {
             if (!router.isReady) return;
             const {page, ...options} = decodeParams(router.asPath.replace(router.route, ""));
-            console.log(options)
             const data = await getAll(lang, Number(page || 1), options);
 
             setItems(data);

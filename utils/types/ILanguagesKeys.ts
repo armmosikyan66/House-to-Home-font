@@ -27,3 +27,9 @@ export interface IRegions {
         [k: string]: string[];
     };
 }
+
+export interface ITranslations {
+    [language: string]: {
+        [key: string]: string[];
+    };
+}

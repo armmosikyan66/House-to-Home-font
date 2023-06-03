@@ -1,4 +1,4 @@
-import React, {FC, useState, FormEvent} from 'react';
+import React, {FC, useState, FormEvent, useEffect} from 'react';
 import FormSelect from "../../../ui/FormSelect";
 import {LanguagesKeys} from "../../../../utils/types/ILanguagesKeys";
 import {useTranslation} from "next-i18next";
@@ -10,30 +10,42 @@ import {regions} from "../../../../utils/constants/regions";
 import {useRouter} from "next/router";
 import {encodeQueryString} from "../../../../utils/helpers/queryString";
 import capitalize from "../../../../utils/helpers/capitalize";
+import i18next from "i18next";
 
 const Filter: FC<{}> = () => {
     const {i18n} = useTranslation();
     const {t} = useTranslation("common");
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
+    const [sourceLanguage, setSourceLanguage] = useState(lang);
     const [filter, setFilter] = useState<IFilter>({} as IFilter);
     const [selectedCity, setSelectedCity] = useState<string>("")
+    const [changeCount, setChangeCount] = useState<number>(0);
+    const [completedChanges, setCompletedChanges] = useState<number>(0);
     const router = useRouter();
 
     const handleChange = (key: string, val: number | string | boolean): void => {
         if (key === "city") {
             const keyword = Object.keys(cities[lang]).find(key => cities[lang][key] === val.toString());
-
             if (!keyword) return;
 
             setSelectedCity(cities["en"][keyword])
         }
-
         setFilter(prev => ({
             ...prev,
             [key]: val,
         }))
+        if(lang !== sourceLanguage) {
+            setChangeCount(prev => prev + 1);
+        }
     }
-
+    useEffect(() => {
+        setCompletedChanges(prev => prev + 1)
+    }, [changeCount])
+    useEffect(() => {
+        const queryString = encodeQueryString<any>(filter);
+        router.push(router.pathname + queryString);
+        setSourceLanguage(lang)
+    }, [completedChanges])
     const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         const queryString = encodeQueryString<any>(filter);
@@ -52,6 +64,7 @@ const Filter: FC<{}> = () => {
                                     options={Object.values(cities[lang])}
                                     label={t("catalog.filter.city")}
                                     keyWord={"city"}
+                                    keyWordForTranslation={"city"}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -59,8 +72,9 @@ const Filter: FC<{}> = () => {
                                 <div className="mb-2">
                                     <FormSelect
                                         options={Object.values(regions[lang][selectedCity.toLowerCase()])}
-                                        label={t("catalog.filter.city")}
+                                        label={t("catalog.filter.region")}
                                         keyWord={"region"}
+                                        keyWordForTranslation={selectedCity.toLowerCase()}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -68,8 +82,9 @@ const Filter: FC<{}> = () => {
                             <div className="mb-2">
                                 <FormSelect
                                     options={Object.values(types[lang])}
-                                    label={t("catalog.filter.region")}
+                                    label={t("catalog.filter.category")}
                                     keyWord={"type"}
+                                    keyWordForTranslation={"type"}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -78,6 +93,7 @@ const Filter: FC<{}> = () => {
                                     options={Object.values(status[lang])}
                                     label={t("catalog.filter.status")}
                                     keyWord={"status"}
+                                    keyWordForTranslation={"status"}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -99,7 +115,8 @@ const Filter: FC<{}> = () => {
                                     />
                                 </div>
                             </div>
-                            <label htmlFor="address" className="text-heading">{capitalize(t("catalog.filter.areaSize"))}</label>
+                            <label htmlFor="address"
+                                   className="text-heading">{capitalize(t("catalog.filter.areaSize"))}</label>
                             <div className="form-row mb-4">
                                 <div className="col">
                                     <FormInput
@@ -132,7 +149,8 @@ const Filter: FC<{}> = () => {
                                     />
                                 </div>
                             </div>
-                            <label htmlFor="address" className="text-heading">{capitalize(t("catalog.filter.price"))}</label>
+                            <label htmlFor="address"
+                                   className="text-heading">{capitalize(t("catalog.filter.price"))}</label>
                             <div className="form-row mb-4">
                                 <div className="col">
                                     <FormInput
