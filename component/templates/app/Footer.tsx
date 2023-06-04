@@ -56,16 +56,16 @@ const Footer: FC<{}> = () => {
                         <h4 className="text-white fs-16 my-4 font-weight-500">{t("footer.quick_links.title")}</h4>
                         <ul className="list-group list-group-flush list-group-no-border">
                             <li className="list-group-item bg-transparent p-0">
-                                <a href="#" className="text-muted lh-26 font-weight-500 hover-white">{t("footer.quick_links.terms_of_use")}</a>
+                                <Link href="/terms-of-use" locale={lang} className="text-muted lh-26 font-weight-500 hover-white">{t("footer.quick_links.terms_of_use")}</Link>
                             </li>
                             <li className="list-group-item bg-transparent p-0">
-                                <a href="#" className="text-muted lh-26 font-weight-500 hover-white">{t("footer.quick_links.privacy_policy")}</a>
+                                <Link href="/privacy-policy" locale={lang} className="text-muted lh-26 font-weight-500 hover-white">{t("footer.quick_links.privacy_policy")}</Link>
                             </li>
                             <li className="list-group-item bg-transparent p-0">
-                                <a href="#" className="text-muted lh-26 font-weight-500 hover-white">{t("footer.quick_links.contact_support")}</a>
+                                <Link href="/contact-us" locale={lang} className="text-muted lh-26 font-weight-500 hover-white">{t("footer.quick_links.contact_support")}</a>
                             </li>
                             <li className="list-group-item bg-transparent p-0">
-                                <a href="#" className="text-muted lh-26 hover-white font-weight-500">{t("footer.quick_links.careers")}</a>
+                                <Link href="/services" locale={lang} className="text-muted lh-26 hover-white font-weight-500">{t("footer.quick_links.careers")}</a>
                             </li>
                         </ul>
                     </div>
