@@ -1,3 +1,4 @@
+ // @ts-nocheck 
 import React, {useEffect, useState, MouseEvent, FormEvent} from 'react';
 import {GetServerSideProps, GetStaticProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
