@@ -22,7 +22,7 @@ const Header: FC<{}> = () => {
     const lang: LanguagesKeys = i18n.language as LanguagesKeys;
     const [modal, setModal] = useState<boolean>(false);
     const [burgerMenu, setBurgerMenu] = useState<boolean>(false);
-    const user = useTypedSelector(state => state.auth.user);
+    const user = useTypedSelector((state: any) => state.auth.user);
     const dispatch = useTypedDispatch();
     const langRef = useRef<HTMLLIElement>(null);
     const { t } = useTranslation('common');
