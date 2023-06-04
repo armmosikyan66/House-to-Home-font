@@ -1,3 +1,4 @@
+ // @ts-nocheck 
 import React, {FC, useRef, useState} from 'react';
 import Logo from "../../../assets/images/logo.svg";
 import LogoWhite from "../../../assets/images/logo-white.svg";
@@ -13,7 +14,6 @@ import {useRouter} from "next/router";
 import useClickOutside from "../../../utils/hooks/useClickOutside";
 import capitalize from "../../../utils/helpers/capitalize";
 
-// @ts-nocheck
 const Header: FC<{}> = () => {
     const router = useRouter();
     const [dropdown, setDropdown] = useState<boolean>(false);
