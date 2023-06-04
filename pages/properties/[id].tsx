@@ -1,3 +1,4 @@
+// @ts-nocheck 
 import React, {MouseEvent, useEffect, useState} from 'react';
 // @ts-ignore
 import Slider from 'react-slick';
