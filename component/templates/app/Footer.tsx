@@ -110,7 +110,7 @@ const Footer: FC<{}> = () => {
                         </li>
                     </ul>
                     <p className="col-md-auto mb-0 text-muted">
-                        © {new Date().getFullYear()} homeID. All Rights Reserved
+                        © {new Date().getFullYear()} HouseToHome. {t("footer.rights")}
                     </p>
                 </div>
             </div>
