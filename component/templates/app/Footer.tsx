@@ -102,12 +102,7 @@ const Footer: FC<{}> = () => {
                 </div>
                 <div className="mt-0 mt-md-10 row">
                     <ul className="list-inline mb-0 col-md-6 mr-auto">
-                        <li className="list-inline-item mr-6">
-                            <a href="#" className="text-muted lh-26 font-weight-500 hover-white">Terms of Use</a>
-                        </li>
-                        <li className="list-inline-item">
-                            <a href="#" className="text-muted lh-26 font-weight-500 hover-white">Privacy Policy</a>
-                        </li>
+                       
                     </ul>
                     <p className="col-md-auto mb-0 text-muted">
                         © {new Date().getFullYear()} HouseToHome. {t("footer.rights")}
