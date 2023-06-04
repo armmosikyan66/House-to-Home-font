@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import LogoWhite from "../../../assets/images/logo-white.svg";
 import Link from "next/link";
-import {useTranslation} from "next-i18next";
+import {useTranslation, withTranslation} from "next-i18next";
 import {LanguagesKeys} from "../../../utils/types/ILanguagesKeys";
 import {useRouter} from 'next/router';
 
@@ -149,4 +149,4 @@ const Footer: FC<{}> = () => {
     );
 };
 
-export default Footer;
+export default withTranslation("common")(Footer);
