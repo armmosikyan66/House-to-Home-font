@@ -10,7 +10,6 @@ import {regions} from "../../../../utils/constants/regions";
 import {useRouter} from "next/router";
 import {encodeQueryString} from "../../../../utils/helpers/queryString";
 import capitalize from "../../../../utils/helpers/capitalize";
-import i18next from "i18next";
 
 const Filter: FC<{}> = () => {
     const {i18n} = useTranslation();
@@ -43,7 +42,7 @@ const Filter: FC<{}> = () => {
     }, [changeCount])
     useEffect(() => {
         const queryString = encodeQueryString<any>(filter);
-        router.push(router.pathname + queryString);
+        if(Object.keys(filter).length !== 0) router.push(router.pathname + queryString);
         setSourceLanguage(lang)
     }, [completedChanges])
     const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {

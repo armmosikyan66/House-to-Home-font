@@ -23,7 +23,6 @@ const Content: FC<ContentProps> = ({items, count, founded}) => {
         message: ""
     })
     const router = useRouter();
-    const {t} = useTranslation("common");
 
     useEffect(() => {
         if (!router.isReady) return;
