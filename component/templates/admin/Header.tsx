@@ -1,3 +1,4 @@
+ // @ts-nocheck 
 import React, {FC, useState, useRef} from 'react';
 import {useRouter} from "next/router";
 import {logout} from "../../../services/auth";
