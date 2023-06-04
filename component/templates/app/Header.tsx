@@ -79,7 +79,7 @@ const Header: FC<{}> = () => {
                                             </li>
                                             <li id="navbar-item-home" aria-haspopup="true" aria-expanded="false"
                                                 className="nav-item dropdown py-2 py-xl-5 px-0 px-xl-4">
-                                                <Link locale={lang} className="nav-link p-0" href="/contactus"
+                                                <Link locale={lang} className="nav-link p-0" href="/contact-us"
                                                    data-toggle="dropdown">
                                                     {t("header.contact_us")}
                                                     <span className="caret"></span>
