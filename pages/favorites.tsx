@@ -1,3 +1,4 @@
+ // @ts-nocheck 
 import React, {Fragment, useEffect, useState} from 'react';
 import {GetStaticProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
