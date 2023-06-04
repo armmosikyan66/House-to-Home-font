@@ -8,7 +8,7 @@ import {Action} from "redux";
 import {ThunkDispatch} from 'redux-thunk';
 
 export const useTypedDispatch: () => AppDispatch = useDispatch
-export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useTypedSelector: any | TypedUseSelectorHook<RootState> = useSelector
 
 export type ThunkAction<
     R, // Return type of the thunk function
