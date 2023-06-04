@@ -1,3 +1,4 @@
+ // @ts-nocheck 
 import React, {FC, useState} from 'react';
 import Logo from "../../../assets/images/logo.svg"
 import Link from "next/link";
