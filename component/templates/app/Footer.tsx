@@ -4,6 +4,7 @@ import Link from "next/link";
 import {LanguagesKeys} from "../../../utils/types/ILanguagesKeys";
 import {types, status} from "../../../utils/constants/productInfo";
 import {useRouter} from "next/router";
+import LogoWhite from "../../../assets/images/logo-white.svg";
 
 const Footer: FC<{}> = () => {
     const {t, i18n} = useTranslation();
@@ -21,7 +22,7 @@ const Footer: FC<{}> = () => {
                 <div className="row">
                     <div className="col-md-6 col-lg-4 mb-6 mb-md-0">
                         <a className="d-block mb-2" href="#">
-                            <img src="images/logo-white-primary.png" alt="HomeID"/>
+                            <img src={LogoWhite.src} alt="HomeID"/>
                         </a>
                         <div className="lh-26 font-weight-500">
                             <p className="mb-0">58 Howard Street #2 San Francisco</p>
