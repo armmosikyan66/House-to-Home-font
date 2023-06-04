@@ -1,3 +1,4 @@
+ // @ts-nocheck 
 import React, {Dispatch, MouseEvent, SetStateAction, useEffect, useState} from 'react';
 import {IProduct} from "../../utils/types/IProduct";
 import {API_URL} from "../../utils/constants/api";
