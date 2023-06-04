@@ -22,7 +22,7 @@ const Footer: FC<{}> = () => {
                 <div className="row">
                     <div className="col-md-6 col-lg-4 mb-6 mb-md-0">
                         <a className="d-block mb-2" href="#">
-                            <img height={40} src={LogoWhite.src} alt="HomeID"/>
+                            <img style={{height: "40px !important"}} src={LogoWhite.src} alt="HomeID"/>
                         </a>
                         <div className="lh-26 font-weight-500">
                             <p className="mb-0">58 Howard Street #2 San Francisco</p>
