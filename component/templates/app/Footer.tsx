@@ -62,10 +62,10 @@ const Footer: FC<{}> = () => {
                                 <Link href="/privacy-policy" locale={lang} className="text-muted lh-26 font-weight-500 hover-white">{t("footer.quick_links.privacy_policy")}</Link>
                             </li>
                             <li className="list-group-item bg-transparent p-0">
-                                <Link href="/contact-us" locale={lang} className="text-muted lh-26 font-weight-500 hover-white">{t("footer.quick_links.contact_support")}</a>
+                                <Link href="/contact-us" locale={lang} className="text-muted lh-26 font-weight-500 hover-white">{t("footer.quick_links.contact_support")}</Link>
                             </li>
                             <li className="list-group-item bg-transparent p-0">
-                                <Link href="/services" locale={lang} className="text-muted lh-26 hover-white font-weight-500">{t("footer.quick_links.careers")}</a>
+                                <Link href="/services" locale={lang} className="text-muted lh-26 hover-white font-weight-500">{t("footer.quick_links.careers")}</Link>
                             </li>
                         </ul>
                     </div>
