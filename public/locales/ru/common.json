@@ -280,6 +280,7 @@
     }
   },
   "footer": {
+    "rights": "Все права защищены",
     "popular_searches": {
       "title": "Популярные запросы",
       "apartment_for_rent": "Квартира в аренду",
