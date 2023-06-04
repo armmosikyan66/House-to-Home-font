@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "checkJs": false,
     "skipDefaultLibCheck": true,
     "downlevelIteration": true,
     "skipLibCheck": true,
