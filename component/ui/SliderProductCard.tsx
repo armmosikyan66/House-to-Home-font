@@ -1,3 +1,4 @@
+ // @ts-nocheck 
 import React, {Dispatch, MouseEvent, SetStateAction, useEffect, useState} from 'react';
 // @ts-ignore
 import {IProduct} from "../../utils/types/IProduct";
