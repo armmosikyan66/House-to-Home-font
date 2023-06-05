@@ -13,19 +13,17 @@ const NewProduct = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ locale , req}) => {
-    const token = req.cookies.refreshToken;
-    let isAdmin = false;
+    const token = req.cookies.token;
 
     if(token) {
         const decodedToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf8'));
-        isAdmin = decodedToken.role === 'admin'
-    }
 
-    if(!isAdmin) {
-        return {
-            redirect: {
-                permanent: false,
-                destination: '/'
+        if (decodedToken?.role === "user") {
+            return {
+                redirect: {
+                    permanent: false,
+                    destination: '/'
+                }
             }
         }
     }
