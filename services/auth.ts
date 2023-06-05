@@ -1,5 +1,6 @@
 import $api from "../utils/http";
 import {ILogin, IAuthResponse, IRegister} from "../utils/types/IAuth";
+import axios from "axios";
 
 export const register = async (user: IRegister): Promise<IAuthResponse> => {
     try {
@@ -15,7 +16,7 @@ export const login = async (user: ILogin): Promise<IAuthResponse> => {
     try {
         const response = await $api.post("/login", user);
         localStorage.setItem("token", response.data.accessToken);
-
+        await axios.post("/api/cookies", {cookieName: "refreshToken", cookieValue: response.data.refreshToken})
         return {status: "success", user: response.data.user};
     } catch (e: any) {
         return {status: "error", message: e.response.data.message};
@@ -26,7 +27,7 @@ export const checkAuth = async (): Promise<IAuthResponse> => {
     try {
         const response = await $api.get('/refresh', {withCredentials: true})
         localStorage.setItem('token', response.data.accessToken);
-
+        await axios.post("/api/cookies", {cookieName: "refreshToken", cookieValue: response.data.refreshToken})
         return {status: "success", user: response.data.user};
     } catch (e: any) {
        return {status: "error", message: e.response.data.message};
@@ -36,6 +37,7 @@ export const checkAuth = async (): Promise<IAuthResponse> => {
 export const logout = async (): Promise<void | { status: "error", message: string }> => {
     try {
         await $api.post('/logout')
+        await axios.post("/api/cookies", {cookieName: "refreshToken", cookieValue: ""})
     } catch (e: any) {
         return {status: "error", message: e.response.data.message};
     }
