@@ -34,7 +34,8 @@ export const checkAuth = async (): Promise<IAuthResponse> => {
 
 export const logout = async (): Promise<void | { status: "error", message: string }> => {
     try {
-        await $api.post('/logout')
+        await $api.post('/logout');
+        localStorage.clear();
     } catch (e: any) {
         return {status: "error", message: e.response.data.message};
     }
