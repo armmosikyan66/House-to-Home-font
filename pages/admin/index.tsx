@@ -200,23 +200,21 @@ const Dashboard: NextPage<{}> = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale , req}) => {
-     const token = req.cookies.refreshToken;
-     let isAdmin = false;
+export const getServerSideProps: GetServerSideProps = async ({ locale , req, res}) => {
+     const token = req.cookies.token;
 
      if(token) {
          const decodedToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf8'));
-         isAdmin = decodedToken.role === 'admin'
-     }
 
-    if(!isAdmin) {
-        return {
-            redirect: {
-                permanent: false,
-                destination: '/'
-            }
-        }
-    }
+         if (decodedToken?.role !== "admin") {
+             return {
+                 redirect: {
+                     permanent: false,
+                     destination: '/'
+                 }
+             }
+         }
+     }
 
     return {
         props: {
