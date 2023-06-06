@@ -1,8 +1,7 @@
  // @ts-nocheck 
 import React, {useEffect, useState, MouseEvent, FormEvent} from 'react';
-import {GetServerSideProps, GetStaticProps, NextPage} from "next";
+import {GetServerSideProps, NextPage} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import nextI18NextConfig from "../../next-i18next.config";
 import {IUser} from "../../utils/types/IUser";
 import {deleteUser, getUsers} from "../../services/admin";
 import capitalize from "../../utils/helpers/capitalize";
@@ -219,27 +218,27 @@ const Users: NextPage<{}> = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale , req}) => {
-    const token = req.cookies.token;
+ export const getServerSideProps: GetServerSideProps = async ({ locale , req, res}) => {
+     const token = req.cookies.token;
 
-    if(token) {
-        const decodedToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf8'));
+     if(token) {
+         const decodedToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf8'));
 
-        if (decodedToken?.role === "admin") {
-            return {
-                redirect: {
-                    permanent: false,
-                    destination: '/'
-                }
-            }
-        }
-    }
+         if (decodedToken?.role !== "admin") {
+             return {
+                 redirect: {
+                     permanent: false,
+                     destination: '/'
+                 }
+             }
+         }
+     }
 
-    return {
-        props: {
-            ...(await serverSideTranslations(locale ?? "am", ['common'])),
-        },
-    }
-}
+     return {
+         props: {
+             ...(await serverSideTranslations(locale ?? "am", ['common'])),
+         },
+     }
+ }
 
 export default Users;
