@@ -132,7 +132,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale , req}) =>
     if(token) {
         const decodedToken = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf8'));
 
-        if (decodedToken?.role === "admin") {
+        if (decodedToken?.role !== "admin") {
             return {
                 redirect: {
                     permanent: false,
